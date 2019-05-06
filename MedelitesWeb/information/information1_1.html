@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script type="text/javascript" src="../js/information/jquery-1.10.1.min.js"></script>
+
+    <!-- Add fancyBox main JS and CSS files -->
+    <script type="text/javascript" src="../js/information/jquery.fancybox.js?v=2.1.5"></script>
+    <link rel="stylesheet" type="text/css" href="../css/information/jquery.fancybox.css?v=2.1.5" media="screen" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /*
+			 *  Simple image gallery. Uses default settings
+			 */
+
+            $('.fancybox').fancybox();
+
+            // Disable opening and closing animations, change title type
+            $(".fancybox-effects-b").fancybox({
+                openEffect: 'none',
+                closeEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'over'
+                    }
+                }
+            });
+
+        });
+    </script>
+
+    <!-- 分页 -->
+    <script src="../js/myPagination.js?456"></script>
+    <script>
+        window.onload = function () {
+            pageNo = $('#pageNo').val()            
+            pageCount = $('#pageCount').val()
+            new myPagination({
+                id: 'pagination',
+                curPage: 1, //初始页码
+                pageTotal: 10, //总页数
+                pageAmount: 12,  //每页多少条
+                dataTotal: 120, //总共多少条数据
+                pageSize: 12, //可选,分页个数
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    //获取当前页数
+                    // console.log(page);
+                    data = {
+                        type:1,
+                        page:page,
+                    }
+                    ajaxGetTotal(data)
+                },
+            })
+            function ajaxGetTotal(data) {
+                ajax('getInformation',data,function(res){
+
+                })
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/myPagination.css" />
+
+
+    <style type="text/css">
+        img {
+            height: 150px;
+            width: 150px;
+        }
+
+        body {
+            width: 650px;
+        }
+    </style>
+</head>
+<body>
+    <input type="hidden" id="pageNo" value="" />
+    <input type="hidden" id="pageCount" value="" />
+    <p>
+        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
+        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
+
+    </p>
+
+    <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
+
+</body><body>
+
+</body>
+</html>
+<script src='../js/common.js'></script>
+<script>
+    data = {
+        type : 1,
+        page:1,
+    }
+    ajax('getInformation',data,function(res){
+        $('#pageCount').val(res[0].allCount);
+        
+    })
+</script>
+

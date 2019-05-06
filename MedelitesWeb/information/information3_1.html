@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <style type="text/css">
+        /* .other{
+            background: #ECF5FF;
+            height:30px;
+        } */
+        a {
+            color: #333333;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #1169af;
+            }
+
+        li {
+            display: inline-block;
+        }
+
+        .item {
+            background: #fff;
+            width: 240px;
+            height: 210px;
+        }
+
+        .collect {
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+            position: absolute;
+            top: -15px;
+            left: 5px;
+        }
+
+        .cs {
+            color: #f00;
+        }
+
+        .txt {
+            font-size: 15px;
+            text-align: center;
+            line-height: 30px;
+        }
+    </style>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $(".collect").click(function () {
+                $(this).toggleClass('cs');
+            })
+        })
+    </script>
+    <!-- 分页 -->
+    <script src="../js/myPagination.js"></script>
+    <script>
+        window.onload = function () {
+            new myPagination({
+                id: 'pagination',
+                curPage: 1, //初始页码
+                pageTotal: 10, //总页数
+                pageAmount: 6,  //每页多少条
+                dataTotal: 60, //总共多少条数据
+                pageSize: 5, //可选,分页个数
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    //获取当前页数
+                    console.log(page);
+                }
+            })
+        }
+    </script>
+    <link rel="stylesheet" href="../css/myPagination.css" />
+
+</head>
+<body>
+    <div class="picbox" style="position: relative; top: -10px;">
+        <ul class="bd clear">
+            <li class="item" style="position: absolute; left: 15px; ">
+                <div class="pic">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
+                        <img class="lazy" src="../image/1.jpg" width="240" height="180" alt="ppt" data-url="../image/1.jpg">
+                    </a>
+                </div>
+                <p class="collect">&#10084;</p>
+                <div class="txt">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
+                </div>
+            </li>
+            <li class="item" style="position: absolute;left: 270px; ">
+                <div class="pic">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
+                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
+                    </a>
+                </div>
+                <p class="collect">&#10084;</p>
+                <div class="txt">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
+                </div>
+                <!-- <div class="other">
+                    <span class="left m-right" style="margin-top:3px; font-size: 12px; color:#a7aaae; line-height: 20px;"><img src="../image/chakan.png">&nbsp;7277</span>
+                    <span class="left like-count" style="margin-top:3px;font-size:12px;color:#a7aaae;line-height: 20px;"><img src="../image/collect.png">&nbsp;53</span>
+                    <button name="collect" id="collect" type="submit" onclick="a()"> ❤&nbsp;&nbsp;收藏 </button>
+                </div> -->
+            </li>
+            <li class="item" style="position: absolute;left: 525px; ">
+                <div class="pic">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
+                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
+                    </a>
+                </div>
+                <p class="collect">&#10084;</p>
+                <div class="txt">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
+                </div>
+            </li>
+            <li class="item" style="position: absolute; top: 250px; left: 15px; ">
+                <div class="pic">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
+                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
+                    </a>
+                </div>
+                <p class="collect">&#10084;</p>
+                <div class="txt">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
+                </div>
+            </li>
+            <li class="item" style="position: absolute; top: 250px; left: 270px; ">
+                <div class="pic">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
+                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
+                    </a>
+                </div>
+                <p class="collect">&#10084;</p>
+                <div class="txt">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
+                </div>
+            </li>
+            <li class="item" style="position: absolute; top: 250px; left: 525px; background: #fff; width: 240px;height: 220px;">
+                <div class="pic">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
+                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
+                    </a>
+                </div>
+                <p class="collect">&#10084;</p>
+                <div class="txt">
+                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
+</body>
+</html>

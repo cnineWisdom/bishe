@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>医虫网</title>
+    <!--默认样式-->
+    <link rel="stylesheet" href="css/reset.css" />
+
+    <!--响应式框架-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+
+    <!--主要样式-->
+    <link rel="stylesheet" href="css/head.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/jigsaw.css" />
+    <!-- CSS公共部分 开始 -->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
+    <!--<link href="css/style.css" rel="stylesheet">-->
+    <!-- CSS公共部分 结束 -->
+    <link href="css/crowdfunding.css" rel="stylesheet">
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/basics.js"></script>
+    <!-- JS公共部分 结束 -->
+    <script src="js/crowdfunding.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container clearfix">
+            <div class="fl left">
+                <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
+                <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
+            </div>
+            <div class="fr nav">
+                <ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="active">
+                        <a href="Index.html">首页</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">在线答题</a>
+                        <div class="dropdown_menu">
+                            <a href="test1.html">临床医学</a>
+
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="information1.html">医学资料</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">讨论区</a>
+                        <div class="dropdown_menu">
+                            <a href="discussion.html">病例评论</a>
+                            <!--<a href="note.html">个人笔记</a>-->
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">个人中心</a>
+                        <div class="dropdown_menu">
+                            <a href="member_center.html">历史记录</a>
+                            <a href="member_center2.html">我的收藏</a>
+                            <a href="member_center3.html">消息管理</a>
+                            <a href="member_center4.html">个人错题锦</a>
+                            <a href="member_center5.html">打卡签到</a>
+                            <a href="member_center6.html ">设置</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:void(0)" id="navToggle">
+                <span></span>
+            </a>
+            <div>
+                <input type="text" placeholder="请输入关键词">
+                <div class="search"></div>
+            </div>
+        </div>
+
+
+    </header>
+    <div style="height:60px;"></div>
+    <div class="container border1 nopadding margin10">
+        <div id="vertical_navigation" class="col-lg-3 background831312 nopadding">
+            <div class="dead_pic">
+                <img src="img/member_center/nopic.jpg.png"><br>
+                <span class="username">用户名</span>
+            </div>
+            <div class="menu">
+                <div class="menu_title"> 历史记录 </div>
+                <div class="menu_list">
+                    <ul class="list-unstyled">
+                        <li id="listClick7" class="" onclick="listClick(7)"><img src="img/member_center/left_icon_6.png"> 答题记录</li>
+                        <li id="listClick9" class="" onclick="listClick(9)"> <img src="img/member_center/left_icon_6.png"> 阅读记录</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu_title"> 我的收藏 </div>
+                <div class="menu_list">
+                    <ul class="list-unstyled">
+                        <li id="listClick6" class="" onclick="listClick(6)"><img src="img/member_center/left_icon_6.png"> 收藏记录</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu_title"> 消息管理 </div>
+                <div class="menu_list">
+                    <ul class="list-unstyled">
+                        <li id="listClick15" class="" onclick="listClick(15)"> <img src="img/member_center/left_icon_15.png">所有消息</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu_title"> 个人错题锦 </div>
+                <div class="menu_list">
+                    <ul class="list-unstyled">
+                        <li id="listClick3" class="" onclick="listClick(3)"><img src="img/member_center/left_icon_6.png"> 错题集 </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu_title"> 打卡签到 </div>
+                <div class="menu_list">
+                    <ul class="list-unstyled">
+                        <li id="listClick12" class="" onclick="listClick(12)"> <img src="img/member_center/left_icon_12.png"> 积分纪录</li>
+                        <li id="listClick13" class="" onclick="listClick(13)"> <img src="img/member_center/left_icon_13.png"> 积分规则</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menu_title"> 设置 </div>
+                <div class="menu_list">
+                    <ul class="list-unstyled">
+                        <li id="listClick4" class="" onclick="listClick(4)"> <img src="img/member_center/left_icon_3.png"> 修改密码</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <iframe name="left" id="crowdfunding_iframe" src="crowdfunding_center/project_manage.html" frameborder="0" scrolling="no" style="border:none;width:100%;height:700px;" allowtransparency="true"></iframe>
+        </div>
+    </div>
+    <!-- footer栏 -->
+    <footer class="footer">
+        <div class="fn_bg" style="background-color:#2d2e33; height: 250px;padding: 40px 20px 0px 20px;font-size: 13px;">
+            <div class="col-md-4" style="color: #dae4ec">
+                <div class="widget-about" style="width:400px; margin-left:30px;">
+                    <div id="logo-ft">
+                        <img src="image/logo.png" alt="医虫网" width="60" height="35">
+                    </div><!-- logo-ft -->
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个毕业设计。主要用于医学生在线学习，帮助医学生巩固知识点，加强思考的能力，提高学习的效率与兴趣，减少医学生挂科率（免清考制度）。</p>
+                    <div class="list-info" style="margin-top:30px;">
+                        <ul>
+                            <li class="address"><img src="image/icon7.png" alt="医虫网" width="15" height="15"><a href="https://www.gdmu.edu.cn/">&nbsp;&nbsp;广东医科大学</a></li>
+                            <li class="phone"><img src="image/icon9.png" alt="医虫网" width="15" height="15"><a href="#">&nbsp;&nbsp;13537172996</a></li>
+                            <li class="mail"><img src="image/icon8.png" alt="医虫网" width="15" height="15"><a href="#">&nbsp;&nbsp;601092083@qq.com</a></li>
+                        </ul>
+                    </div><!-- list-info -->
+                </div><!-- widget-about -->
+            </div><!-- col-md-4 -->
+            <div class="col-md-4" style="color: #dae4ec">
+                <div class="widget-link widget-ft" style="width:400px; margin-left: 140px;">
+                    <h4 class=" widget-title" style="color: #fff;">友情链接</h4>
+                    <div class="list-wrap clearfix">
+                        <ul class="one-of-two" style="line-height:25px;  width:160px; float: left;">
+                            <li><a href="http://www.ysjjw.net">医师经纪网</a></li>
+                            <li><a href="http://www.ejiao.net.cn/">医教在线</a></li>
+                            <li><a href="http://www.med66.com/?c=17779002">医学教育网</a></li>
+                            <li><a href="http://www.dxy.cn/">丁香园</a></li>
+                            <li><a href="http://www.fx120.net/">放心医苑网</a></li>
+                        </ul>
+                        <ul class="one-of-two" style="line-height:25px;  width:190px; float: right;">
+                            <li><a href="https://www.iiyi.com/">爱爱医医学网</a></li>
+                            <li><a href="http://okinfo.org/">健康新闻</a></li>
+                            <li><a href="http://www.bio360.net/">生物360</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- col-md-4 -->
+            <div class="col-md-4" style="color: #dae4ec">
+                <div class="widget-ri" style="margin-left:180px;">
+                    <h4 class=" widget-title" style="color: #fff;">扫描二维码</h4>
+                    <img src="image/二维码.png" alt="医虫网二维码" width="100" height="100">
+                </div>
+            </div><!-- col-md-4 -->
+        </div><!-- fn_bg -->
+        <div class="fn_bg">
+            <div class="foot" style="background-color:#27292d; height:40px;width:100%;position: absolute;font-size: 13px;margin: 0px auto;text-align: center; color: #FFF;">
+                <p style="margin-top: 10px;">版权所有广东医科大学&nbsp;&nbsp;&nbsp;&nbsp;咨询电话：13537172996</p>
+            </div>
+        </div>
+    </footer><!-- footer -->
+</body>
+</html>

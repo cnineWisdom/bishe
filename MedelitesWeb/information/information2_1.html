@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <!--布局样式，意义不大-->
+    <style type="text/css">
+        #skins {
+            width: 750px;
+        }
+
+        li {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        p {
+            height: 10px;
+            text-align: center;
+            line-height: 10px;
+        }
+
+        .demo-list__item {
+            width: 200px;
+        }
+    </style>
+
+    <!--核心样式-->
+    <link rel="stylesheet" href="../css/information/ckin.css">
+
+    <!-- 分页 -->
+    <script src="../js/myPagination.js"></script>
+    <script>
+        window.onload = function () {
+            new myPagination({
+                id: 'pagination',
+                curPage: 1, //初始页码
+                pageTotal: 10, //总页数
+                pageAmount: 6,  //每页多少条
+                dataTotal: 60, //总共多少条数据
+                pageSize: 5, //可选,分页个数
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    //获取当前页数
+                    console.log(page);
+                }
+            })
+        }
+    </script>
+    <link rel="stylesheet" href="../css/myPagination.css" />
+</head>
+<body>
+    <section class="demo-section demo-section--light" id="skins">
+        <div class="container">
+            <ul class="demo-list">
+                <li class="demo-list__item">
+                    <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
+                    <p>视频1</p>
+                </li>
+                <li class="demo-list__item">
+                    <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
+                    <p>视频2</p>
+                </li>
+                <li class="demo-list__item">
+                    <video class="video" poster="../image/0.jpg" src="../image/0.mp4" data-ckin="minimal" data-overlay="1"></video>
+                    <p>视频3</p>
+                </li>
+                <li class="demo-list__item">
+                    <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
+                    <p>视频4</p>
+                </li>
+                <li class="demo-list__item">
+                    <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
+                    <p>视频5</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div id="pagination" class="pagination" style="position: absolute;top: 400px;left: 20px;"></div>
+
+    <script src="../js/information/ckin.js"></script>
+</body>
+</html>

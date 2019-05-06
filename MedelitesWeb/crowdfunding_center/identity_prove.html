@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <!-- Bootstrap -->
+    <link href="../css/crowdfunding.center/outbox.css" rel="stylesheet" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+          <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            /* 弹窗 (background) */
+            .modal {
+                display: none; /* 默认隐藏 */
+                position: fixed; /* 固定定位 */
+                z-index: 1; /* 设置在顶层 */
+                left: 50%;
+                top: 39%;
+                width: 400px;
+                
+                /* min-height:px; */
+                margin-left:-200px;
+                margin-top:-150px;
+                padding:29px 29px;
+                box-sizing: border-box;
+                overflow: auto;
+                background-color: rgb(0,0,0);
+                background-color: #ffffff;
+                border:1px solid rgb(149,149,149);
+                position: relative;
+            }
+    
+            /* 弹窗内容 */
+            .modal-content {
+                background-color: #fefefe;
+                /* margin: 15% auto; */
+                /* padding: 20px; */
+                border: 1px solid #888;
+                width: 80%;
+                margin:auto;
+                height:auto;
+            }
+            .modal ul{
+                margin:0px;
+                padding:0px
+            }
+            /* 关闭按钮 */
+            .close {
+                color: #aaa;
+                position: absolute;
+                right: 4px;
+                top:4px;
+                font-size: 28px;
+                font-weight: bold;
+            }
+    
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .show{
+                cursor: pointer;
+            }
+        </style>
+</head>
+<body>
+    <!-- 开始 -->
+    <div class="my_info_title">个人错题锦</div>
+    <div class="my_info_title_3">
+        <ul>
+            <li id="listClick_1" onclick="listClick(1)" style="border-bottom: 1px solid #80aaff; color: #80aaff;">私信</li>
+        </ul>
+    </div>
+    <div style="height:10px;"></div>
+    <div class="">
+        <table class="table table-bordered">
+            <tbody>
+                <tr class="active">
+                    <th style="width:50px;" class="text-center"><input type="checkbox" name="che_all" /></th>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">题目内容</th>
+                    <th class="text-center">试卷</th>
+                    <th class="text-center">答题时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                
+            </tbody>
+        </table>
+        <input type="button" class="but2" value="删除选中" />
+    </div>
+    <!--弹窗-->
+    <div class="modal" id="myModal">
+        <span class="close">&times;</span>
+        <ul style=" font-weight: 700; list-style: none;">
+            <!-- <li><font>在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）</font></li>
+            <li class="option" style="list-style: none;">
+                <label for="0_answer_1_option_1">A.<p class="ue" style="display: inline;">在工具栏中点击“workflow”标签</p ></label>
+            </li>
+            <li class="option" style="list-style: none;">
+                <label for="0_answer_1_option_2">B.<p class="ue" style="display: inline;">在缺陷单界面中点击“推进流程”按钮</p ></label>
+            </li>
+            <li class="option" style="list-style: none;">
+                <label for="0_answer_1_option_3">C.<p class="ue" style="display: inline;">在缺陷单界面中点击“提交”按钮</p ></label>
+            </li>
+            <li class="option" style="list-style: none;">
+                <label for="0_answer_1_option_4">D.<p class="ue" style="display: inline;">后台启动流程推进</p ></label>
+            </li>
+            <li style="float:right;margin-right:15px;cursor: pointer;"><span>上一题</span><span>&nbsp;&nbsp;&nbsp;下一题</span></li>
+            <li style="float:left;margin-right:15px;">正确答案：【】</li> -->
+        </ul>    
+    </div>
+    <!-- 结束 -->
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="../js/my_info.js"></script>
+    
+</body>
+<script src='../js/common.js'></script>
+<script>
+    function geterrorquestion(){
+    var data = {
+        username:getusername()
+    }
+    ajax('getcollectquestion',data,function(res){
+        for(var i = 0 ; i < res.length ; i++){
+            $('.table tbody').append(
+            "<tr class='table_div'>"
+                    +"<td class='text-center'><input type='checkbox' name='che_one' /></td>"
+                    +"<input type='hidden' class='questionID' value='"+res[i].question[0].questionID+"'>"
+                    +"<input type='hidden' class='question'  value=''>"
+                    +"<td class='text-center'>"+(i+1)+"</td>"
+                    +"<td class='text-left'>"+res[i].test[0].testName+"</td>"
+                    +"<td class='text-center'>试卷</td>"
+                    +"<td class='text-center'>"+res[i].test[0].time+"</td>"
+                    +"<td class='text-center'><a class='show' >查看</a></td>"
+                +"</tr>"
+        );
+        }
+        
+    })
+
+
+
+    var modal = $('#myModal');
+
+// 打开弹窗的按钮对象
+var btn = $('.table');
+
+// 获取 <span> 元素，用于关闭弹窗
+var span = document.querySelector('.close');
+
+// 点击按钮打开弹窗
+
+// 点击 <span> (x), 关闭弹窗
+span.onclick = function () {
+
+    
+
+    
+    
+    modal.hide();
+}
+
+// 在用户点击其他地方时，关闭弹窗
+// window.onclick = function(e){
+//     var show = modal.find('.show');
+//     if( event.target != show  && modal.css('display') == 'block' && event.target != modal){
+//         modal.hide();
+//     }
+    
+//     // console.log(e.attribute('class'));
+//     console.log(modal);
+    
+// }
+
+function getquestionbyid(id,arr){
+    var data = {
+        'id':id
+    }
+    // console.log(arr); 
+    ajax('question',data,function(res){
+        $('#myModal ul').html("");
+        var questionindex = arr.indexOf(id);
+        var pre = questionindex-1;
+        if(pre < 0){
+            pre = 0;
+        }
+        var length = arr.length;
+        var next = questionindex + 1;
+        if(length == next){
+            next = next - 1;
+        }
+        var str = "<li>"+(questionindex+1)+".<font>"+res[0].question+"</font></li>"
+        +"<input class='pre' type='hidden' value='"+pre+"'>"
+        +"<input class='next' type='hidden' value='"+next+"'>"
+        +"<input class='arr' type='hidden' value='"+JSON.stringify(arr)+"'>"
+        if(res[0].choiceA != 'null' && res[0].choiceA != '' && res[0].choiceA != undefined){
+            str = str +    "<li class='option' style='list-style: none;'>"
+        +    "   <label for='0_answer_1_option_1'>A.<p class='ue' style='display: inline;'>"+res[0].choiceA+"</p ></label>"
+        +    "</li>"
+        }
+        if(res[0].choiceB != 'null' && res[0].choiceB != '' && res[0].choiceB != undefined){
+            str = str +    "<li class='option' style='list-style: none;'>"
+        +    "   <label for='0_answer_1_option_1'>B.<p class='ue' style='display: inline;'>"+res[0].choiceB+"</p ></label>"
+        +    "</li>"
+        }
+        if(res[0].choiceC != 'null' && res[0].choiceC != '' && res[0].choiceC != undefined){
+            str = str +    "<li class='option' style='list-style: none;'>"
+        +    "   <label for='0_answer_1_option_1'>C.<p class='ue' style='display: inline;'>"+res[0].choiceC+"</p ></label>"
+        +    "</li>"
+        }
+        if(res[0].choiceD != 'null' && res[0].choiceD != '' && res[0].choiceD != undefined){
+            str = str +    "<li class='option' style='list-style: none;'>"
+        +    "   <label for='0_answer_1_option_1'>D.<p class='ue' style='display: inline;'>"+res[0].choiceD+"</p ></label>"
+        +    "</li>"
+        }
+        if(res[0].choiceE != 'null' && res[0].choiceE != '' && res[0].choiceE != undefined){
+            str = str +    "<li class='option' style='list-style: none;'>"
+        +    "   <label for='0_answer_1_option_1'>E.<p class='ue' style='display: inline;'>"+res[0].choiceE+"</p ></label>"
+        +    "</li>"
+        }
+        if(res[0].choiceF != 'null' && res[0].choiceF != '' && res[0].choiceF != undefined){
+            str = str +    "<li class='option' style='list-style: none;'>"
+        +    "   <label for='0_answer_1_option_1'>F.<p class='ue' style='display: inline;'>"+res[0].choiceF+"</p ></label>"
+        +    "</li>"
+        }
+        str = str  +    "<li style='float:right;margin-right:15px;cursor: pointer;'><span class='prequestion'>上一题</span><span class='nextquestion'>&nbsp;&nbsp;&nbsp;下一题</span></li>"
+        +    "<li style='float:left;margin-right:15px;'>正确答案：【"+res[0].right_answer+"】</li>"
+
+
+    $('#myModal ul').append(
+        str
+    );
+    })
+}
+var myModal = $('#myModal');
+// $('.prequestion').click(function(){
+  
+// })
+// $('.nextquestion').click(function(){
+    
+// })
+myModal.on('click','.prequestion',function(){
+    var obj = $('.arr').val();
+    
+    var arr = JSON.parse(obj);
+
+    var pre = $('.pre').val();
+    var id = arr[pre];
+    console.log(id);
+    getquestionbyid(id,arr);
+})
+myModal.on('click','.nextquestion',function(){
+    var obj = $('.arr').val();
+   
+    var arr = JSON.parse(obj);
+    var next = $('.next').val();
+    var id = arr[next];
+    console.log(id);
+    getquestionbyid(id,arr);
+})
+
+
+
+
+
+btn.on('click','.show',function(){
+    var question = $(this).parents('.table_div').find('.question');
+    var questionID = $(this).parents('.table_div').find('.questionID');
+    console.log(question.val());
+    if(question.val() == ''){
+        var id = JSON.parse(questionID.val());
+        question.val(id[0]);
+        getquestionbyid(question.val(),id);
+    }else{
+        var id = JSON.parse(questionID.val());
+        getquestionbyid(question.val(),id);
+    }
+    modal.show();
+})
+// $(window).on('click','#myModal',function(event){
+//     alert('1')
+//     // if (event.target == modal) {
+//     //     modal.hide();
+//     // }
+   
+// })
+
+}
+// onclick='alert("+res[i].question[0].questionID+")'
+geterrorquestion();
+// 获取弹窗
+
+</script>
+
+</html>

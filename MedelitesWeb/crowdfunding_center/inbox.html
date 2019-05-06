@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/crowdfunding.center/inbox.css" rel="stylesheet" />
+
+    <script>
+        window.onload = funtion()
+        {
+            var ochb = document.getElementsByID('che_all');
+            var ochb2 = document.getElementsByID('che_one');
+            ochb.checked = function () {
+                for (var i = 0; i < ochb2.length; i++) {
+
+                    ochb2[i].checked == true;
+
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- 开始 -->
+    <div class="my_info_title">所有消息</div>
+    <div class="my_info_title_3">
+        <ul>
+            <li id="listClick_1" onclick="listClick(1)" style="border-bottom: 1px solid #80aaff; color: #80aaff;">私信</li>
+        </ul>
+    </div>
+    <div style="height:10px;"></div>
+    <div class="">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="active">
+                    <th class="text-center"><input type="checkbox" name="che_all" id="che_all" /></th>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">消息内容</th>
+                    <th class="text-center">用户名称</th>
+                    <th class="text-center">发送时间</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="">
+                    <td class="text-center"><input type="checkbox" name="che_one" id="che_one" /></td>
+                    <td class="text-center">序号</td>
+                    <td class="text-center">消息内容</td>
+                    <td class="text-center">发件人</td>
+                    <td class="text-center">发送时间</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <input type="button" class="but2" value="删除选中" />
+    </div>
+
+    <!-- 结束 -->
+</body>
+</html>
