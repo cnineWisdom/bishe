@@ -33,36 +33,6 @@
 
     <!-- 分页 -->
     <script src="../js/myPagination.js?456"></script>
-    <script>
-        window.onload = function () {
-            pageNo = $('#pageNo').val()            
-            pageCount = $('#pageCount').val()
-            new myPagination({
-                id: 'pagination',
-                curPage: 1, //初始页码
-                pageTotal: 10, //总页数
-                pageAmount: 12,  //每页多少条
-                dataTotal: 120, //总共多少条数据
-                pageSize: 12, //可选,分页个数
-                showPageTotalFlag: true, //是否显示数据统计
-                showSkipInputFlag: true, //是否支持跳转
-                getPage: function (page) {
-                    //获取当前页数
-                    // console.log(page);
-                    data = {
-                        type:1,
-                        page:page,
-                    }
-                    ajaxGetTotal(data)
-                },
-            })
-            function ajaxGetTotal(data) {
-                ajax('getInformation',data,function(res){
-
-                })
-            }
-        }
-    </script>
     <link rel="stylesheet" href="../css/myPagination.css" />
 
 
@@ -78,20 +48,7 @@
     </style>
 </head>
 <body>
-    <input type="hidden" id="pageNo" value="" />
-    <input type="hidden" id="pageCount" value="" />
-    <p>
-        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/p3.png" title="题目"><img src="../image/p3.png" alt="" /></a>
-        <a class="fancybox-effects-b" href="../image/二维码.png" title="题目"><img src="../image/二维码.png" alt="" /></a>
-
+    <p id="imageDiv">
     </p>
 
     <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
@@ -101,14 +58,42 @@
 </body>
 </html>
 <script src='../js/common.js'></script>
+
 <script>
-    data = {
-        type : 1,
-        page:1,
+function gettestdata(page){
+    console.log(page);
+    var id = getUrlParam('id');
+    var data = {
+        page:page,
+        id:id,
+        type:1,
     }
     ajax('getInformation',data,function(res){
-        $('#pageCount').val(res[0].allCount);
-        
-    })
-</script>
+        console.log(res);
+        res = res[0]
+        var pagetest = new myPagination({
+            id: 'pagination',
+            curPage: page, //初始页码
+            pageTotal: Math.ceil(res.pageCount), //总页数
+            pageAmount: res.pageSize, //每页多少条
+            dataTotal: res.pageCount, //总共多少条数据
+            showPageTotalFlag: true, //是否显示数据统计
+            showSkipInputFlag: true, //是否支持跳转
+            getPage: function (page) {
+                gettestdata(page);
+            }
 
+        })
+        pagetest.init()
+        $('#imageDiv').html('')
+        for(var i =0 ;i < res.res.length;i++){
+            $('#imageDiv').append(
+                "<a class='fancybox-effects-b' href='"+res.res[i].inform_info+"' title='"
+                +res.res[i].inform_Name+"'><img src='"+res.res[i].inform_info+"'/></a>"
+            )
+        }
+    })
+}
+gettestdata(1);
+
+</script>

@@ -199,32 +199,71 @@ class Web extends CI_Controller {
 //
 	public function getInformation()
 	{
-		$pageSize = 12;
+		$pageSize = 2;
 		$type = $this->input->post('type');
-		$page = $this->input->post('page');
+		$page = $this->input->post('page') ? $this->input->post('page') : 1;
 		$pages = ($page-1)*$pageSize;
 		$countSql = "SELECT count(*) as allCount FROM `med_information` WHERE `type` = $type";
 		$allCount = $this->db->query($countSql)->result();
-		// var_dump($allCount[0]->allCount);
-		echo json_encode($allCount);
+		$pageCount = ceil($allCount[0]->allCount/$pageSize);//页数
+		$allCount[0]->pageCount = $pageCount;
+		$allCount[0]->page = $page;
+		$allCount[0]->pageSize = $pageSize;
+
 		$sql = "SELECT * FROM `med_information` where `type` = $type order by `createtime` desc limit $pages,$pageSize";
 		$res = $this->db->query($sql)->result();
-
-
-		if($res){
-			switch ($type) {
-				case 1:
-					
-					break;
-				
-				default:
-					# code...
-					break;
-			}
-		}
+		$allCount[0]->res=$res;
+		echo json_encode($allCount);
 	}
-//
 
+	public function getCritic(){
+		$pageSize = 2;
+		$typeArr = [
+			1 =>'内科学',
+			2 =>'外科学',
+		];
+		$page = $this->input->post('page') ? $this->input->post('page') : 1;
+		$pages = ($page-1)*$pageSize;
 
+		$type = (int)$this->input->post('type');
+		if($type){
+			$countSql = "SELECT count(*) as allCount FROM `case` WHERE `type` = $type";
+		}else {
+			$countSql = "SELECT count(*) as allCount,type FROM `case`  group by type";
+			$allCount = $this->db->query($countSql)->result();
+			foreach ($allCount as $key => &$value) {
+				$countArr[$value->type]['pageSize'] = $pageSize;
+				$countArr[$value->type]['page'] = $page;
+				$countArr[$value->type]['allCount'] = $value->allCount;
+				
+				$countArr[$value->type]['pageCount'] = ceil($value->allCount/$pageSize);
+				$countArr[$value->type]['typeTmp'] = $typeArr[$value->type];
+				$sql = "select * from `case` where  `type` = $value->type order by `createtime` desc limit $pageSize";
+				$res = $this->db->query($sql)->result();
+				foreach ($res as $k => &$val) {
+					$val->createtime = date('Y-m-d',$val->createtime);
+					$title = explode(' ', $val->caseName);
+					if(sizeof($title) > 1){
+						$val->title = $title[0];
+						$val->title1 = $title[1];
+					}else {
+						$val->title1 = $title[0];
+						$val->title = '';
+					}
+					
+				}
+				$countArr[$value->type]['result'] = $res;
+				unset($val);
+			}
+			unset($value);
 
+		}
+		
+
+		echo json_encode($countArr);
+		
+		// $pageCount = ceil($allCount[0]->allCount/$pageSize);//页数
+		// $sql = "select * from `critic` where  `type` = $type order by `createtime` desc limit $pages,$pageSize";
+
+	}
 }

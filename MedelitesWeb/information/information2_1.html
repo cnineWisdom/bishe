@@ -30,30 +30,12 @@
 
     <!-- 分页 -->
     <script src="../js/myPagination.js"></script>
-    <script>
-        window.onload = function () {
-            new myPagination({
-                id: 'pagination',
-                curPage: 1, //初始页码
-                pageTotal: 10, //总页数
-                pageAmount: 6,  //每页多少条
-                dataTotal: 60, //总共多少条数据
-                pageSize: 5, //可选,分页个数
-                showPageTotalFlag: true, //是否显示数据统计
-                showSkipInputFlag: true, //是否支持跳转
-                getPage: function (page) {
-                    //获取当前页数
-                    console.log(page);
-                }
-            })
-        }
-    </script>
     <link rel="stylesheet" href="../css/myPagination.css" />
 </head>
 <body>
     <section class="demo-section demo-section--light" id="skins">
         <div class="container">
-            <ul class="demo-list">
+            <ul class="demo-list" id = "videoDiv">
                 <li class="demo-list__item">
                     <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
                     <p>视频1</p>
@@ -62,7 +44,7 @@
                     <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
                     <p>视频2</p>
                 </li>
-                <li class="demo-list__item">
+               <!--  <li class="demo-list__item">
                     <video class="video" poster="../image/0.jpg" src="../image/0.mp4" data-ckin="minimal" data-overlay="1"></video>
                     <p>视频3</p>
                 </li>
@@ -73,7 +55,7 @@
                 <li class="demo-list__item">
                     <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
                     <p>视频5</p>
-                </li>
+                </li> -->
             </ul>
         </div>
     </section>
@@ -83,3 +65,42 @@
     <script src="../js/information/ckin.js"></script>
 </body>
 </html>
+<script type="text/javascript" src="../js/information/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../js/information/jquery.fancybox.js?v=2.1.5"></script>
+<script src='../js/common.js'></script>
+<script>
+function gettestdata(page){
+    console.log(page);
+    var id = getUrlParam('id');
+    var data = {
+        page:page,
+        id:id,
+        type:2,
+    }
+    ajax('getInformation',data,function(res){
+        res = res[0]
+        var pagetest = new myPagination({
+            id: 'pagination',
+            curPage: page, //初始页码
+            pageTotal: Math.ceil(res.pageCount), //总页数
+            pageAmount: res.pageSize, //每页多少条
+            dataTotal: res.pageCount, //总共多少条数据
+            showPageTotalFlag: true, //是否显示数据统计
+            showSkipInputFlag: true, //是否支持跳转
+            getPage: function (page) {
+                gettestdata(page);
+            }
+
+        })
+        pagetest.init()
+        $('#videoDiv').html('')
+        for(var i =0 ;i < res.res.length;i++){
+            $('#skins div ul').append(
+                "<li class='demo-list__item'><video class='video' id ='video"+i+"' poster='"+res.res[i].titleUrl+"' src='' data-ckin='minimal' controls='controls' data-overlay='1'></video><p>"+res.res[i].inform_Name+"</p></li>"
+            )
+            document.getElementById("video"+i).src=res.res[i].inform_info;
+        }
+    })
+}
+gettestdata(1);
+</script>

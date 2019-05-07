@@ -8,11 +8,14 @@
 
     <!--响应式框架-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <!--主要样式-->
     <link rel="stylesheet" href="css/head.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/jigsaw.css" />
+    <script src="js/myPagination.js?456"></script>
+    <link rel="stylesheet" href="css/myPagination.css" />
     <style>
         .case {
             border: 1px solid #e5e5e5;
@@ -81,7 +84,9 @@
 </head>
 <body>
     <header class="header">
-        <div class="container clearfix">
+        <div class="container clearfix" style="position:relative">
+            <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span>
+            </div>
             <div class="fl left">
                 <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
                 <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
@@ -91,11 +96,9 @@
                     <li class="active">
                         <a href="Index.html">首页</a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" id='major'>
                         <a href="javascript:void(0)">在线答题</a>
                         <div class="dropdown_menu">
-                            <a href="test1.html">临床医学</a>
-                            
                         </div>
                     </li>
                     <li class="dropdown">
@@ -134,7 +137,7 @@
     </header>
     <div class="banner">
         <div class="jq22-container" style="margin-top: 65px;margin-left:850px;position: absolute;width: 300px;height: 300px;">
-            <div class="login-wrap">
+            <div class="login-wrap" style='display: none'>
                 <div class="login-html">
                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
                     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
@@ -161,7 +164,7 @@
                                     <label for="check"><span class="icon"></span> 保持登录</label>
                                 </div>
                                 <div class="group">
-                                    <input type="button" class="button" value="登录" onclick="sub()">
+                                    <input type="button" class="button" value="登录" onclick="login()">
                                 </div>
                                 <div class="hr"></div>
                                 <div class="foot-lnk">
@@ -200,7 +203,7 @@
         <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="index.html">首页</a> - 讨论区 - <a href="discussion.html">病历讨论</a>
     </div>
     <!-- body栏 -->
-    <div style="height:400px;width:1200px;">
+    <div style="height:400px;width:1200px;" id = 'caseDiv'>
         <div class="case">
             <div class="title"><h3>外科学</h3></div>
             <ul class="list_n">
@@ -213,9 +216,7 @@
                 <li><a href="discussion1_1.html" target="_blank"><font>[男科]</font>病例1：男性，35岁，尿频、尿急、尿痛伴血尿6月余。</a><span>2016-12-29</span></li>
                 <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例1：向某某，因“红斑、水疱、糜烂伴痒痛2月,加重1月于2012年3月11日14时49分入院。</a><span>2016-12-12</span></li>
             </ul>
-            <div class="page_block">
-                <span class="disabled">上一页</span><span class="active">1</span><span class="disabled"> 下一页 </span>
-            </div>
+            <div id="pagination1" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
         </div>
         <div class="case">
             <div class="title"><h3>内科学</h3></div>
@@ -229,9 +230,10 @@
                 <li><a href="discussion1_1.html" target="_blank"><font>[男科]</font>病例1：男性，35岁，尿频、尿急、尿痛伴血尿6月余。</a><span>2016-12-29</span></li>
                 <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例1：向某某，因“红斑、水疱、糜烂伴痒痛2月,加重1月于2012年3月11日14时49分入院。</a><span>2016-12-12</span></li>
             </ul>
-            <div class="page_block">
+            <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
+            <!-- <div class="page_block">
                 <span class="disabled">上一页</span><span class="active">1</span><span class="disabled"> 下一页 </span>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- footer栏 -->
@@ -286,3 +288,54 @@
     </footer><!-- footer -->
 </body>
 </html>
+<script src='js/common.js'></script>
+<script src="js/index.js"></script>
+<script>
+
+function gettestdata(page,type=0){
+    var id = getUrlParam('id');
+    var data = {
+        page:page,
+        type:type,
+    }
+    ajax('getCritic',data,function(res){
+        console.log(res);
+        console.log(Object.keys(res).length)
+
+        $('#caseDiv').html('');
+        for (var i = 1; i <= Object.keys(res).length; i++) {
+            $('#caseDiv').append(
+                "<div class='case'><div class='title'><h3>"+res[i].typeTmp+"</h3></div></div><div id='pagination"+i+"' class='pagination' style=''></div>"
+            );
+            var pagetest = new myPagination({
+                id: 'pagination'+i,
+                curPage: page, //初始页码
+                pageTotal: Math.ceil(res[i].pageCount), //总页数
+                pageAmount: res[i].pageSize, //每页多少条
+                dataTotal: res[i].pageCount, //总共多少条数据
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    gettestdata(page);
+                }
+            })
+            pagetest.init()
+
+            // for (var y =0; res[i].result.length; y++) {
+            //     console.log(res[i].result.typeTmp)
+            //     $('#caseDiv').append(
+                     
+            //     )
+            // }
+        }
+        // $('#imageDiv').html('')
+        // for(var i =0 ;i < res.res.length;i++){
+        //     $('#imageDiv').append(
+        //         "<a class='fancybox-effects-b' href='"+res.res[i].inform_info+"' title='"
+        //         +res.res[i].inform_Name+"'><img src='"+res.res[i].inform_info+"'/></a>"
+        //     )
+        // }
+    })
+}
+gettestdata(1);
+</script>

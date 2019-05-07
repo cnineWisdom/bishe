@@ -25,6 +25,7 @@
             background: #fff;
             width: 240px;
             height: 210px;
+            /*position: absolute;*/
         }
 
         .collect {
@@ -56,31 +57,13 @@
     </script>
     <!-- 分页 -->
     <script src="../js/myPagination.js"></script>
-    <script>
-        window.onload = function () {
-            new myPagination({
-                id: 'pagination',
-                curPage: 1, //初始页码
-                pageTotal: 10, //总页数
-                pageAmount: 6,  //每页多少条
-                dataTotal: 60, //总共多少条数据
-                pageSize: 5, //可选,分页个数
-                showPageTotalFlag: true, //是否显示数据统计
-                showSkipInputFlag: true, //是否支持跳转
-                getPage: function (page) {
-                    //获取当前页数
-                    console.log(page);
-                }
-            })
-        }
-    </script>
     <link rel="stylesheet" href="../css/myPagination.css" />
 
 </head>
 <body>
     <div class="picbox" style="position: relative; top: -10px;">
-        <ul class="bd clear">
-            <li class="item" style="position: absolute; left: 15px; ">
+        <ul class="bd" style="padding-inline-start:0px" id = 'pptDiv'>
+            <li class="item" >
                 <div class="pic">
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">
                         <img class="lazy" src="../image/1.jpg" width="240" height="180" alt="ppt" data-url="../image/1.jpg">
@@ -91,7 +74,7 @@
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
                 </div>
             </li>
-            <li class="item" style="position: absolute;left: 270px; ">
+            <li class="item" >
                 <div class="pic">
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">
                         <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
@@ -107,7 +90,7 @@
                     <button name="collect" id="collect" type="submit" onclick="a()"> ❤&nbsp;&nbsp;收藏 </button>
                 </div> -->
             </li>
-            <li class="item" style="position: absolute;left: 525px; ">
+            <li class="item" >
                 <div class="pic">
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">
                         <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
@@ -118,7 +101,7 @@
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
                 </div>
             </li>
-            <li class="item" style="position: absolute; top: 250px; left: 15px; ">
+            <li class="item">
                 <div class="pic">
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">
                         <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
@@ -129,7 +112,7 @@
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
                 </div>
             </li>
-            <li class="item" style="position: absolute; top: 250px; left: 270px; ">
+            <li class="item" >
                 <div class="pic">
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">
                         <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
@@ -140,7 +123,7 @@
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
                 </div>
             </li>
-            <li class="item" style="position: absolute; top: 250px; left: 525px; background: #fff; width: 240px;height: 220px;">
+            <li class="item">
                 <div class="pic">
                     <a href="../source/信管 网络实验 复习.ppt" target="_blank">
                         <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
@@ -156,3 +139,41 @@
     <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
 </body>
 </html>
+<script type="text/javascript" src="../js/information/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../js/information/jquery.fancybox.js?v=2.1.5"></script>
+<script src='../js/common.js'></script>
+<script>
+function gettestdata(page){
+    console.log(page);
+    var id = getUrlParam('id');
+    var data = {
+        page:page,
+        id:id,
+        type:3,
+    }
+    ajax('getInformation',data,function(res){
+        res = res[0]
+        var pagetest = new myPagination({
+            id: 'pagination',
+            curPage: page, //初始页码
+            pageTotal: Math.ceil(res.pageCount), //总页数
+            pageAmount: res.pageSize, //每页多少条
+            dataTotal: res.pageCount, //总共多少条数据
+            showPageTotalFlag: true, //是否显示数据统计
+            showSkipInputFlag: true, //是否支持跳转
+            getPage: function (page) {
+                gettestdata(page);
+            }
+
+        })
+        pagetest.init()
+        $('#pptDiv').html('')
+        for(var i =0 ;i < res.res.length;i++){
+            $('#pptDiv').append(
+                "<li class='item'><div class='pic'><a href='"+res.res[i].inform_info+"' target='_blank'><img class='lazy' src='"+res.res[i].titleUrl+"' width='240' height='180' alt='ppt' data-url='"+res.res[i].titleUrl+"'></a></div><p class='collect'>&#10084;</p><div class='txt'><a href='"+res.res[i].inform_info+"' target='_blank'>"+res.res[i].inform_Name+"</a></div></li>"
+            )
+        }
+    })
+}
+gettestdata(1);
+</script>
