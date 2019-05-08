@@ -8,160 +8,146 @@
 
     <!--响应式框架-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
+    <script src="js/jquery-2.1.1.min.js"></script>
     <!--主要样式-->
     <link rel="stylesheet" href="css/head.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/jigsaw.css" />
-    <link rel="stylesheet" href="../css/myPagination.css" />
+    <link rel="stylesheet" href="css/myPagination.css" />
     <script src="js/myPagination.js"></script>
+    <script src="js/common.js"></script>
     
-    <script>
-        window.onload = function () {
-            new myPagination({
-                id: 'pagination',
-                curPage: 1, //初始页码
-                pageTotal: 5, //总页数
-                pageAmount: 20,  //每页多少条
-                dataTotal: 100, //总共多少条数据
-                pageSize: 5, //可选,分页个数
-                showPageTotalFlag: true, //是否显示数据统计
-                showSkipInputFlag: true, //是否支持跳转
-                getPage: function (page) {
-                    //获取当前页数
-                    console.log(page);
-                }
-            })
-        }
-    </script>
 </head>
 <body>
-    <header class="header">
-        <div class="container clearfix">
-            <div class="fl left">
-                <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
-                <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
-            </div>
-            <div class="fr nav">
-                <ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="active">
-                        <a href="Index.html">首页</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0)">在线答题</a>
-                        <div class="dropdown_menu">
-                            <a href="test1.html">临床医学</a>
-
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="information1.html">医学资料</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0)">讨论区</a>
-                        <div class="dropdown_menu">
-                            <a href="discussion.html">病例评论</a>
-                            <!--<a href="note.html">个人笔记</a>-->
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0)">个人中心</a>
-                        <div class="dropdown_menu">
-                            <a href="member_center.html">历史记录</a>
-                            <a href="member_center2.html">我的收藏</a>
-                            <a href="member_center3.html">消息管理</a>
-                            <a href="member_center4.html">个人错题锦</a>
-                            <a href="member_center5.html">打卡签到</a>
-                            <a href="member_center6.html ">设置</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <a href="javascript:void(0)" id="navToggle">
-                <span></span>
-            </a>
-            <div>
-                <input type="text" placeholder="请输入关键词">
-                <div class="search"></div>
-            </div>
-        </div>
-
-
-    </header>
-    <div class="banner">
-        <div class="jq22-container" style="margin-top: 65px;margin-left:850px;position: absolute;width: 300px;height: 300px;">
-            <div class="login-wrap">
-                <div class="login-html">
-                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
-                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
-                    <div class="login-form">
-                        <!-- 登录 -->
-
-                        <form>
-                            <div class="sign-in-htm">
-                                <div class="group">
-                                    <label for="user" class="label">手机号</label>
-                                    <input id="username" name="username" type="text" class="input">
+        <header class="header">
+                <div class="container clearfix" style="position:relative">
+                    <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span></div>
+                    <div class="fl left">
+                        <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
+                        <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
+                    </div>
+                    <div class="fr nav">
+                        <ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
+                            <li class="active">
+                                <a href="Index.html">首页</a>
+                            </li>
+                            <li class="dropdown" id='major'>
+                                <a href="javascript:void(0)">在线答题</a>
+                                <div class="dropdown_menu">
+                                    <!-- <a href="test1.html">临床医学</a> -->
+                                    
                                 </div>
-                                <div class="group">
-                                    <label for="pass" class="label">密码</label>
-                                    <input id="password" type="password" class="input" data-type="password">
+                            </li>
+                            <li class="dropdown">
+                                <a href="information1.html">医学资料</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:void(0)">讨论区</a>
+                                <div class="dropdown_menu">
+                                    <a href="discussion.html">病例评论</a>
+                                    <!--<a href="note.html">个人笔记</a>-->
                                 </div>
-                                <!-- <div class="group">
-                                    <div class="container">
-                                        <div id="captcha" style="position: relative" data-type="password"></div>
-                                        <div id="msg"></div>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:void(0)">个人中心</a>
+                                <div class="dropdown_menu">
+                                    <a href="member_center.html">历史记录</a>
+                                    <a href="member_center2.html">我的收藏</a>
+                                    <a href="member_center3.html">消息管理</a>
+                                    <a href="member_center4.html">个人错题锦</a>
+                                    <a href="member_center5.html">打卡签到</a>
+                                    <a href="member_center6.html ">设置</a>
+                                </div>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    <a href="javascript:void(0)" id="navToggle">
+                        <span></span>
+                    </a>
+                    <div>
+                        <input type="text" placeholder="请输入关键词">
+                        <div class="search"></div>
+                    </div>
+                    
+                </div>
+        
+        
+            </header>
+            <div class="banner">
+                <div class="jq22-container" style="margin-top: 65px;margin-left:850px;position: absolute;width: 300px;height: 300px;">
+                    <div class="login-wrap" style='display: none'>
+                        <div class="login-html">
+                            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
+                            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
+                            <div class="login-form">
+                                <!-- 登录 -->
+                                <form>
+                                    <div class="sign-in-htm">
+                                        <div class="group">
+                                            <label for="user" class="label">手机号</label>
+                                            <input id="username" name="username" type="text" class="input">
+                                        </div>
+                                        <div class="group">
+                                            <label for="pass" class="label">密码</label>
+                                            <input id="password" type="password" class="input" data-type="password">
+                                        </div>
+                                        <!-- <div class="group">
+                                            <div class="container">
+                                                <div id="captcha" style="position: relative" data-type="password"></div>
+                                                <div id="msg"></div>
+                                            </div>
+                                        </div> -->
+                                        <div class="group">
+                                            <input id="check" type="checkbox" class="check" checked>
+                                            <label for="check"><span class="icon"></span> 保持登录</label>
+                                        </div>
+                                        <div class="group">
+                                            <input type="button" class="button" value="登录" onclick="login()">
+                                        </div>
+                                        <div class="hr"></div>
+                                        <div class="foot-lnk">
+                                            <a href="forgetpwd/demo.html" style="font-size: 14px;">忘记密码?</a>
+                                        </div>
                                     </div>
-                                </div> -->
-                                <div class="group">
-                                    <input id="check" type="checkbox" class="check" checked>
-                                    <label for="check"><span class="icon"></span> 保持登录</label>
-                                </div>
-                                <div class="group">
-                                    <input type="button" class="button" value="登录" onclick="sub()">
-                                </div>
-                                <div class="hr"></div>
-                                <div class="foot-lnk">
-                                    <a href="forgetpwd/demo.html" style="font-size: 14px;">忘记密码?</a>
-                                </div>
+                                </form>
+                                <!-- 注册 -->
+                              
+                                    <div class="sign-up-htm">
+                                        <div class="group">
+                                            <label for="user" class="label">手机号</label>
+                                            <input id="usernames" type="text" class="input" placeholder="请正确输入手机号以用于忘记密码">
+                                        </div>
+                                        <div class="group">
+                                            <label for="pass" class="label">密码</label>
+                                            <input id="passwords" type="password" class="input" data-type="password" placeholder="6~12位">
+                                        </div>
+                                        <div class="group">
+                                            <label for="repass" class="label">重复密码</label>
+                                            <input id="repasswords" type="password" class="input" data-type="password">
+                                        </div>
+                                        <div class="group">
+                                            <input type="submit" class="button" value="注册" onclick="register();">
+                                        </div>
+                                    </div>
+                               
                             </div>
-                        </form>
-                        <!-- 注册 -->
-                        <form>
-                            <div class="sign-up-htm">
-                                <div class="group">
-                                    <label for="user" class="label">手机号</label>
-                                    <input id="usernames" type="text" class="input" placeholder="请正确输入手机号以用于忘记密码">
-                                </div>
-                                <div class="group">
-                                    <label for="pass" class="label">密码</label>
-                                    <input id="passwords" type="password" class="input" data-type="password" placeholder="6~12位">
-                                </div>
-                                <div class="group">
-                                    <label for="repass" class="label">重复密码</label>
-                                    <input id="repasswords" type="password" class="input" data-type="password">
-                                </div>
-                                <div class="group">
-                                    <input type="submit" class="button" value="注册" onclick="sub2()">
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <img src="image/aa.jpg">
-    </div><!-- banner -->
-    <!-- local栏 -->
+                <img src="image/aa.jpg">
+            </div><!-- banner -->
+            <!-- local栏 -->
     <div class="position" style="height: 60px; margin-left:60px; padding-top: 20px;padding-bottom: 20px; font-size:15px;">
-        <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="Index.html">首页</a> - 在线答题 - <a href="test1.html">临床医学</a> - <a href="test1_1.html">外科学</a>
+        <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="Index.html">首页</a> - 在线答题 - <a class='major1' href="test1.html">临床医学</a> - <a class='subject1' href="test1_1.html">外科学</a>
     </div>
     <!-- text栏 -->
     <div style="margin-left:60px;">
         <!-- <div style="background: url(image/test1.2.png) repeat-x;">
             <h6 style="line-height: 35px; font-size: 16px; padding-left: 15px; margin-bottom:0px; color: #000;"><strong>外科学</strong></h6>
         </div> -->
-        <table style="border: 1px solid #3e88bf; display: table-row-group; vertical-align: middle; border-color: inherit;">
+        <table class='test1table' style="position:relative;z-index:99;border: 1px solid #3e88bf; display: table-row-group; vertical-align: middle; border-color: inherit;">
+            <thead>
             <tr>
                 <th style="padding: 8px 50px; text-align: center; background: #eff5e6; color: #3e88bf;"><strong>项目编号</strong></th>
                 <th style="padding: 8px 175px; text-align: center; background: #eff5e6; color: #3e88bf;"><strong>项目名称</strong></th>
@@ -169,45 +155,122 @@
                 <th style="padding: 8px 70px; text-align: center; background: #eff5e6; color: #3e88bf;"><strong>下载</strong></th>
                 <th style="padding: 8px 70px; text-align: center; background: #eff5e6; color: #3e88bf;"><strong>打印</strong></th>
             </tr>
-            <tr style="height:35px; background: #eff5e6;">
-                <td style="border-right: 1px solid #fff; text-align: center;">1</td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">慢性肾衰病理生理变化研究进展</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">进入答题</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="download"><img src="image/download.jpg" width="20" height="20"></a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="print"><img src="image/print.jpg" width="20" height="20"></a></td>
-            </tr>
-
-            <tr style="height:35px;">
+            
+        </thead>
+        <tbody>
+            <!-- <tr style="height:35px;">
                 <td style="border-right: 1px solid #fff; text-align: center;">2</td>
                 <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">慢性肾衰病理生理变化研究进展</a></td>
                 <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">进入答题</a></td>
                 <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="download"><img src="image/download.jpg" width="20" height="20"></a></td>
                 <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="print"><img src="image/print.jpg" width="20" height="20"></a></td>
-            </tr>
-            <tr style="height:35px; background: #eff5e6;">
-                <td style="border-right: 1px solid #fff; text-align: center;">3</td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">慢性肾衰病理生理变化研究进展</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">进入答题</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="download"><img src="image/download.jpg" width="20" height="20"></a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="print"><img src="image/print.jpg" width="20" height="20"></a></td>
-            </tr>
-            <tr style="height:35px;">
-                <td style="border-right: 1px solid #fff; text-align: center;">4</td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">慢性肾衰病理生理变化研究进展</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">进入答题</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="download"><img src="image/download.jpg" width="20" height="20"></a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="print"><img src="image/print.jpg" width="20" height="20"></a></td>
-            </tr>
-            <tr style="height:35px; background: #eff5e6;">
-                <td style="border-right: 1px solid #fff; text-align: center;">5</td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">慢性肾衰病理生理变化研究进展</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="Project.html?id=970" target="_blank">进入答题</a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="download"><img src="image/download.jpg" width="20" height="20"></a></td>
-                <td style="border-right: 1px solid #fff; text-align: center;"><a href="#" class="print"><img src="image/print.jpg" width="20" height="20"></a></td>
-            </tr>
+            </tr> -->
+           
+        </tbody>
         </table>
     </div>
     <div id="pagination" class="pagination" style="margin-left: 180px;"></div>
 </body>
+<script src="js/common.js"></script>
+<script src="js/index.js"></script>
+<script>
+       function download1(url,testID){
+            var username = getusername();
+            window.location.href = url;
+            var data1 = {
+                        testID:testID
+                    }
+                ajax('getmaintestname',data1,function(res){
+                        var data3 = {
+                            'username':username,
+                            'type':5,
+                            'target':res
+                        };
+                        ajax('integration',data3,function(res){
+                            if(res.codenum == 2){
+                                alert(res.message);
+                            }else{
+                                alert(res.message);
+                            }
+                            window.open(src);
+                        })
+                    })
+        }
+        function printf(url,testID){
+    
+                var src = "exams/exams.html?testID="+testID+"&print=Y";
+                var username = getusername();
+                var data1 = {
+                        testID:testID
+                    }
+                ajax('getmaintestname',data1,function(res){
+                        var data3 = {
+                            'username':username,
+                            'type':6,
+                            'target':res
+                        };
+                        ajax('integration',data3,function(res){
+                            if(res.codenum == 2){
+                                alert(res.message);
+                            }else{
+                                alert(res.message);
+                            }
+                            window.open(src);
+                        })
+                    })
+               
+                
+            }
+        window.onload = function () {
+            
+            function gettestdata($page){
+                var id = getUrlParam('id');
+            var data = {
+                page:$page,
+                id:id
+            }
+            ajax('gettestpage',data,function(res){
 
+                var pagetest = new myPagination({
+                id: 'pagination',
+                curPage: $page, //初始页码
+                pageTotal: Math.ceil((res.total)/5), //总页数
+                pageAmount: 5,  //每页多少条
+                dataTotal: res.total, //总共多少条数据
+                // pageSize: res.total, //可选,分页个数
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    gettestdata(page);
+                    
+                }
+               
+
+            })
+            pagetest.init()
+
+            $('.test1table tbody').html("");
+            for(var i = 0 ; i < res.res.length ; i++){
+                $('.test1table tbody').append(
+                "<tr style='height:35px;'>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'>"+(i+1)+"</td>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'><a href='exams/exams.html?id="+res.res[i].testID+"' target='_blank'>"+res.res[i].testName+"</a></td>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'><a href='exams/exams.html?id="+res.res[i].testID+"' target='_blank'>进入答题</a></td>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'><a style='cursor:pointer' onclick='download1(\""+res.res[i].url+"\","+res.res[i].testID+")' class='download'><img src='image/download.jpg' width='20' height='20'></a></td>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'><a class='print' style='cursor:pointer' onclick='printf(\""+res.res[i].url+"\","+res.res[i].testID+")'><img src='image/print.jpg' width='20' height='20'></a></td>"
+            +"</tr>"
+            );
+          
+            }
+        })
+            }
+            
+            
+            gettestdata(1);
+
+         
+        }
+        
+    </script>
+   
 </html>

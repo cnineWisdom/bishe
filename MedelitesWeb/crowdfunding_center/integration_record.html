@@ -17,7 +17,7 @@
     <!-- 开始 -->
     <div class="my_info_title">
         积分记录<span>
-            <button type="button" class="but">签到</button>
+            <button type="button" class="but button3">签到</button>
             <p>
                 07月29日<br />
                 漏签1天
@@ -53,25 +53,32 @@
         </div>
     </div>
     <div class="integration_record_jfjl">
-        <div class="integration_record_jfjl_title"> 积分记录 <font class="font_size14">总积分为：20</font> </div>
+        <div class="integration_record_jfjl_title"> 积分记录 <font class="font_size14">总积分为：<span class='integrationscore'>0</span></font> </div>
         <div class="integration_record_jfjl_content">
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center integration_div">
+                 <thead>
                 <tr class="active">
                     <td>操作</td>
                     <td>积分变更</td>
+                    <td>内容</td>
                     <td>详情</td>
                     <td>变更时间</td>
                 </tr>
-                <tr>
+            </thead>
+           <tbody>
+           
+                <!-- <tr>
                     <td>任务奖励</td>
                     <td><font class="colorF00">+20</font></td>
                     <td>注册会员签到</td>
                     <td>2015-07-28 17:26:15</td>
-                </tr>
+                </tr> -->
+            </tbody>
             </table>
+        </tbody>
         </div>
         <div class="integration_record_jfjl_page">
-            第 1/1 页，共1条记录
+            第 1/1 页，共<span class='integration3'></span>条记录
         </div>
     </div>
 
@@ -82,5 +89,43 @@
     <script src="../js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="../js/integration_record.js"></script>
     <script src="../js/my_info.js"></script>
+    <script src="../js/common.js"></script>
+   
 </body>
+<script>
+if($('.integration_div').length > 0){
+    var username = getusername();
+    var data = {
+        userID:username
+    }
+    var score = 0;
+    ajax('getintegration',data,function(res){
+        for(var i = 0 ; i < res.length ; i++){
+        score = score + parseInt(res[i].score);
+        $(".integration_div tbody").append(
+                    "<tr>"
+                    +"<td>"+res[i].ruletype+"</td>"
+                    +"<td><font class='colorF00'>+"+res[i].score+"</font></td>"
+                    +"<td>"+res[i].target+"</td>"
+                    +"<td>"+res[i].ruleName+"</td>"
+                    +"<td>"+res[i].createtime3+"</td>"
+                +"</tr>"
+        );
+    }
+        $('.integrationscore').text(score);
+        $('.integration3').text(score);
+    })
+$('.button3').click(function(){
+    var username = getusername();
+    var data = {
+        "type":2,
+        "username":username,
+        "target":""
+    };
+        ajax('integration',data,function(res){
+            alert(res.message)
+        })
+})
+}
+</script>
 </html>

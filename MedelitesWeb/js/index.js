@@ -127,18 +127,26 @@ function register(){
 
     // }
 }
-function loginout(){
-    if(confirm('确定要退出吗？')){
-        localStorage.removeItem('user');
-        location.href = 'index.html';
-    }   
-    $('.login-wrap').show();
-}
+
 function getUrlParam(name)
 {
-    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-    if (r!=null) return unescape(r[2]); return null; //返回参数值
+var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+if (r!=null) return unescape(r[2]); return null; //返回参数值
+} 
+if($('.list1').length > 0 ){
+    
+    ajax('testbydate',{},function(res){
+        for(var j = 0 ; j < res.length ; j++){
+            $('.list').append(
+                "<li>"
+                +"<a href='exams/exams.html?testID="+res[j].testID+"' title='"+res[j].testName+"' target='_blank'>"+res[j].testName+"</a>"
+                +"<span>"+res[j].createtime+"</span>"
+            +"</li>"
+            );
+        }
+    });
+    
 }
 if($('#subject').length > 0 ){
     var id = getUrlParam('majorID');
@@ -157,7 +165,7 @@ if($('#subject').length > 0 ){
             
             $('#subjectitem').append(
                 "<li style='height: 35px; border-bottom: 1px solid #D8D8D8; text-align: left; font-size: 16px; padding-left: 10px; width: 220px; display: block; line-height: 35px;'>"
-                +"<a href='test1_1.html?subjectID="+res[i].subjectID+"'>"+res[i].subjectName+"<span style='float: right;'></span></a></li>"
+                +"<a href='test1_1.html?id="+res[i].subjectID+"'>"+res[i].subjectName+"<span style='float: right;'></span></a></li>"
             );
             for(var j = 0 ; j < res[i].test.length ; j++){
                 str = str+"<tr style='height:35px; background: #eff5e6;'>"
@@ -189,4 +197,7 @@ if($('#subject').length > 0 ){
             
         }  
     });
+
+   
+
 }
