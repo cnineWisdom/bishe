@@ -297,7 +297,7 @@ function gettestdata(page,type=0){
             $('#list'+key).html('')
             $.each(value.result,function(k,v){
                 $('#list'+key).append(
-                    "<li><a href='discussion1_1.html?id="+v.caseID+"' target='_blank'><font>"+v.title+"'</font>"+v.title1+"</a><span>"+v.createtime+"</span></li>" 
+                    "<li><a href='discussion1_1.html?id="+v.caseID+"' target='_blank'><font>"+v.title+"</font>"+v.title1+"</a><span>"+v.createtime+"</span></li>" 
                 )
             })
             console.log(value)

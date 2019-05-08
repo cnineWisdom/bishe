@@ -165,7 +165,7 @@ function gettestdata(page){
 
         })
         pagetest.init()
-        $('#pptDiv').html('')
+        // $('#pptDiv').html('')
         for(var i =0 ;i < res.res.length;i++){
             $('#pptDiv').append(
                 "<li class='item'><div class='pic'><a href='"+res.res[i].inform_info+"' target='_blank'><img class='lazy' src='"+res.res[i].titleUrl+"' width='240' height='180' alt='ppt' data-url='"+res.res[i].titleUrl+"'></a></div><p class='collect'>&#10084;</p><div class='txt'><a href='"+res.res[i].inform_info+"' target='_blank'>"+res.res[i].inform_Name+"</a></div></li>"

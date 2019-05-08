@@ -161,10 +161,6 @@ class Web extends CI_Controller {
 		 $id = $this->input->post('userID');
 		 $sql = "select * from collecttest join test on collecttest.testID = test.testID  where userID = '$id' ";
 		 $query = $this->db->query($sql);
-		 
-		 
-		
-	
 		 echo json_encode($query->result());
 	}
 	public function collecttest(){
@@ -590,10 +586,9 @@ class Web extends CI_Controller {
 		if($id){
 			$time =time();
 			$userName = $this->input->post('username');
-			$userSql = "select * from `usermsg` where userName = $userName";
-			$userMess = $this->db->query($userSql)->result();
+			$userMess = $this->getUserId($userName);
 			if($userMess){
-				$userId = $userMess[0]->userID;
+				$userId = $userMess->userID;
 				//插入阅读表 先检查一下阅读的的时间大于多少
 				$checkSql = "select * from `read` where `userID` = $userId and `inform_ID` = $id order by `createtime` desc limit 1";
 				$checkMess = $this->db->query($checkSql)->result();
@@ -650,10 +645,9 @@ class Web extends CI_Controller {
 		$userName = $this->input->post('userName');
 		$critic_info = $this->input->post('critic_info');
 		$time = time();
-		$userSql = "select * from `usermsg` where userName = $userName";
-		$userMess = $this->db->query($userSql)->result(); 
+		$userMess = $this->getUserId($userName);
 		if($userMess){
-			$userID = $userMess[0]->userID;
+			$userID = $userMess->userID;
 			$sendData = [
 				'createtime'=>$time,
 				'critic_info' =>$critic_info,
@@ -673,5 +667,28 @@ class Web extends CI_Controller {
 			];
 		}
 		echo json_encode($msg);
+	}
+
+	public function getRead()
+	{
+		$userName = $this->input->post('userName');
+		$userMess = $this->getUserId($userName);
+		if($userMess){
+			$userID = $userMess->userID;
+			$sql = "select inform_ID,FROM_UNIXTIME(r.`createtime`,'%Y-%m-%d') as dayTime,count(`readID`) as readCount from `read` as r left join `case` as c on c.caseID = r.inform_ID where r.`userID` = $userID group by dayTime,r.`inform_ID`";
+			$mess = $this->db->query($sql)->result();
+			echo json_encode($mess);
+		}
+	}
+
+	public function getUserId($username)
+	{
+		$sql = "select * from `usermsg` where userName = $username";
+		$userMess = $this->db->query($sql)->result();
+		if($userMess){
+			return $userMess[0];
+		}else{
+			return false;
+		}
 	}
 }

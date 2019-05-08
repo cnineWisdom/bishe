@@ -22,7 +22,7 @@ function listClick(value){
 		$("#listClick_4").css("border-bottom","1px solid #CCC");
 		$("#listClick_4").css("color","#666");
 		
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/my_info.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/my_info.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -44,7 +44,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 2){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/make_head.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/make_head.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -73,7 +73,7 @@ function listClick(value){
 		$("#listClick_4").css("border-bottom","1px solid #CCC");
 		$("#listClick_4").css("color","#666");
 		
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/identity_prove.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/identity_prove.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -102,7 +102,7 @@ function listClick(value){
 		$("#listClick_4").css("border-bottom","1px solid #C40521");
 		$("#listClick_4").css("color","#C40521");
 		
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/make_password.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/make_password.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -124,7 +124,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 5){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/apply_lingtou.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/apply_lingtou.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -146,7 +146,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 6){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/project_manage.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/project_manage.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -168,7 +168,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 7){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/touhou_manage.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/touhou_manage.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -190,7 +190,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 8){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/my_account.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/my_account.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -212,7 +212,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 9){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/investment_inquiry.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/investment_inquiry.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -234,7 +234,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 10){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/apply_refund.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/apply_refund.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -257,7 +257,7 @@ function listClick(value){
 	}
 	if(value == 11){
 		
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/grade_integration.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/grade_integration.html");
 		$("#crowdfunding_iframe").attr("height","2000");
 		$("#vertical_navigation").css("height","2005px");
 		
@@ -286,7 +286,7 @@ function listClick(value){
 		$("#listClick_13").css("border-bottom","1px solid #CCC");
 		$("#listClick_13").css("color","#666");
 		
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/integration_record.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/integration_record.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -315,7 +315,7 @@ function listClick(value){
 		$("#listClick_13").css("border-bottom","1px solid #C40521");
 		$("#listClick_13").css("color","#C40521");
 		
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/integration_rule.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/integration_rule.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -337,7 +337,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 14){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/messages,html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/messages,html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -359,7 +359,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 15){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/inbox.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/inbox.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
@@ -381,7 +381,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 16){
-		$("#crowdfunding_iframe").attr("src","../crowdfunding_center/outbox.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/outbox.html");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		

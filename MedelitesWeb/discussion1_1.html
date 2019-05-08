@@ -339,8 +339,8 @@
                 ajax('sendMess',sendData,function(res){
                     if(res.code === 200){
                         alert('发布成功')
-                        $('#Tta_Intro').val('');
-                        location.reload();
+                        window.location.reload()
+                        $('#Tta_Intro').val('')
                     }
                     else{
                         alert('发布失败')
