@@ -23,7 +23,13 @@
     </div>
     <div class="my_info_content">
         <div class="my_info_content_care">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;暂无完成项目！ </div>
-
+        <ul>
+            <li>
+                <span>病历名</span>
+                <span>时间</span>
+                <span>次数</span>
+            </li>
+        </ul>
     </div>
 
     <!-- 结束 -->
@@ -31,3 +37,14 @@
     <script src="../js/my_info.js"></script>
 </body>
 </html>
+<script src='../js/common.js'></script>
+<script src="../js/index.js"></script>
+<script>
+    username = JSON.parse(localStorage.getItem('user')).username;
+    data = {
+        userName: username
+    }
+    ajax('getRead',data,function(res){
+
+    })
+</script>
