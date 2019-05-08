@@ -216,6 +216,7 @@
                 <li><a href="discussion1_1.html" target="_blank"><font>[男科]</font>病例1：男性，35岁，尿频、尿急、尿痛伴血尿6月余。</a><span>2016-12-29</span></li>
                 <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例1：向某某，因“红斑、水疱、糜烂伴痒痛2月,加重1月于2012年3月11日14时49分入院。</a><span>2016-12-12</span></li>
             </ul>
+
             <div id="pagination1" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
         </div>
         <div class="case">
@@ -303,10 +304,13 @@ function gettestdata(page,type=0){
         console.log(Object.keys(res).length)
 
         $('#caseDiv').html('');
-        for (var i = 1; i <= Object.keys(res).length; i++) {
+        for (var i = 0; i <= Object.keys(res).length; i++) {
+            console.log(res[i].typeTmp);
             $('#caseDiv').append(
-                "<div class='case'><div class='title'><h3>"+res[i].typeTmp+"</h3></div></div><div id='pagination"+i+"' class='pagination' style=''></div>"
+                "<div class='case'><input type='hidden' id='paginationType"+i+"' value='"+res[i].type+"'><div class='title'><h3>"+res[i].typeTmp+"</h3></div><div id='pagination"+i+"' class='pagination' style=''></div></div>"
             );
+            typeTmp = res[i].type
+
             var pagetest = new myPagination({
                 id: 'pagination'+i,
                 curPage: page, //初始页码
@@ -316,7 +320,8 @@ function gettestdata(page,type=0){
                 showPageTotalFlag: true, //是否显示数据统计
                 showSkipInputFlag: true, //是否支持跳转
                 getPage: function (page) {
-                    gettestdata(page);
+                    console.log(typeTmp);
+                    gettestdata(page,typeTmp);
                 }
             })
             pagetest.init()
