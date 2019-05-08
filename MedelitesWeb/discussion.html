@@ -305,7 +305,7 @@ function gettestdata(page,type=0){
         $('#caseDiv').html('');
         for (var i = 1; i <= Object.keys(res).length; i++) {
             $('#caseDiv').append(
-                "<div class='case'><div class='title'><h3>"+res[i].typeTmp+"</h3></div></div><div id='pagination"+i+"' class='pagination' style=''></div>"
+                "<div class='case'><div class='title'><h3>"+res[i].typeTmp+"</h3></div><div id='pagination"+i+"' class='pagination' style=''></div></div>"
             );
             var pagetest = new myPagination({
                 id: 'pagination'+i,
@@ -316,7 +316,7 @@ function gettestdata(page,type=0){
                 showPageTotalFlag: true, //是否显示数据统计
                 showSkipInputFlag: true, //是否支持跳转
                 getPage: function (page) {
-                    gettestdata(page);
+                    gettestdata(page,res[i]);
                 }
             })
             pagetest.init()

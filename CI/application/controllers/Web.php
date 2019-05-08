@@ -56,9 +56,6 @@ class Web extends CI_Controller {
 		$arr;
 		$str = $this->db->insert_string('errorquestion', $data);
 			$query = $this->db->query($str);
-			
-			
-			//echo $this->db->insert_id();
 			if ($query) {
 				$arr = array(
 				'status' => 200,
