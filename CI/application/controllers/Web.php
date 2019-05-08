@@ -392,6 +392,24 @@ class Web extends CI_Controller {
 			return false;
 		}
 	}
+	public function checkname1(){
+		$usernames = $this->input->post('username');
+		$str = "select * from usermsg where userName = '$usernames'";
+		$query = $this->db->query($str);
+		$EffectRow = $query->num_rows();
+		$arr;
+		if($EffectRow > 0){
+			$arr = array(
+				'status'=>'success'
+			);
+			
+		}else{
+			$arr = array(
+				'status'=>'error'
+			);
+		}
+		echo json_encode($arr);
+	}
 	public function register(){
 		date_default_timezone_set('PRC');
 		$date = date('Y-m-d H:i:s');
