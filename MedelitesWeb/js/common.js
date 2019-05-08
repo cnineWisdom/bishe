@@ -1,5 +1,5 @@
-// var mainurl = 'http://chxz2018.iego.net/webapp/CI/index.php/Web/';
-var mainurl = 'http://localhost/webapp/CI/index.php/Web/';
+﻿var mainurl = 'http://chxz2018.iego.net/bishe/CI/index.php/Web/';
+//var mainurl = 'http://localhost/webapp/CI/index.php/Web/';
 function ajax(url,data,fn){
     $.ajax({
         url:mainurl+url,
