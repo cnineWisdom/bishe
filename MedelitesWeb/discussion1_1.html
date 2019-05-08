@@ -8,7 +8,8 @@
 
     <!--响应式框架-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <!--主要样式-->
     <link rel="stylesheet" href="css/head.css" />
     <link rel="stylesheet" href="css/styles.css" />
@@ -53,10 +54,9 @@
                 padding: 5px;
             }
 
-        .fasong img {
+        .fasong img ,button{
             height: 35px;
             float: right;
-            margin-right: 9px;
         }
 
         .comment_con h4 {
@@ -70,12 +70,23 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed  #ccc
+        }
+        .comment>li:not(:first-child){
+            margin-top: 20px;
+        }
+        .comment>li>div{
+            color:black;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="container clearfix">
+        <div class="container clearfix" style="position:relative">
+             <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span>
+            </div>
             <div class="fl left">
                 <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
                 <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
@@ -85,7 +96,7 @@
                     <li class="active">
                         <a href="Index.html">首页</a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" id='major'>
                         <a href="javascript:void(0)">在线答题</a>
                         <div class="dropdown_menu">
                             <a href="test1.html">临床医学</a>
@@ -128,7 +139,7 @@
     </header>
     <div class="banner">
         <div class="jq22-container" style="margin-top: 65px;margin-left:850px;position: absolute;width: 300px;height: 300px;">
-            <div class="login-wrap">
+            <div class="login-wrap" style='display: none'>
                 <div class="login-html">
                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
                     <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
@@ -155,7 +166,7 @@
                                     <label for="check"><span class="icon"></span> 保持登录</label>
                                 </div>
                                 <div class="group">
-                                    <input type="button" class="button" value="登录" onclick="sub()">
+                                    <input type="button" class="button" value="登录" onclick="login()">
                                 </div>
                                 <div class="hr"></div>
                                 <div class="foot-lnk">
@@ -179,7 +190,7 @@
                                     <input id="repasswords" type="password" class="input" data-type="password">
                                 </div>
                                 <div class="group">
-                                    <input type="submit" class="button" value="注册" onclick="sub2()">
+                                    <input type="submit" class="button" value="注册" onclick="register()">
                                 </div>
                             </div>
                         </form>
@@ -196,21 +207,18 @@
     <!-- body栏 -->
     <div class="layout_main">
         <div class="m_content" style="overflow: hidden;">
-            <div><iframe style="height:880px; width:100%;" src="source/discussion1.png"></iframe></div>
-            <div class="clearfix">
-                <div class="count">阅读<span>（2206）</span>评论<span>（0）</span>下载<span>（0）</span></div>
-                <div class="download">
-                    <a href="javascript:alert('您还未登录，请登录后下载！');"><img src="image/down.gif" data-bd-imgshare-binded="1"></a>
-                </div>
+            <div><iframe id = "img1" style="height:880px; width:100%;" src=""></iframe></div>
+            <div class="clearfix" id = "clearNum">
             </div>
             <div class="comment clearfix">
                 <div class="tit">评论<span>重要提示：请文明上网理性发言，不要发布暴力、色情、反动等信息</span></div>
-                <textarea name="Tta_Intro" rows="2" cols="20" readonly="readonly" id="Tta_Intro" placeholder="请填写评论内容..." class="comment_text gray">请登录后发表评论！</textarea>
-                <div class="fasong"><a href="javascript:alert('您还未登录，请登录后发送！');"><img src="image/发送.png" data-bd-imgshare-binded="1"></a></div>
+                <textarea name="Tta_Intro" rows="2" cols="20" id="Tta_Intro" placeholder="请填写评论内容..." class="comment_text gray"></textarea>
+                <div class="fasong" id="sendMessage"><button><img src="image/发送.png" data-bd-imgshare-binded="1"></button></div>
             </div>
-            <div class="comment_con clearfix">
+            <div class="comment_con clearfix" >
                 <h4>全部评论</h4>
-                <ul></ul>
+                <ul class="comment" id='comment_show'>
+                </ul>
             </div>
         </div>
     </div>
@@ -266,3 +274,80 @@
     </footer><!-- footer -->
 </body>
 </html>
+<script src='js/common.js'></script>
+<script src="js/index.js"></script>
+<script>
+    username = JSON.parse(localStorage.getItem('user')).username;
+    var id = getUrlParam('id');
+    var data = {
+        id:id,
+        username:username
+    }
+    console.log(id)
+    ajax('getComment',data,function(res){
+        console.log(res)
+        if(res === false){
+            alert('序号错误')
+            window.location.href='Index.html'
+        }else{
+            res = res[0]
+            console.log(res)
+            $('#img1').attr('src',res.case_info)
+            $('#clearNum').html('')
+            $('#clearNum').append(
+                "<div class='count'>阅读<span>（"+res.readCount+"）</span>评论<span>（"+res.commentCount+"）</span>下载<span>（0）</span>"
+            )
+            var user = getusername()
+            if(user === false){
+                $('#clearNum').append(
+                    "<div class='download'><a href='javascript:alert('您还未登录，请登录后下载！');'><img src='image/down.gif' data-bd-imgshare-binded='1'></a></div></div>"
+                ) 
+            }else{
+                $('#clearNum').append(
+                    "<div class='download'><a><img src='image/down.gif' data-bd-imgshare-binded='1'></a></div></div>"
+                )
+            }
+            $('#comment_show').html('')
+            if(res.commentMess.length === 0){
+                $('#comment_show').append("<p style='text-align:center;'>暂时没有评论</p>")
+            }
+            else {
+                $.each(res.commentMess,function(key,value){
+
+                    $('#comment_show').append(
+                        "<li><span>"+value.userName+"</span><span style='margin-left: 20px;'>"+value.createtime+"</span><div>"+value.critic_info+"</div></li>"
+                    ) 
+                }) 
+            } 
+        }
+    })
+    $('#sendMessage').click(function(){
+        var user = getusername()
+        if(user === false){
+            alert('请先登录')
+        }else{
+            var message = $('#Tta_Intro').val()
+            console.log(message)
+            if(message === '') {alert('内容不能为空哦')}
+            else{
+                var sendData = {
+                userName: username,
+                critic_info:message,
+                id :id
+                }
+                ajax('sendMess',sendData,function(res){
+                    if(res.code === 200){
+                        alert('发布成功')
+                        $('#Tta_Intro').val('')
+                    }
+                    else{
+                        alert('发布失败')
+                        $('#Tta_Intro').val('')
+
+                    }
+                })
+            }
+        }
+    })
+    // getusername();
+</script>
