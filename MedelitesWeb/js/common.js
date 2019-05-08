@@ -16,7 +16,8 @@ function checklogin(){
     if(time.getTime()  > user.time){
         alert('登录验证已超时，请重新登录');
         localStorage.removeItem('user');
-        location.href = 'index.html';
+        location.href = 'http://chxz2018.iego.net/bishe/MedelitesWeb/index.html';
+        // location.href = 'http://localhost/bishe/MedelitesWeb/index.html';
         $('.login-wrap').show();
     }else{
         // $('#session').show();
@@ -25,8 +26,9 @@ function checklogin(){
     }
     }else{
         alert('登录验证已超时，请重新登录');
-        // location.href = 'http://chxz2018.iego.net/webapp/MedelitesWeb/index.html';
-        location.href = 'http://localhost/webapp/MedelitesWeb/index.html';
+        console.log(1);
+        location.href = 'http://chxz2018.iego.net/bishe/MedelitesWeb/index.html';
+        // location.href = 'http://localhost/bishe/MedelitesWeb/index.html';
         // $('.login-wrap').show();
     }
     

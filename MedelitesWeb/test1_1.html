@@ -15,129 +15,128 @@
     <link rel="stylesheet" href="css/jigsaw.css" />
     <link rel="stylesheet" href="css/myPagination.css" />
     <script src="js/myPagination.js"></script>
-    <script src="js/common.js"></script>
-    
+
 </head>
 <body>
-        <header class="header">
-                <div class="container clearfix" style="position:relative">
-                    <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span></div>
-                    <div class="fl left">
-                        <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
-                        <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
-                    </div>
-                    <div class="fr nav">
-                        <ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
-                            <li class="active">
-                                <a href="Index.html">首页</a>
-                            </li>
-                            <li class="dropdown" id='major'>
-                                <a href="javascript:void(0)">在线答题</a>
-                                <div class="dropdown_menu">
-                                    <!-- <a href="test1.html">临床医学</a> -->
-                                    
-                                </div>
-                            </li>
-                            <li class="dropdown">
-                                <a href="information1.html">医学资料</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="javascript:void(0)">讨论区</a>
-                                <div class="dropdown_menu">
-                                    <a href="discussion.html">病例评论</a>
-                                    <!--<a href="note.html">个人笔记</a>-->
-                                </div>
-                            </li>
-                            <li class="dropdown">
-                                <a href="javascript:void(0)">个人中心</a>
-                                <div class="dropdown_menu">
-                                    <a href="member_center.html">历史记录</a>
-                                    <a href="member_center2.html">我的收藏</a>
-                                    <a href="member_center3.html">消息管理</a>
-                                    <a href="member_center4.html">个人错题锦</a>
-                                    <a href="member_center5.html">打卡签到</a>
-                                    <a href="member_center6.html ">设置</a>
-                                </div>
-                            </li>
-                           
-                        </ul>
-                    </div>
-                    <a href="javascript:void(0)" id="navToggle">
-                        <span></span>
-                    </a>
-                    <div>
-                        <input type="text" placeholder="请输入关键词">
-                        <div class="search"></div>
-                    </div>
-                    
-                </div>
-        
-        
-            </header>
-            <div class="banner">
-                <div class="jq22-container" style="margin-top: 65px;margin-left:850px;position: absolute;width: 300px;height: 300px;">
-                    <div class="login-wrap" style='display: none'>
-                        <div class="login-html">
-                            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
-                            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
-                            <div class="login-form">
-                                <!-- 登录 -->
-                                <form>
-                                    <div class="sign-in-htm">
-                                        <div class="group">
-                                            <label for="user" class="label">手机号</label>
-                                            <input id="username" name="username" type="text" class="input">
-                                        </div>
-                                        <div class="group">
-                                            <label for="pass" class="label">密码</label>
-                                            <input id="password" type="password" class="input" data-type="password">
-                                        </div>
-                                        <!-- <div class="group">
-                                            <div class="container">
-                                                <div id="captcha" style="position: relative" data-type="password"></div>
-                                                <div id="msg"></div>
-                                            </div>
-                                        </div> -->
-                                        <div class="group">
-                                            <input id="check" type="checkbox" class="check" checked>
-                                            <label for="check"><span class="icon"></span> 保持登录</label>
-                                        </div>
-                                        <div class="group">
-                                            <input type="button" class="button" value="登录" onclick="login()">
-                                        </div>
-                                        <div class="hr"></div>
-                                        <div class="foot-lnk">
-                                            <a href="forgetpwd/demo.html" style="font-size: 14px;">忘记密码?</a>
-                                        </div>
-                                    </div>
-                                </form>
-                                <!-- 注册 -->
-                              
-                                    <div class="sign-up-htm">
-                                        <div class="group">
-                                            <label for="user" class="label">手机号</label>
-                                            <input id="usernames" type="text" class="input" placeholder="请正确输入手机号以用于忘记密码">
-                                        </div>
-                                        <div class="group">
-                                            <label for="pass" class="label">密码</label>
-                                            <input id="passwords" type="password" class="input" data-type="password" placeholder="6~12位">
-                                        </div>
-                                        <div class="group">
-                                            <label for="repass" class="label">重复密码</label>
-                                            <input id="repasswords" type="password" class="input" data-type="password">
-                                        </div>
-                                        <div class="group">
-                                            <input type="submit" class="button" value="注册" onclick="register();">
-                                        </div>
-                                    </div>
-                               
-                            </div>
+    <header class="header">
+        <div class="container clearfix" style="position:relative">
+            <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span></div>
+            <div class="fl left">
+                <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
+                <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
+            </div>
+            <div class="fr nav">
+                <ul class="navbar_nav" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="active">
+                        <a href="Index.html">首页</a>
+                    </li>
+                    <li class="dropdown" id='major'>
+                        <a href="javascript:void(0)">在线答题</a>
+                        <div class="dropdown_menu">
+                            <!-- <a href="test1.html">临床医学</a> -->
+                            
                         </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="information1.html">医学资料</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">讨论区</a>
+                        <div class="dropdown_menu">
+                            <a href="discussion.html">病例评论</a>
+                            <!--<a href="note.html">个人笔记</a>-->
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">个人中心</a>
+                        <div class="dropdown_menu">
+                            <a href="member_center.html">历史记录</a>
+                            <a href="member_center2.html">我的收藏</a>
+                            <a href="member_center3.html">消息管理</a>
+                            <a href="member_center4.html">个人错题锦</a>
+                            <a href="member_center5.html">打卡签到</a>
+                            <a href="member_center6.html ">设置</a>
+                        </div>
+                    </li>
+                   
+                </ul>
+            </div>
+            <a href="javascript:void(0)" id="navToggle">
+                <span></span>
+            </a>
+            <div>
+                <input type="text" placeholder="请输入关键词">
+                <div class="search"></div>
+            </div>
+            
+        </div>
+
+
+    </header>
+    <div class="banner">
+        <div class="jq22-container" style="margin-top: 65px;margin-left:850px;position: absolute;width: 300px;height: 300px;">
+            <div class="login-wrap" style='display: none'>
+                <div class="login-html">
+                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
+                    <div class="login-form">
+                        <!-- 登录 -->
+                        <form>
+                            <div class="sign-in-htm">
+                                <div class="group">
+                                    <label for="user" class="label">手机号</label>
+                                    <input id="username" name="username" type="text" class="input">
+                                </div>
+                                <div class="group">
+                                    <label for="pass" class="label">密码</label>
+                                    <input id="password" type="password" class="input" data-type="password">
+                                </div>
+                                <!-- <div class="group">
+                                    <div class="container">
+                                        <div id="captcha" style="position: relative" data-type="password"></div>
+                                        <div id="msg"></div>
+                                    </div>
+                                </div> -->
+                                <div class="group">
+                                    <input id="check" type="checkbox" class="check" checked>
+                                    <label for="check"><span class="icon"></span> 保持登录</label>
+                                </div>
+                                <div class="group">
+                                    <input type="button" class="button" value="登录" onclick="login()">
+                                </div>
+                                <div class="hr"></div>
+                                <div class="foot-lnk">
+                                    <a href="forgetpwd/demo.html" style="font-size: 14px;">忘记密码?</a>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- 注册 -->
+                      
+                            <div class="sign-up-htm">
+                                <div class="group">
+                                    <label for="user" class="label">手机号</label>
+                                    <input id="usernames" type="text" class="input" placeholder="请正确输入手机号以用于忘记密码">
+                                </div>
+                                <div class="group">
+                                    <label for="pass" class="label">密码</label>
+                                    <input id="passwords" type="password" class="input" data-type="password" placeholder="6~12位">
+                                </div>
+                                <div class="group">
+                                    <label for="repass" class="label">重复密码</label>
+                                    <input id="repasswords" type="password" class="input" data-type="password">
+                                </div>
+                                <div class="group">
+                                    <input type="submit" class="button" value="注册" onclick="register();">
+                                </div>
+                            </div>
+                       
                     </div>
                 </div>
-                <img src="image/aa.jpg">
-            </div><!-- banner -->
-            <!-- local栏 -->
+            </div>
+        </div>
+        <img src="image/aa.jpg">
+    </div><!-- banner -->
+    <!-- local栏 -->
     <div class="position" style="height: 60px; margin-left:60px; padding-top: 20px;padding-bottom: 20px; font-size:15px;">
         <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="Index.html">首页</a> - 在线答题 - <a class='major1' href="test1.html">临床医学</a> - <a class='subject1' href="test1_1.html">外科学</a>
     </div>
@@ -171,11 +170,51 @@
     </div>
     <div id="pagination" class="pagination" style="margin-left: 180px;"></div>
 </body>
+<!-- <script src="js/common.js"></script>
+<script src="js/index.js"></script> -->
 <script src="js/common.js"></script>
 <script src="js/index.js"></script>
 <script>
+    
+        // getusername();
+        // alert(1);
+        // window.location.href="http://www.baidu.com"
+//         function checklogin(){
+//     var user = JSON.parse(localStorage.getItem('user'))
+//     if(user){
+//         var time = new Date();
+//     if(time.getTime()  > user.time){
+//         alert('登录验证已超时，请重新登录');
+//         localStorage.removeItem('user');
+//         location.href = 'index.html';
+//         $('.login-wrap').show();
+//         return ;
+//     }else{
+//         // $('#session').show();
+//         // $('#user').html(user.username);
+        
+//     }
+//     }else{
+//         alert('登录验证已超时，请重新登录');
+//         location.href = 'index.html';
+//         return ;
+//         // $('.login-wrap').show();
+//     }
+    
+// }
+// checklogin();
+       
        function download1(url,testID){
-            var username = getusername();
+          
+           if(getusername()){
+
+           }else{
+                alert('请先登录！');
+                // location.href = 'index.html';
+                return ;
+           }
+           var username = getusername();
+            // var username = ;
             window.location.href = url;
             var data1 = {
                         testID:testID
@@ -192,12 +231,18 @@
                             }else{
                                 alert(res.message);
                             }
-                            window.open(src);
+                            // window.open(src);
                         })
                     })
         }
         function printf(url,testID){
-    
+            if(getusername()){
+
+}else{
+     alert('请先登录！');
+    //  location.href = 'index.html';
+     return ;
+}
                 var src = "exams/exams.html?testID="+testID+"&print=Y";
                 var username = getusername();
                 var data1 = {
