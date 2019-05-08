@@ -43,22 +43,43 @@
        <div class="liutext"><em>4</em><br /><strong>完成</strong></div>
       </div>
      </div><!--for-liucheng/-->
-     <form action="forgetPwd3.html" method="get" class="forget-pwd">
+     <div class="forget-pwd">
        
        <dl class="sel-yzsj">
         <dt>已验证手机：</dt>
-        <dd><input type="text" value="1851****517" readonly  /></dd>
+        <dd><input type="text" class='num' value="" readonly  /></dd>
         <div class="clears"></div>
        </dl>
        <dl>
         <dt>手机校验码：</dt>
-        <dd><input type="text" /> <button>获取短信验证码</button></dd>
+        <dd><input type="text" class='phonenum'/> <button class='getnum'>获取短信验证码</button></dd>
         <div class="clears"></div>
        </dl>
-       <div class="subtijiao"><input type="submit" value="提交" /></div> 
-      </form><!--forget-pwd/-->
+       <div class="subtijiao"><input class='submit' type="button" value="提交" /></div> 
+      </div><!--forget-pwd/-->
    </div><!--web-width/-->
   </div><!--content/-->
   
 </body>
+<script src="../js/common.js"></script>
+<script>
+  var num = getUrlParam('num');
+  $('.num').val(num);
+  $('.getnum').click(function(){
+    alert("3AHY");
+  })
+
+  $('.submit').click(function(){
+    var phonenum = $('.phonenum').val();
+    if(phonenum == ""){
+      alert('请填写验证码');
+      return ;
+    }
+    if(phonenum == '3ahy' || phonenum == '3AHY'){
+      window.location.href = './forgetPwd3.html?id='+num;
+    }
+        
+
+  })
+</script>
 </html>

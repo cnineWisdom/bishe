@@ -1,5 +1,5 @@
-﻿var mainurl = 'http://chxz2018.iego.net/bishe/CI/index.php/Web/';
-//var mainurl = 'http://localhost/webapp/CI/index.php/Web/';
+﻿// var mainurl = 'http://chxz2018.iego.net/bishe/CI/index.php/Web/';
+var mainurl = 'http://localhost/bishe/CI/index.php/Web/';
 function ajax(url,data,fn){
     $.ajax({
         url:mainurl+url,
@@ -55,6 +55,8 @@ function loginout(){
     if(confirm('确定要退出吗？')){
         localStorage.removeItem('user');
         location.href = 'index.html';
+    }else{
+        // $('.login-wrap').show();
     }   
-    $('.login-wrap').show();
+    
 }

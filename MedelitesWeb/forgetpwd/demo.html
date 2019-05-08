@@ -25,7 +25,7 @@
        <div class="liutext"><em>4</em><br /><strong>完成</strong></div>
       </div>
      </div><!--for-liucheng/-->
-     <form action="forgetPwd2.html" method="get" class="forget-pwd">
+     <form class="forget-pwd">
        <dl>
         <dt>手机号：</dt>
         <dd><input type="text" class='phonenum'/></dd>
@@ -34,14 +34,14 @@
        <dl>
         <dt>验证码：</dt>
         <dd>
-         <input type="text" /> 
+         <input type="text" class='yanzma_div'/> 
          <div class="yanzma">
           <img src="yzm.gif" /> <a href="javascript:;">换一换</a>
          </div>
         </dd>
         <div class="clears"></div>
        </dl>
-       <div class="subtijiao"><input type="submit" value="提交" /></div> 
+       <div class="subtijiao"><input type="button" value="提交" /></div> 
       </form><!--forget-pwd/-->
    </div><!--web-width/-->
   </div><!--content/-->
@@ -51,7 +51,7 @@
 <script>
   $('.subtijiao').click(function(){
     var phonenum = $('.phonenum');
-    var yanzma =  $('.yanzma');
+    var yanzma =  $('.yanzma_div');
     if(phonenum.val() == ""){
       alert('请填写手机号！');
       return ; 
@@ -60,14 +60,17 @@
       alert('请填写验证码！');
       return ; 
     }
-    if(yanzma.val() != '3hay' || yanzma.val() != '3HAY'){
+    if(yanzma.val() != '3hay' && yanzma.val() != '3HAY'){
       alert('验证码错误！');
       yanzma.val("");
       return ;
     }
+    var data = {
+      username:phonenum.val()
+    };
     ajax('checkname1',data,function(res){
       if(res.status == 'success'){
-        window.location.href = "forgetPwd2.html"
+        location.href = "forgetPwd2.html?num="+phonenum.val();
       }else{
         phonenum.val("");
         yanzma.val("");

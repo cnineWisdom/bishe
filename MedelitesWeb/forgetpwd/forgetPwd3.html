@@ -6,6 +6,7 @@
 <title>忘记密码</title>
 <link rel="shortcut icon" href="images/favicon.ico" />
 <link type="text/css" href="css/css.css" rel="stylesheet" />
+<script src="js/jquery-1.8.3-min.js"></script>
 </head>
 
 <body>
@@ -24,26 +25,63 @@
        <div class="liutext"><em>4</em><br /><strong>完成</strong></div>
       </div>
      </div><!--for-liucheng/-->
-     <form action="forgetPwd4.html" method="get" class="forget-pwd">
+     <div class="forget-pwd">
        <dl>
         <dt>手机号：</dt>
-        <dd><input type="text" /></dd>
+        <dd><input type="text" class='num' readonly/></dd>
         <div class="clears"></div>
        </dl> 
        <dl>
         <dt>新密码：</dt>
-        <dd><input type="password" /></dd>
+        <dd><input type="password" class='newpassword'/></dd>
         <div class="clears"></div>
        </dl> 
        <dl>
         <dt>确认密码：</dt>
-        <dd><input type="password" /></dd>
+        <dd><input type="password" class='newpassword1'/></dd>
         <div class="clears"></div>
        </dl> 
-       <div class="subtijiao"><input type="submit" value="提交" /></div> 
-      </form><!--forget-pwd/-->
+       <div class="subtijiao"><input type="button" class='handle' value="提交" /></div> 
+
+      </div><!--forget-pwd/-->
    </div><!--web-width/-->
   </div><!--content/-->
   
 </body>
+<script src="../js/common.js"></script>
+<script>
+id  = getUrlParam('id');
+$('.num').val(id);
+$('.handle').click(function(){
+
+var newpassword = $('.newpassword').val();
+var newpassword1 = $('.newpassword1').val();
+
+if(newpassword == ""){
+  alert("密码不能为空！");
+  return ;
+}if(newpassword1 == ""){
+  alert("请再输入密码");
+  return ;
+}
+
+if(newpassword != newpassword1){
+  alert("两次密码不一致，请检查！");
+  return ;
+}
+var data = {
+  username:id,
+  newpwd:newpassword
+}
+ajax('changepwd1',data,function(res){
+    if(res.status == 'success'){
+      alert(res.res);
+      location.href='./forgetPwd4.html'
+    }else{
+      alert(res.res);
+    }
+});
+})
+
+</script>
 </html>

@@ -1,4 +1,31 @@
 ﻿
+$(document).keydown(function(event){ //监听键盘按下时的事件
+	if(event.keyCode == 13){
+        
+        var key = $(".key").val();
+        if(key == ""){
+            return ;
+        }else{
+            var data = {
+                word:key
+            };
+            ajax('getknowledge',data,function(res){
+                var name = (res[0].Name);
+                var word = (res[0].info);
+                var url = (res[0].url);
+                var word1 = $('.word1')
+                var word3 = $('.word3')
+                var word4 = $('.word4 a')
+                word1.text(name);
+                word3.text(word);
+                word4.attr('href',url);
+                word4.text(url);
+                $('.modal').show();
+            });
+        }
+        
+    } 
+})
 function getmajor(){
     ajax('getmajor',{},function(res){
         for(var i = 0 ; i < res.length ; i++){
@@ -127,7 +154,12 @@ function register(){
 
     // }
 }
+var modal = $('#myModal');
+var span = document.querySelector('.close');
+span.onclick = function () {
 
+    modal.hide();
+}
 function getUrlParam(name)
 {
 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
@@ -146,6 +178,17 @@ if($('.list1').length > 0 ){
             );
         }
     });
+
+    ajax('getcase1',{},function(res){
+        for(var i = 0 ; i < res.length ; i++){
+            $('.list3').append(
+                "<li>"
+                +"<a href='discussion1_1.html?id="+res[i].caseID+"' title='"+res[i].caseName+"' target='_blank'>"+res[i].caseName+"</a>"
+                +"<span>"+res[i].createtime+"</span>"
+            +"</li>"
+            );
+        }  
+    })
     
 }
 if($('#subject').length > 0 ){

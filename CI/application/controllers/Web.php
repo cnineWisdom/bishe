@@ -18,6 +18,30 @@ class Web extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	
+	public function getknowledge(){
+		$word = $this->input->post('word');
+		// $caseID = $this->input->post('caseID');
+		$sql = "select * from terminology where Name like '%$word%' limit 1";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		echo json_encode($res);
+	}
+	public function getmsg(){
+		$username = $this->input->post('username');
+		// $caseID = $this->input->post('caseID');
+		$sql = "select * from total where (ruleID = 5 or ruleID = 6) and userID ='$username' order by createtime desc";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		echo json_encode($res);
+	}
+	public function getcase1(){
+		// $caseID = $this->input->post('caseID');
+		$sql = "select *,FROM_UNIXTIME(createtime, '%Y-%m-%d') as createtime from `case` order by createtime desc limit 7";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		echo json_encode($res);
+	}
 		public function getmaintestname(){	
 		$testID = $this->input->post('testID');
 		$sql = "select * from test where testID = '$testID'";
@@ -210,6 +234,28 @@ class Web extends CI_Controller {
 		);
 		echo json_encode($arr);
 	}
+	public function changepwd1(){
+		$username = $this->input->post('username');
+		
+		$newpwd = $this->input->post('newpwd');
+		$arr;
+		$data = array('pwd' => $newpwd,);
+		$where = "username='$username'";
+		$str = $this->db->update_string('usermsg', $data, $where);
+		$query = $this->db->query($str);
+		if($query){
+			$arr=array(
+				'status'=>'success',
+				'res'=>'修改成功！'
+			);
+		}else{
+			$arr=array(
+				'status'=>'error',
+				'res'=>'修改失败！'
+			);
+		}	
+		echo json_encode($arr);
+}
 	public function changepwd(){
 			$username = $this->input->post('username');
 			$pwd = $this->input->post('pwd');
@@ -393,8 +439,8 @@ class Web extends CI_Controller {
 		}
 	}
 	public function checkname1(){
-		$usernames = $this->input->post('username');
-		$str = "select * from usermsg where userName = '$usernames'";
+		$username = $this->input->post('username');
+		$str = "select * from usermsg where userName = '$username'";
 		$query = $this->db->query($str);
 		$EffectRow = $query->num_rows();
 		$arr;

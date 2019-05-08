@@ -5,8 +5,9 @@
     <title></title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/crowdfunding.center/inbox.css" rel="stylesheet" />
+    <script src="../js/jquery-2.1.1.min.js"></script>
 
-    <script>
+    <!-- <script>
         window.onload = funtion()
         {
             var ochb = document.getElementsByID('che_all');
@@ -19,14 +20,14 @@
                 }
             }
         }
-    </script>
+    </script> -->
 </head>
 <body>
     <!-- 开始 -->
     <div class="my_info_title">所有消息</div>
     <div class="my_info_title_3">
         <ul>
-            <li id="listClick_1" onclick="listClick(1)" style="border-bottom: 1px solid #80aaff; color: #80aaff;">私信</li>
+            <li id="listClick_1" onclick="listClick(1)" style="border-bottom: 1px solid #80aaff; color: #80aaff;">消息管理</li>
         </ul>
     </div>
     <div style="height:10px;"></div>
@@ -36,21 +37,21 @@
                 <tr class="active">
                     <th class="text-center"><input type="checkbox" name="che_all" id="che_all" /></th>
                     <th class="text-center">序号</th>
-                    <th class="text-center">消息内容</th>
-                    <th class="text-center">用户名称</th>
-                    <th class="text-center">发送时间</th>
+                    <th class="text-center">内容</th>
+                    <th class="text-center">时间</th>
+                    <th class="text-center">操作</th>
 
                 </tr>
             </thead>
             <tbody>
-                <tr class="">
+                <!-- <tr class="">
                     <td class="text-center"><input type="checkbox" name="che_one" id="che_one" /></td>
                     <td class="text-center">序号</td>
                     <td class="text-center">消息内容</td>
                     <td class="text-center">发件人</td>
                     <td class="text-center">发送时间</td>
 
-                </tr>
+                </tr> -->
             </tbody>
         </table>
         <input type="button" class="but2" value="删除选中" />
@@ -58,4 +59,32 @@
 
     <!-- 结束 -->
 </body>
+<script src="../js/common.js"></script>
+<script>
+    var id = getusername();
+    var data = {
+        username:id
+    };
+    ajax('getmsg',data,function(res){
+        for(var i = 0 ; i < res.length ; i++){
+         
+            if(res[i].ruleID == 5){
+                var type='下载成功'
+            }else{
+                var type = '打印成功'
+            }
+            $('.table tbody').append(
+            "  <tr >"
+               +    " <td class='text-center'><input type='checkbox' name='che_one' id='che_one' /></td>"
+               +    " <td class='text-center'>"+(i+1)+"</td>"
+               +    " <td class='text-center'>"+res[i].target+"</td>"
+               +    " <td class='text-center'>"+res[i].createtime+"</td>"
+               +    " <td class='text-center'>"+type+"</td>"
+
+               + "</tr>"
+        );
+        }
+        
+    });
+</script>
 </html>

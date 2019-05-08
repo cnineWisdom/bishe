@@ -123,7 +123,9 @@ $('.button3').click(function(){
         "target":""
     };
         ajax('integration',data,function(res){
-            alert(res.message)
+           
+            alert(res.message);
+            location.reload();
         })
 })
 }

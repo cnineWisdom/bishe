@@ -13,8 +13,90 @@
     <link rel="stylesheet" href="css/head.css" />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/jigsaw.css" />
+    <style>
+            /* 弹窗 (background) */
+            .modal {
+                display: none; /* 默认隐藏 */
+                position: fixed; /* 固定定位 */
+                z-index: 1; /* 设置在顶层 */
+                left: 50%;
+                top: 50%;
+                width: 600px;
+                height: 300px;
+                z-index: 99;
+                margin-left:-300px;
+                margin-top:-150px;
+                padding:29px 29px;
+                box-sizing: border-box;
+                /* overflow: auto; */
+                /* background-color: rgb(0,0,0); */
+                background-color: #ffffff;
+                border:1px solid rgb(149,149,149);
+                word-break: break-all;
+                overflow: auto
+               
+            }
+    
+            /* 弹窗内容 */
+            .modal-content {
+                background-color: #fefefe;
+                /* margin: 15% auto; */
+                /* padding: 20px; */
+                border: 1px solid #888;
+                width: 80%;
+                margin:auto;
+                height:auto;
+            }
+            .modal ul{
+                margin:0px;
+                padding:0px
+            }
+            /* 关闭按钮 */
+            .close {
+                color: #aaa;
+                position: absolute;
+                right: 4px;
+                top:4px;
+                font-size: 28px;
+                font-weight: bold;
+            }
+    
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .show{
+                cursor: pointer;
+            }
+        </style>
 </head>
 <body>
+        <div class="modal" id="myModal">
+                <span class="close">&times;</span>
+                <h3 class='word1'></h3>
+                <h4 class='word3'></h4>
+                <h4 class='word4'>链接：<a href="" target="_blank"></a></h4>
+                <!-- <ul style=" font-weight: 700; list-style: none;"> -->
+                    
+                    <!-- <li><font>在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）</font></li>
+                    <li class="option" style="list-style: none;">
+                        <label for="0_answer_1_option_1">A.<p class="ue" style="display: inline;">在工具栏中点击“workflow”标签</p ></label>
+                    </li>
+                    <li class="option" style="list-style: none;">
+                        <label for="0_answer_1_option_2">B.<p class="ue" style="display: inline;">在缺陷单界面中点击“推进流程”按钮</p ></label>
+                    </li>
+                    <li class="option" style="list-style: none;">
+                        <label for="0_answer_1_option_3">C.<p class="ue" style="display: inline;">在缺陷单界面中点击“提交”按钮</p ></label>
+                    </li>
+                    <li class="option" style="list-style: none;">
+                        <label for="0_answer_1_option_4">D.<p class="ue" style="display: inline;">后台启动流程推进</p ></label>
+                    </li>
+                    <li style="float:right;margin-right:15px;cursor: pointer;"><span>上一题</span><span>&nbsp;&nbsp;&nbsp;下一题</span></li>
+                    <li style="float:left;margin-right:15px;">正确答案：【】</li> -->
+                <!-- </ul>     -->
+            </div>
     <header class="header">
         <div class="container clearfix" style="position:relative">
             <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span></div>
@@ -62,7 +144,7 @@
                 <span></span>
             </a>
             <div>
-                <input type="text" placeholder="请输入关键词">
+                <input type="text" class='key' placeholder="请输入关键词">
                 <div class="search"></div>
             </div>
             
@@ -209,35 +291,8 @@
                 </a>
                 <span class="line"></span>
             </div>
-            <ul class="list1 list2">
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
-                <li>
-                    <a href="discussion1_1.html?id=7050" title="关于2019年第一批学分记录导入到科教平台的情况通知" target="_blank">关于2019年第一批学分记录导入到"科教平台"的情况通知</a>
-                    <span>2019-03-24</span>
-                </li>
+            <ul class="list1 list3">
+             
             </ul>
         </div><!--bar3 -->
     </div><!-- box -->
@@ -291,6 +346,7 @@
             </div>
         </div>
     </footer><!-- footer -->
+   
 </body>
 <script src='js/common.js'></script>
 <script src="js/index.js"></script>
