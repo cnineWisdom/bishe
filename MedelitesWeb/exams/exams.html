@@ -26,6 +26,9 @@
             width: 50px;
             float: right;
         }
+        /* div{
+            page-break-after: always;
+        } */
     </style>
  
 </head>
@@ -36,7 +39,7 @@
         <div class="test_main">
             <div class="nr_left">
                 <div class="test">
-                    <form action="" method="post">
+                    <form action="" method="post" id='printform'>
                         <div class="test_title">
                             <p class="test_time"><b class="alt-1">00:00:00</b></p>
                             <font><input type="button" name="test_jiaojuan" class="jiaojuan" onclick="j()" value="交卷" /></font>
@@ -3306,7 +3309,7 @@
 
                         <div class="rt_content">
                             <div class="rt_content_tt">
-                                <h2>多选题</h2><p><span>共</span><i class="content_lit">30</i><span>题</span></p>
+                                <h2>多选题</h2><p><span>共</span><i class="content_lit">0</i><span>题</span></p>
                             </div>
                             <div class="rt_content_nr answerSheet answerSheet_checkbox">
                                 <ul>

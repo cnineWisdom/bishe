@@ -1,6 +1,9 @@
 // alert(1);
 
 
+    
+    
+
 function checklogin(){
     var user = JSON.parse(localStorage.getItem('user'))
     if(user){
@@ -297,56 +300,166 @@ function gettest(){
                 }else{
                     cardLi.removeClass('hasBeenAnswer');
                 }
+                 
+            
             }
                
                
            
             
             
-            
-            
+           
 
         });
-        
-    })
-}   
-function j(){
-    var obj = $('.answerSheet_radio ul li a');
-    obj.each(function(){
-        if(!$(this).hasClass('hasBeenAnswer')){
-            if(confirm('您有未完成题目，是否确定提交？')){
-                alert('提交成功,等待分析答案');
-                
-                $('.alt-1').html("00:00:00");
-                $('.alt-2').html("00:00:00");
-                $('.radioOrCheck').attr('disabled','disabled');
-                $('.jiexi').css("display","block");
-                checkanswer();
-                $('.score').show();
-                $('li.option').unbind('click');
-                $('.jiaojuan').unbind('click')
-                return false;
-            }else{
-                return false;
-            }
-        }else{
-            if(confirm('是否确定提交试卷?')){
-                alert('提交成功,等待分析答案');
-                
-                $('.alt-1').html("00:00:00");
-                $('.alt-2').html("00:00:00");
-                $('.radioOrCheck').attr('disabled','disabled');
-                $('.jiexi').css("display","block");
-                checkanswer();
-                $('.score').show();
-                $('li.option').unbind('click');
-                $('.jiaojuan').unbind('click')
-                return false;
-            }else{
-                return false;
+        if(getUrlParam('print')){
+            if(getUrlParam('print') == 'Y'){
+                //yy
+            //  var form =  $('.test_radio').html();
+            //  document.body.innerHTML = form
+             wesPrint('printform');
+            //  $('.test_radio_div').jqprint();
             }
         }
     })
+    
+}   
+function wesPrint(id_s)
+  {
+    var cc = document.getElementById(id_s).innerHTML;
+    var isIe=0;
+    if(navigator.userAgent.indexOf('MSIE')>0){
+      isIe = 1;
+    }
+    var frame = document.getElementById('dsh_myframe');
+    if (!frame) {
+      if (isIe) {
+        frame = document.createElement('<iframe id = "dsh_myframe"></iframe>');
+      } else {
+        frame = document.createElement('iframe');
+        frame.id ='dsh_myframe';
+        frame.setAttribute('style','width: 0pt; height: 0pt;')
+      }
+    }
+    if (isIe) {
+      frame.src = 'javascript:;';
+      frame.style.cssText= 'width: 0pt; height: 0pt;';
+    }
+    document.body.appendChild(frame);
+    if (isIe) {
+      doc = frame.contentWindow.document;
+    } else {
+      doc = frame.contentDocument;
+    }
+    doc.write(cc);
+    doc.close();
+    frame.contentWindow.focus();
+    if(isIe){
+      setTimeout(function(){
+        frame.contentWindow.print();
+      },2);
+    }else{
+      frame.contentWindow.print();
+    }
+  }
+
+
+function j(){
+    // var obj = $('.answerSheet_radio ul li a');
+    // obj.each(function(){
+    //     if(!$(this).hasClass('hasBeenAnswer')){
+    //         if(confirm('您有未完成题目，是否确定提交？')){
+    //             // alert('提交成功,等待分析答案');
+    //             // checkanswer();
+                
+    //             // var usetime = $('.alt-1').html();
+    //             // var username = getusername();
+    //             // var testID = $('.testID').val();
+            
+    //             // var data = {
+    //             //     username:username,
+    //             //     testID:testID,
+    //             //     usetime:usetime,
+    //             //     score:$('.score .num').html()
+    //             // }
+    //             // ajax('collecttest',data,function(res){
+    //             //     if(res.stasus == 'success'){
+    //             //         
+    //             //         return false;
+    //             //         }else{
+    //             //             alert('你有提交记录，请勿重复提交');
+    //             //             return false;
+    //             //         }
+    //             // })
+                
+    //             // $('.radioOrCheck').attr('disabled','disabled');
+    //             // $('.jiexi').css("display","block");
+    //             // $('.alt-1').html("00:00:00");
+    //             // $('.alt-2').html("00:00:00");
+    //             // $('.score').show();
+    //             // $('li.option').unbind('click');
+    //             // $('.jiaojuan').unbind('click')
+    //             return false;
+    //         }else{
+    //             return false;
+    //         }
+    //     }else{
+            
+    //     }
+    // })
+
+    if(confirm('是否确定提交试卷?')){
+        alert('提交成功,等待分析答案');
+            checkanswer();
+           
+            var usetime = $('.alt-1').html();
+            var username = getusername();
+            var testID = $('.testID').val();
+
+            var data = {
+                username:username,
+                userID:username,
+                testID:testID,
+                usetime:usetime
+            }
+            ajax('collecttest',data,function(res){
+                if(res.status == 'success'){
+                    var data1 = {
+                        testID:testID
+                    }
+                    ajax('getmaintestname',data1,function(res){
+                        var data3 = {
+                            'username':username,
+                            'type':4,
+                            'target':res
+                        };
+                        ajax('integration',data3,function(res){
+                            if(res.codenum == 2){
+                                alert(res.message);
+                            }else{
+                                alert(res.message);
+                            }
+                        })
+                    })
+                    
+                    
+                }else{
+                    alert('你有提交记录，请勿重复提交');
+                    
+                    
+                }
+        })
+            
+            $('.radioOrCheck').attr('disabled','disabled');
+            $('.jiexi').css("display","block");
+            $('.alt-1').html("00:00:00");
+            $('.alt-2').html("00:00:00");
+            $('.score').show();
+            $('li.option').unbind('click');
+            $('.jiaojuan').unbind('click')
+            
+        }else{
+            
+        }
 }
 function checkanswer(){
     var obj = $('.test_radio_div .test_content_nr_tt');
@@ -427,8 +540,14 @@ $('.collectbotton').click(function(){
         'amount':arrquestion.length
     } 
     ajax('collectquestion',data,function(res){
-        alert('收集成功');
+        if(res.status == 'success' ){
+            alert(res.message);
+        }else{
+            alert(res.message);
+        }
         $('.collectbotton').unbind('click');
+        
         
     })
 })
+
