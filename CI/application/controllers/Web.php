@@ -218,6 +218,7 @@ class Web extends CI_Controller {
 		$typeArr = [
 			1 =>'内科学',
 			2 =>'外科学',
+			4 =>'妇科'
 		];
 		$page = $this->input->post('page') ? $this->input->post('page') : 1;
 		$pages = ($page-1)*$pageSize;
@@ -229,12 +230,13 @@ class Web extends CI_Controller {
 			$countSql = "SELECT count(*) as allCount,type FROM `case`  group by type";
 			$allCount = $this->db->query($countSql)->result();
 			foreach ($allCount as $key => &$value) {
-				$countArr[$value->type]['pageSize'] = $pageSize;
-				$countArr[$value->type]['page'] = $page;
-				$countArr[$value->type]['allCount'] = $value->allCount;
+				$countArr[$key]['pageSize'] = $pageSize;
+				$countArr[$key]['page'] = $page;
+				$countArr[$key]['allCount'] = $value->allCount;
 				
-				$countArr[$value->type]['pageCount'] = ceil($value->allCount/$pageSize);
-				$countArr[$value->type]['typeTmp'] = $typeArr[$value->type];
+				$countArr[$key]['pageCount'] = ceil($value->allCount/$pageSize);
+				$countArr[$key]['typeTmp'] = $typeArr[$value->type];
+				$countArr[$key]['type'] = $value->type;
 				$sql = "select * from `case` where  `type` = $value->type order by `createtime` desc limit $pageSize";
 				$res = $this->db->query($sql)->result();
 				foreach ($res as $k => &$val) {
@@ -249,7 +251,7 @@ class Web extends CI_Controller {
 					}
 					
 				}
-				$countArr[$value->type]['result'] = $res;
+				$countArr[$key]['result'] = $res;
 				unset($val);
 			}
 			unset($value);
