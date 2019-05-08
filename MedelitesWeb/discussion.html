@@ -300,17 +300,16 @@ function gettestdata(page,type=0){
         type:type,
     }
     ajax('getCritic',data,function(res){
-        console.log(res);
-        console.log(Object.keys(res).length)
+        // console.log(res);
+        // console.log(Object.keys(res).length)
 
         $('#caseDiv').html('');
-        for (var i = 0; i <= Object.keys(res).length; i++) {
-            console.log(res[i].typeTmp);
+        for (var i = 0; i < Object.keys(res).length; i++) {
+            // console.log(res[i].typeTmp);
             $('#caseDiv').append(
-                "<div class='case'><input type='hidden' id='paginationType"+i+"' value='"+res[i].type+"'><div class='title'><h3>"+res[i].typeTmp+"</h3></div><div id='pagination"+i+"' class='pagination' style=''></div></div>"
+                "<div class='case'><div class='title'><h3>"+res[i].typeTmp+"</h3></div><ul class='list_n' id='list"+i+"'></ul><div id='pagination"+i+"' class='pagination' data-value='"+res[i].type+"' style=''></div></div>"
             );
-            typeTmp = res[i].type
-
+            
             var pagetest = new myPagination({
                 id: 'pagination'+i,
                 curPage: page, //初始页码
@@ -320,26 +319,21 @@ function gettestdata(page,type=0){
                 showPageTotalFlag: true, //是否显示数据统计
                 showSkipInputFlag: true, //是否支持跳转
                 getPage: function (page) {
-                    console.log(typeTmp);
+                    typeTmp = $('#'+this.id).data('value')
                     gettestdata(page,typeTmp);
                 }
             })
+            
             pagetest.init()
 
-            // for (var y =0; res[i].result.length; y++) {
-            //     console.log(res[i].result.typeTmp)
-            //     $('#caseDiv').append(
-                     
-            //     )
-            // }
+            $('#list'+i).html('')
+            for (var y =0; y < Object.keys(res[i].result).length; y++) {
+                console.log(y)
+                $('#list'+i).append(
+                    "<li><a href='discussion1_1.html' target='_blank'><font>"+res[i].result[y].title+"'</font>"+res[i].result[y].title1+"</a><span>"+res[i].result[y].createtime+"</span></li>" 
+                )
+            }
         }
-        // $('#imageDiv').html('')
-        // for(var i =0 ;i < res.res.length;i++){
-        //     $('#imageDiv').append(
-        //         "<a class='fancybox-effects-b' href='"+res.res[i].inform_info+"' title='"
-        //         +res.res[i].inform_Name+"'><img src='"+res.res[i].inform_info+"'/></a>"
-        //     )
-        // }
     })
 }
 gettestdata(1);
