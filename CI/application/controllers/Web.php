@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web extends CI_Controller {
@@ -18,6 +18,232 @@ class Web extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+		public function getmaintestname(){	
+		$testID = $this->input->post('testID');
+		$sql = "select * from test where testID = '$testID'";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		echo json_encode($res[0]->testName);
+	}
+	public function getintegration(){	
+		$userID = $this->input->post('userID');
+		$sql = "select *,total.createtime as createtime3 from rule join total on rule.ruleID = total.ruleID where userID='$userID' ORDER BY total.createtime desc";
+		$query = $this->db->query($sql);
+		echo json_encode($query->result());
+	}
+	public function integration(){
+		$type = $this->input->post('type');
+		$username = $this->input->post('username');
+		$target = $this->input->post('target');
+
+		$status=self::checkintegration($type,$username,$target);
+		$arr;
+		if($status == 1){
+			date_default_timezone_set('PRC');
+				$date = date('Y-m-d H:i:s');
+				$data =array('ruleID'=>$type,'userID'=>$username,'createtime'=>$date,'target'=>$target);
+				$str = $this->db->insert_string('total', $data);
+				$query = $this->db->query($str);
+			$arr = array(
+				'codenum'=>'1',
+				'message'=>'签到成功！'
+			);
+		}
+
+		if($status == -1){
+			
+			$arr = array(
+				'codenum'=>'-1',
+				'message'=>'你今天已经签到了！'
+			);
+		}
+
+		if($status == 2){
+				date_default_timezone_set('PRC');
+				$date = date('Y-m-d H:i:s');
+			  $data =array('ruleID'=>$type,'userID'=>$username,'createtime'=>$date,'target'=>$target);
+				$str = $this->db->insert_string('total', $data);
+				$query = $this->db->query($str);
+			if($type == 5){
+				$arr = array(
+					'codenum'=>'2',
+					'message'=>'下载成功，+1积分！'
+				);
+			}
+
+			if($type == 6){
+				$arr = array(
+					'codenum'=>'2',
+					'message'=>'打印成功，+1积分！'
+				);
+			}
+			if($type == 4){
+				$arr = array(
+					'codenum'=>'2',
+					'message'=>'答题成功，+1积分！'
+				);
+			}
+			if($type == 3){
+				$arr = array(
+					'codenum'=>'2',
+					'message'=>'收藏成功，+1积分！'
+				);
+			}
+			
+		}
+		if($status == -2){
+			$arr = array(
+				'codenum'=>'-2',
+				'message'=>'已经添加过积分！'
+			);
+		}
+
+
+		
+		echo json_encode($arr);
+	}
+	public function checkintegration($type,$username,$target){
+		if($type == 2 || $type == 1){
+			date_default_timezone_set('PRC');
+			$date = date('Y-m-d');
+			$sql = "select * from total where userID = '$username' and (ruleID = '1' or ruleID = '2' ) ORDER BY createtime desc limit 1";
+			$query = $this->db->query($sql);
+			$EffectRow = $query->num_rows();
+			$res = $query->result();
+			if($EffectRow>0){
+				$time = strtotime($res[0]->createtime);
+			if($date == date('Y-m-d',$time)){
+					return -1;
+			}else{
+				return 1;
+			}
+			}else{
+				return 1;
+			}
+			
+			
+		}else{
+			$sql = "select * from total where userID = '$username' and target = '$target' and ruleID='$type'";
+			$query = $this->db->query($sql);
+			$EffectRow = $query->num_rows();
+			if($EffectRow > 0 ){
+				return -2;
+			}else{
+				return 2;
+			}
+		}
+	}
+	public function getcollecttest(){
+		 $id = $this->input->post('userID');
+		 $sql = "select * from collecttest join test on collecttest.testID = test.testID  where userID = '$id' ";
+		 $query = $this->db->query($sql);
+		 
+		 
+		
+	
+		 echo json_encode($query->result());
+	}
+	public function collecttest(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d H:i:s');
+		$userID = $this->input->post('username');
+		$usetime = $this->input->post('usetime');
+		$testID = $this->input->post('testID');
+		$score = $this->input->post('score');
+		$arr;
+		if(self::checkcollecttest($userID,$testID)){
+			$data =array('usetime'=>$usetime,'testID'=>$testID,'userID'=>$userID,'createtime'=>$date,'score'=>$score);
+			$str = $this->db->insert_string('collecttest', $data);
+			$query = $this->db->query($str);
+			$arr = array(
+				'status'=>'success'
+			);
+		}else{
+			$arr = array(
+				'status'=>'error'
+			);
+		}
+		
+			echo json_encode($arr);
+	}
+	public function checkcollecttest($userID,$testID){
+		$sql = "select * from collecttest where userID='$userID' and testID='$testID'";
+			$query = $this->db->query($sql);
+			$EffectRow = $query->num_rows();
+		if($EffectRow>0){
+				return false;
+		}else{
+			return true;
+		}
+	}
+	public function gettestpage(){
+		$id = $this->input->post('id');
+		$page = $this->input->post('page');
+		$num = self::getestpagetotalnum($id);
+		$pagenum = 5;
+		$startpage = $pagenum*($page-1);
+		$sql = "select * from test where subjectID = '$id' limit $startpage,$pagenum";
+		$query = $this->db->query($sql);
+
+		$arr;
+
+		$arr = array(
+			'currentpage'=>$page,
+			'total'=>$num,
+			'res'=>$query->result()
+
+		);
+		echo json_encode($arr);
+	}
+	public function getestpagetotalnum($id){
+		$sql = "select * from test where subjectID = '$id'";
+		$query = $this->db->query($sql);
+		$num = $query->num_rows();
+		return $num;
+	}
+	public function deleteerrorquestion(){
+		$id = $this->input->post('id');
+		$sql = "delete from errorquestion where Id = '$id'";
+		$query = $this->db->query($sql);
+		$arr = array(
+			"status"=>"success"
+		);
+		echo json_encode($arr);
+	}
+	public function changepwd(){
+			$username = $this->input->post('username');
+			$pwd = $this->input->post('pwd');
+			$newpwd = $this->input->post('newpwd');
+			$arr;
+			$sql = "select * from usermsg where userName='$username' and pwd='$pwd'";
+			$query = $this->db->query($sql);
+			$EffectRow = $query->num_rows();
+			
+		
+	
+
+			if($EffectRow>0){
+				$data = array('pwd' => $newpwd);
+				$where = "userName='$username'";
+				$str = $this->db->update_string('usermsg', $data, $where);
+				$query = $this->db->query($str);
+		
+				$arr = array(
+					'status'=>'success'
+				);
+			}else{
+				$arr = array(
+					'status'=>'error'
+				);
+			}
+			
+			echo json_encode($arr);
+	}
+	public function testbydate(){
+		$sql = "select * from test ORDER BY createtime desc limit 7";
+		$query = $this->db->query($sql);
+		echo json_encode($query->result());
+}
 	public function question(){
 			$id = $this->input->post('id');
 			$sql = "select * from question where questionID = '$id'";
@@ -27,23 +253,22 @@ class Web extends CI_Controller {
 	
 	public function getcollectquestion(){
 		$userID = $this->input->post('username');
-		$sql = "select * from errorquestion where userID = '$userID'";
+		$sql = "select * from errorquestion join test on errorquestion.testID = test.testID where userID = '$userID'";
 		$query = $this->db->query($sql);
 		$arr;
-		$num = 0;
-	    foreach($query->result() as $row){
-			$sql2 = "select * from test where testID = '$row->testID'";
-			$query2 = $this->db->query($sql2);
-			$sql3 = "select * from errorquestion where testID = '$row->testID'";
-			$query3 = $this->db->query($sql3);
-
-			$arr[$num] = array(
-				'test'=>$query2->result(),
-				'question'=>$query3->result()
-			);
-			$num++;
-		}
-		echo json_encode($arr);
+	
+		
+		echo json_encode($query->result());
+	}
+	public function collectquestion1($userID,$testID){
+			$sql = "select * from errorquestion where userID = '$userID' and testID = '$testID'";
+			$query = $this->db->query($sql);
+			$EffectRow = $query->num_rows();
+			if($EffectRow>0){
+				return false;
+			}else{
+				return true;
+			}
 	}
 	public function collectquestion(){
 		date_default_timezone_set('PRC');
@@ -52,17 +277,31 @@ class Web extends CI_Controller {
 		$testID = $this->input->post('testID');
 		$arr = $this->input->post('arr');
 		$amount = $this->input->post('amount');
-		$data =array('userID'=>$userID,'testID'=>$testID,'questionID'=>$arr,'createtime'=>$date,'amount'=>$amount);
-		$arr;
-		$str = $this->db->insert_string('errorquestion', $data);
-			$query = $this->db->query($str);
-			if ($query) {
+		if(self::collectquestion1($userID,$testID)){
+			$data =array('userID'=>$userID,'testID'=>$testID,'questionID'=>$arr,'createtime'=>$date,'amount'=>$amount);
+			$arr;
+			$str = $this->db->insert_string('errorquestion', $data);
+				$query = $this->db->query($str);
+				
+				
+				//echo $this->db->insert_id();
+				if ($query) {
+					$arr = array(
+					'status' => 'success',
+					'message' => "错题收集成功！",
+					);
+				}
+				
+		}else{
+			
 				$arr = array(
-				'status' => 200,
-				'message' => "录入成功！",
+				'status' => 'error',
+				'message' => "你已经有相关错题集！",
 				);
-			}
-			echo json_encode($arr);
+		
+		}
+		echo json_encode($arr);
+		
 	}
 	public function gettest(){
 		$arr;
@@ -153,6 +392,24 @@ class Web extends CI_Controller {
 			return false;
 		}
 	}
+	public function checkname1(){
+		$usernames = $this->input->post('username');
+		$str = "select * from usermsg where userName = '$usernames'";
+		$query = $this->db->query($str);
+		$EffectRow = $query->num_rows();
+		$arr;
+		if($EffectRow > 0){
+			$arr = array(
+				'status'=>'success'
+			);
+			
+		}else{
+			$arr = array(
+				'status'=>'error'
+			);
+		}
+		echo json_encode($arr);
+	}
 	public function register(){
 		date_default_timezone_set('PRC');
 		$date = date('Y-m-d H:i:s');
@@ -188,6 +445,7 @@ class Web extends CI_Controller {
 		
 		echo json_encode($arr);
 	}
+
 
 
 
