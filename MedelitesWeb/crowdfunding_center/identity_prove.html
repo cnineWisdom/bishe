@@ -16,11 +16,11 @@
                 display: none; /* 默认隐藏 */
                 position: fixed; /* 固定定位 */
                 z-index: 1; /* 设置在顶层 */
-                left: 50%;
+                left: 7%;
                 top: 39%;
                 width: 400px;
                 
-                /* min-height:px; */
+            
                 margin-left:-200px;
                 margin-top:-150px;
                 padding:29px 29px;
@@ -78,19 +78,20 @@
     <div style="height:10px;"></div>
     <div class="">
         <table class="table table-bordered">
-            <tbody>
+           <thead>
                 <tr class="active">
-                    <th style="width:50px;" class="text-center"><input type="checkbox" name="che_all" /></th>
+                    <th style="width:50px;" class="text-center"><input type="checkbox" class='checkall'  name="che_all" /></th>
                     <th class="text-center">序号</th>
                     <th class="text-center">题目内容</th>
                     <th class="text-center">试卷</th>
                     <th class="text-center">答题时间</th>
                     <th class="text-center">操作</th>
                 </tr>
-                
-            </tbody>
+           </thead>
+            <tbody>
+           </tbody>
         </table>
-        <input type="button" class="but2" value="删除选中" />
+        <input type="button" class="but2 but3" value="删除选中" />
     </div>
     <!--弹窗-->
     <div class="modal" id="myModal">
@@ -124,17 +125,19 @@
     var data = {
         username:getusername()
     }
+    $('.table tbody').html("");
     ajax('getcollectquestion',data,function(res){
         for(var i = 0 ; i < res.length ; i++){
             $('.table tbody').append(
             "<tr class='table_div'>"
-                    +"<td class='text-center'><input type='checkbox' name='che_one' /></td>"
-                    +"<input type='hidden' class='questionID' value='"+res[i].question[0].questionID+"'>"
+                    +"<td class='text-center'><input type='checkbox' class='checkbox1' name='che_one' /></td>"
+                    +"<input type='hidden' class='questionID' value='"+res[i].questionID+"'>"
                     +"<input type='hidden' class='question'  value=''>"
+                    +"<input type='hidden' class='errorquestion' value='"+res[i].Id+"'>"
                     +"<td class='text-center'>"+(i+1)+"</td>"
-                    +"<td class='text-left'>"+res[i].test[0].testName+"</td>"
+                    +"<td class='text-left'>"+res[i].testName+"</td>"
                     +"<td class='text-center'>试卷</td>"
-                    +"<td class='text-center'>"+res[i].test[0].time+"</td>"
+                    +"<td class='text-center'>"+res[i].time+"</td>"
                     +"<td class='text-center'><a class='show' >查看</a></td>"
                 +"</tr>"
         );
@@ -148,11 +151,14 @@
 
 // 打开弹窗的按钮对象
 var btn = $('.table');
-
+var checkarr = [];
 // 获取 <span> 元素，用于关闭弹窗
 var span = document.querySelector('.close');
 
 // 点击按钮打开弹窗
+var checkbox = $('.checkbox1');
+
+
 
 // 点击 <span> (x), 关闭弹窗
 span.onclick = function () {
@@ -264,13 +270,31 @@ myModal.on('click','.nextquestion',function(){
 })
 
 
+but3 = $('.but3');
+but3.click(function(){
+    if(confirm('是否确认删除所选错题集？')){
+        var length =  checkarr.length;
+       for(var i = 0 ; i < length ; i++){
+           var id = checkarr[i];
+           var data = {
+               'id':id
+           }
+           ajax('deleteerrorquestion',data,function(res){
 
+           })
+       }
+       
+       alert('删除成功');
+geterrorquestion();
+    }
+      
+})
 
 
 btn.on('click','.show',function(){
     var question = $(this).parents('.table_div').find('.question');
     var questionID = $(this).parents('.table_div').find('.questionID');
-    console.log(question.val());
+    // console.log(question.val());
     if(question.val() == ''){
         var id = JSON.parse(questionID.val());
         question.val(id[0]);
@@ -288,11 +312,35 @@ btn.on('click','.show',function(){
 //     // }
    
 // })
+btn.on('click','.checkbox1',function(){
+    var id = $(this).parents('.table_div').find('.errorquestion');
+    var checkbox = $('.checkbox1');
+    var length = checkbox.length;
+    checkarr = [];
+    console.log(length);
+    var num = 0 ; 
+    checkbox.each(function(){
+        var errorquestion = $(this).parents('.table_div').find('.errorquestion');
+        if($(this).is(":checked")){
+            checkarr.push(errorquestion.val())
+            num++;
+        }
+    })
 
+    console.log(checkarr);
+    var checkall = $('.checkall');
+    if(length == num){
+        
+        checkall.prop('checked',true)
+    }else{
+        checkall.prop('checked',false)
+    }
+})
 }
 // onclick='alert("+res[i].question[0].questionID+")'
 geterrorquestion();
 // 获取弹窗
+
 
 </script>
 

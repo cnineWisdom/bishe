@@ -1,5 +1,5 @@
-// var mainurl = 'http://chxz2018.iego.net/webapp/CI/index.php/Web/';
-var mainurl = 'http://localhost/webapp/CI/index.php/Web/';
+﻿var mainurl = 'http://chxz2018.iego.net/bishe/CI/index.php/Web/';
+//var mainurl = 'http://localhost/webapp/CI/index.php/Web/';
 function ajax(url,data,fn){
     $.ajax({
         url:mainurl+url,
@@ -16,7 +16,8 @@ function checklogin(){
     if(time.getTime()  > user.time){
         alert('登录验证已超时，请重新登录');
         localStorage.removeItem('user');
-        location.href = 'index.html';
+        location.href = 'http://chxz2018.iego.net/bishe/MedelitesWeb/index.html';
+        // location.href = 'http://localhost/bishe/MedelitesWeb/index.html';
         $('.login-wrap').show();
     }else{
         // $('#session').show();
@@ -25,17 +26,18 @@ function checklogin(){
     }
     }else{
         alert('登录验证已超时，请重新登录');
-        // location.href = 'http://chxz2018.iego.net/webapp/MedelitesWeb/index.html';
-        location.href = 'http://localhost/webapp/MedelitesWeb/index.html';
+        console.log(1);
+        location.href = 'http://chxz2018.iego.net/bishe/MedelitesWeb/index.html';
+        // location.href = 'http://localhost/bishe/MedelitesWeb/index.html';
         // $('.login-wrap').show();
     }
     
 }
 function getUrlParam(name)
 {
-    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-    if (r!=null) return unescape(r[2]); return null; //返回参数值
+var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+if (r!=null) return unescape(r[2]); return null; //返回参数值
 } 
 
 function getusername(){
@@ -47,4 +49,12 @@ function getusername(){
         return false;
     }
     
+}
+
+function loginout(){
+    if(confirm('确定要退出吗？')){
+        localStorage.removeItem('user');
+        location.href = 'index.html';
+    }   
+    $('.login-wrap').show();
 }

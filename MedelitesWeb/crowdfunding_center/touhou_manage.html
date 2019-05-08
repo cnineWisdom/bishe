@@ -5,7 +5,9 @@
     <title></title>
     <!-- Bootstrap -->
     <link href="../css/crowdfunding.center/touhou_manage.css" rel="stylesheet" />
-
+    <link href="../css/crowdfunding.center/outbox.css" rel="stylesheet" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../js/jquery-2.1.1.min.js"></script>
     <!--[if lt IE 9]>
           <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
@@ -22,12 +24,57 @@
         </ul>
     </div>
     <div class="my_info_content">
-        <div class="my_info_content_care">暂无完成项目！ </div>
+        <div style='height:9px'></div>
+        <div class="table_div">
+                <p style='color: red;display:none'>暂无信息</p>
+                <table class='collecttesttable table table-bordered' style='width:100%;text-align: center;display:none;'>
+                    <thead>
+                            <tr class="active">
+                                    <td>题目</td>
+                                    <td>时间</td>
+                                    <td>用时</td>
+                                    <td>分数</td>
+                                </tr>
+                    </thead>
+                       <tbody>
+
+                       </tbody>
+                       
+                    </table> </div>
 
     </div>
 
     <!-- 结束 -->
     <script src="../js/jquery-2.1.1.min.js"></script>
     <script src="../js/my_info.js"></script>
+    <script src="../js/common.js"></script>
 </body>
+<script>
+function collecttest(){
+    var userID = getusername();
+    var data = {
+        userID:userID
+    };
+    ajax('getcollecttest',data,function(res){
+        if(res.length == 0){
+               $('.table_div p').show();  
+        }else{
+            $('.collecttesttable').show();
+        }
+        for(var i = 0 ; i < res.length ; i++){
+            
+            $('.collecttesttable tbody').append(
+                "<tr>"
+                +"<td>"+res[i].testName+"</td>"
+                +"<td>"+res[i].createtime+"</td>"
+                +"<td>"+res[i].usetime+"</td>"
+                +"<td>"+res[i].score+"</td>"
+                +"</tr>"
+            );
+        }
+    })
+    
+}
+collecttest();
+    </script>
 </html>

@@ -188,7 +188,7 @@
                                     <input id="repasswords" type="password" class="input" data-type="password">
                                 </div>
                                 <div class="group">
-                                    <input type="submit" class="button" value="注册" onclick="sub2()">
+                                    <input type="submit" class="button" value="注册" onclick="register()">
                                 </div>
                             </div>
                         </form>
@@ -203,41 +203,10 @@
         <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="index.html">首页</a> - 讨论区 - <a href="discussion.html">病历讨论</a>
     </div>
     <!-- body栏 -->
-    <div style="height:400px;width:1200px;" id = 'caseDiv'>
-        <div class="case">
-            <div class="title"><h3>外科学</h3></div>
-            <ul class="list_n">
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例5：经阴茎海绵体输液抢救大面积烧伤患者1例</a><span>2016-12-30</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例4：阿霉素治疗顽固性带状疱疹后遗神经痛1例</a><span>2016-12-30</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[性病科]</font>病例2：反复口腔、阴部溃疡8个月，白塞综合征？梅毒？</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[性病科]</font>病例1：二期梅毒1例</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例3：成人水痘继发多形红斑1例</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例2：肥大细胞增多症1例</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[男科]</font>病例1：男性，35岁，尿频、尿急、尿痛伴血尿6月余。</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例1：向某某，因“红斑、水疱、糜烂伴痒痛2月,加重1月于2012年3月11日14时49分入院。</a><span>2016-12-12</span></li>
-            </ul>
-            <div id="pagination1" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
-        </div>
-        <div class="case">
-            <div class="title"><h3>内科学</h3></div>
-            <ul class="list_n">
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例5：经阴茎海绵体输液抢救大面积烧伤患者1例</a><span>2016-12-30</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例4：阿霉素治疗顽固性带状疱疹后遗神经痛1例</a><span>2016-12-30</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[性病科]</font>病例2：反复口腔、阴部溃疡8个月，白塞综合征？梅毒？</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[性病科]</font>病例1：二期梅毒1例</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例3：成人水痘继发多形红斑1例</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例2：肥大细胞增多症1例</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[男科]</font>病例1：男性，35岁，尿频、尿急、尿痛伴血尿6月余。</a><span>2016-12-29</span></li>
-                <li><a href="discussion1_1.html" target="_blank"><font>[皮肤科]</font>病例1：向某某，因“红斑、水疱、糜烂伴痒痛2月,加重1月于2012年3月11日14时49分入院。</a><span>2016-12-12</span></li>
-            </ul>
-            <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
-            <!-- <div class="page_block">
-                <span class="disabled">上一页</span><span class="active">1</span><span class="disabled"> 下一页 </span>
-            </div> -->
-        </div>
+    <div style="width:100%;float: left;" id = 'caseDiv'>
     </div>
     <!-- footer栏 -->
-    <footer class="footer">
+    <footer class="footer" style="float: left">
         <div class="fn_bg" style="background-color:#2d2e33; height: 250px;padding: 40px 20px 0px 20px;font-size: 13px;">
             <div class="col-md-4" style="color: #dae4ec">
                 <div class="widget-about" style="width:400px; margin-left:30px;">
@@ -299,42 +268,40 @@ function gettestdata(page,type=0){
         type:type,
     }
     ajax('getCritic',data,function(res){
-        console.log(res);
-        console.log(Object.keys(res).length)
-
-        $('#caseDiv').html('');
-        for (var i = 1; i <= Object.keys(res).length; i++) {
-            $('#caseDiv').append(
-                "<div class='case'><div class='title'><h3>"+res[i].typeTmp+"</h3></div></div><div id='pagination"+i+"' class='pagination' style=''></div>"
-            );
+        // console.log(res);
+        // console.log(Object.keys(res).length)
+        if(type === 0){$('#caseDiv').html('')}
+        $.each(res,function(key,value){
+            if(type ===0){
+                $('#caseDiv').append(
+                    "<div class='case' id='case"+key+"'></div>"
+                );
+            }
+            $('#case'+key).html('');
+            $('#case'+key).append("<div class='title'><h3>"+value.typeTmp+"</h3></div><ul class='list_n' id='list"+key+"'></ul><div id='pagination"+key+"' class='pagination' data-value='"+value.type+"' style=''></div>");
             var pagetest = new myPagination({
-                id: 'pagination'+i,
+                id: 'pagination'+key,
                 curPage: page, //初始页码
-                pageTotal: Math.ceil(res[i].pageCount), //总页数
-                pageAmount: res[i].pageSize, //每页多少条
-                dataTotal: res[i].pageCount, //总共多少条数据
+                pageTotal: Math.ceil(value.pageCount), //总页数
+                pageAmount: value.pageSize, //每页多少条
+                dataTotal: value.allCount, //总共多少条数据
                 showPageTotalFlag: true, //是否显示数据统计
                 showSkipInputFlag: true, //是否支持跳转
                 getPage: function (page) {
-                    gettestdata(page);
+                    typeTmp = $('#'+this.id).data('value')
+                    gettestdata(page,typeTmp);
                 }
             })
+            
             pagetest.init()
-
-            // for (var y =0; res[i].result.length; y++) {
-            //     console.log(res[i].result.typeTmp)
-            //     $('#caseDiv').append(
-                     
-            //     )
-            // }
-        }
-        // $('#imageDiv').html('')
-        // for(var i =0 ;i < res.res.length;i++){
-        //     $('#imageDiv').append(
-        //         "<a class='fancybox-effects-b' href='"+res.res[i].inform_info+"' title='"
-        //         +res.res[i].inform_Name+"'><img src='"+res.res[i].inform_info+"'/></a>"
-        //     )
-        // }
+            $('#list'+key).html('')
+            $.each(value.result,function(k,v){
+                $('#list'+key).append(
+                    "<li><a href='discussion1_1.html?id="+v.caseID+"' target='_blank'><font>"+v.title+"'</font>"+v.title1+"</a><span>"+v.createtime+"</span></li>" 
+                )
+            })
+            console.log(value)
+        })
     })
 }
 gettestdata(1);
