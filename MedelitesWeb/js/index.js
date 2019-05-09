@@ -141,6 +141,18 @@ function register(){
     }
     ajax('register',data,function(res){
         if(res.status == 200){
+            var data3 = {
+                'username':usernames.val(),
+                'type':1,
+                'target':''
+            };
+            ajax('integration',data3,function(res){
+                if(res.codenum == 2){
+                    alert(res.message);
+                }else{
+                    alert(res.message);
+                }
+            }) 
             alert('注册成功，请登录');
             $('#tab-1').click();
         }else{
