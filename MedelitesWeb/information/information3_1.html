@@ -139,19 +139,12 @@ function gettestdata(page){
             $('#pptDiv').append(
                 "<li class='item'><p data-index = '"+v.inform_ID+"' id = 'pptP"+k+"'>&#10084;</p><div class='pic'><a href='"+v.inform_info+"' target='_blank'><img class='lazy' style='float: left' src='"+v.titleUrl+"' width='240' height='180' alt='ppt' data-url='"+v.titleUrl+"'></a></div><div class='txt'><a href='"+v.inform_info+"' target='_blank'>"+v.inform_Name+"</a></div></li>"
             )
-            console.log(12345665)
             if(v.flag == 1 ){
-                
                 $('#pptP'+k).attr('class','collect cs')
             }else{
-                
-
                 $('#pptP'+k).attr('class','collect')
             }
         })
-        for(var i =0 ;i < res.res.length;i++){
-            
-        }
     })
 }
 gettestdata(1);
