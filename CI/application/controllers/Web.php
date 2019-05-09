@@ -507,7 +507,7 @@ class Web extends CI_Controller {
 		$allCount[0]->page = $page;
 		$allCount[0]->pageSize = $pageSize;
 
-		$sql = "SELECT * FROM `med_information` as m left join `collect` as c on c.`inform_ID`=m.`inform_ID`  where m.`type` = $type order by m.`createtime` desc limit $pages,$pageSize";
+		$sql = "SELECT *,m.`inform_ID` FROM `med_information` as m left join `collect` as c on c.`inform_ID`=m.`inform_ID`  where m.`type` = $type order by m.`createtime` desc limit $pages,$pageSize";
 		$res = $this->db->query($sql)->result();
 		$allCount[0]->res=$res;
 		echo json_encode($allCount);
@@ -736,7 +736,7 @@ class Web extends CI_Controller {
 		$userMess = $this->getUserId($userName);
 		if($userMess){
 			$userID = $userMess->userID;
-			$sql = "select * from `collect` as c left join `med_information` as m on c.inform_ID = m.inform_ID where c.userID = $userID and flag = 1 order by  c.`createtime` desc";
+			$sql = "select *,c.createtime from `collect` as c left join `med_information` as m on c.inform_ID = m.inform_ID where c.userID = $userID and flag = 1 order by  c.`createtime` desc";
 			$mess = $this->db->query($sql)->result();
 			foreach ($mess as $key => &$value) {
 				$value->createtime = date('Y-m-d',$value->createtime);
