@@ -19,10 +19,11 @@
                 display: none; /* 默认隐藏 */
                 position: fixed; /* 固定定位 */
                 z-index: 1; /* 设置在顶层 */
-                left: 50%;
-                top: 50%;
+                left: 49%;
+                top: 39%;
                 width: 600px;
-                height: 300px;
+                min-height: 300px;
+                bottom:inherit;
                 z-index: 99;
                 margin-left:-300px;
                 margin-top:-150px;
@@ -33,7 +34,7 @@
                 background-color: #ffffff;
                 border:1px solid rgb(149,149,149);
                 word-break: break-all;
-                overflow: auto
+                overflow: hidden
                
             }
     
@@ -47,10 +48,7 @@
                 margin:auto;
                 height:auto;
             }
-            .modal ul{
-                margin:0px;
-                padding:0px
-            }
+           
             /* 关闭按钮 */
             .close {
                 color: #aaa;
@@ -78,24 +76,7 @@
                 <h3 class='word1'></h3>
                 <h4 class='word3'></h4>
                 <h4 class='word4'>链接：<a href="" target="_blank"></a></h4>
-                <!-- <ul style=" font-weight: 700; list-style: none;"> -->
-                    
-                    <!-- <li><font>在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）</font></li>
-                    <li class="option" style="list-style: none;">
-                        <label for="0_answer_1_option_1">A.<p class="ue" style="display: inline;">在工具栏中点击“workflow”标签</p ></label>
-                    </li>
-                    <li class="option" style="list-style: none;">
-                        <label for="0_answer_1_option_2">B.<p class="ue" style="display: inline;">在缺陷单界面中点击“推进流程”按钮</p ></label>
-                    </li>
-                    <li class="option" style="list-style: none;">
-                        <label for="0_answer_1_option_3">C.<p class="ue" style="display: inline;">在缺陷单界面中点击“提交”按钮</p ></label>
-                    </li>
-                    <li class="option" style="list-style: none;">
-                        <label for="0_answer_1_option_4">D.<p class="ue" style="display: inline;">后台启动流程推进</p ></label>
-                    </li>
-                    <li style="float:right;margin-right:15px;cursor: pointer;"><span>上一题</span><span>&nbsp;&nbsp;&nbsp;下一题</span></li>
-                    <li style="float:left;margin-right:15px;">正确答案：【】</li> -->
-                <!-- </ul>     -->
+               
             </div>
     <header class="header">
         <div class="container clearfix" style="position:relative">
@@ -286,7 +267,7 @@
         <div class="bar3">
             <div class="tit">
                 <font>病历讨论</font>
-                <a href="医学咨询.html" class="more">
+                <a href="discussion.html" class="more">
                     <img src="image/more.png" width="46" height="18">
                 </a>
                 <span class="line"></span>

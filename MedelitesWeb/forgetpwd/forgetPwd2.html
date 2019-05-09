@@ -63,6 +63,7 @@
 </body>
 <script src="../js/common.js"></script>
 <script>
+
   var num = getUrlParam('num');
   $('.num').val(num);
   $('.getnum').click(function(){
@@ -75,8 +76,12 @@
       alert('请填写验证码');
       return ;
     }
+    
     if(phonenum == '3ahy' || phonenum == '3AHY'){
-      window.location.href = './forgetPwd3.html?id='+num;
+      
+      location.href = './forgetPwd3.html?id='+num;
+    }else{
+      alert("验证码错误！")
     }
         
 

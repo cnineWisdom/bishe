@@ -19,34 +19,54 @@
 
         li {
             display: inline-block;
+            position: relative;
         }
-
+        li p{
+            margin:6px;
+            
+        }
         .item {
             background: #fff;
             width: 240px;
             height: 210px;
             /*position: absolute;*/
         }
-        .pic a{
+        /* .pic a{
             margin-left:16px
-        }
+        } */
         .collect {
             font-size: 18px;
             color: #fff;
             cursor: pointer;
             position: absolute;
+            z-index:99
         }
 
         .cs {
-            color: #f00;.
+            color: #f00;
             position: absolute;
-
+            z-index:99
         }
-
+        .item{
+            margin-left:16px
+        }
         .txt {
             font-size: 15px;
             text-align: center;
             line-height: 30px;
+        }
+        li:hover .div{
+            display: block;
+        }
+        .div{
+            display: none;
+            position: absolute;
+            top:0px;
+            left:0px;
+            height:39px;
+            width: 100%;
+            z-index: 98;
+            background:rgba(149,149,149,0.7);
         }
     </style>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>

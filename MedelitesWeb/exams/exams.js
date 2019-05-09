@@ -411,15 +411,16 @@ function j(){
         alert('提交成功,等待分析答案');
             checkanswer();
            
-            var usetime = $('.alt-1').html();
+            var usetime = $('.alt').text();
             var username = getusername();
             var testID = $('.testID').val();
-
+            var score = $('.num4').text();
             var data = {
                 username:username,
                 userID:username,
                 testID:testID,
-                usetime:usetime
+                usetime:usetime,
+                score:score
             }
             ajax('collecttest',data,function(res){
                 if(res.status == 'success'){

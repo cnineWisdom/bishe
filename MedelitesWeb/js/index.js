@@ -141,6 +141,18 @@ function register(){
     }
     ajax('register',data,function(res){
         if(res.status == 200){
+            var data3 = {
+                'username':usernames.val(),
+                'type':1,
+                'target':''
+            };
+            ajax('integration',data3,function(res){
+                if(res.codenum == 2){
+                    alert(res.message);
+                }else{
+                    alert(res.message);
+                }
+            }) 
             alert('注册成功，请登录');
             $('#tab-1').click();
         }else{
@@ -154,12 +166,15 @@ function register(){
 
     // }
 }
-var modal = $('#myModal');
-var span = document.querySelector('.close');
-span.onclick = function () {
-
-    modal.hide();
+if($('.close').length > 0){
+    var modal = $('#myModal');
+    var span = document.querySelector('.close');
+    span.onclick = function () {
+    
+        modal.hide();
+    }
 }
+
 function getUrlParam(name)
 {
 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象

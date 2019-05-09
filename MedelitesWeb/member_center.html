@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>医虫网</title>
     <!--默认样式-->
     <link rel="stylesheet" href="css/reset.css" />
@@ -23,6 +23,7 @@
     <script src="js/basics.js"></script>
     <!-- JS公共部分 结束 -->
     <script src="js/crowdfunding.js?123"></script>
+    
 </head>
 <body>
     <header class="header">
@@ -50,6 +51,7 @@
                         <a href="javascript:void(0)">讨论区</a>
                         <div class="dropdown_menu">
                             <a href="discussion.html">病例评论</a>
+                            <!--<a href="note.html">个人笔记</a>-->
                         </div>
                     </li>
                     <li class="dropdown">
@@ -187,6 +189,15 @@
                 <p style="margin-top: 10px;">版权所有广东医科大学&nbsp;&nbsp;&nbsp;&nbsp;咨询电话：13537172996</p>
             </div>
         </div>
+        
     </footer><!-- footer -->
 </body>
+<script src='js/common.js'></script>
+<script>
+   
+   
+
+$('.username').html(getusername());
+
+</script>
 </html>
