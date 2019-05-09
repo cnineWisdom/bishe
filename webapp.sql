@@ -77,6 +77,7 @@ CREATE TABLE `collect` (
   PRIMARY KEY (`collectID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+alter table `collect` add `flag` tinyint(4) default 1 comment '是否收藏'
 #
 # Data for table "collect"
 #

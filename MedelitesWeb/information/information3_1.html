@@ -35,12 +35,12 @@
             color: #fff;
             cursor: pointer;
             position: absolute;
-            top: -15px;
-            left: 5px;
         }
 
         .cs {
-            color: #f00;
+            color: #f00;.
+            position: absolute;
+
         }
 
         .txt {
@@ -52,8 +52,24 @@
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
     <script>
         $(function () {
-            $(".collect").click(function () {
+            flag = 0;
+            $('body').on('click','.collect',function(){
                 $(this).toggleClass('cs');
+                if($(this).attr('class') ==='collect'){
+                    flag = 0;
+                }else flag=1;
+                console.log(flag)
+                id = $(this).attr('data-index')
+                var userID = getusername();
+                data = {
+                    id:id,
+                    userID: userID,
+                    flag:flag,
+                }
+                ajax('collectMsg',data,function(res){
+                    console.log(res)
+                    alert(res)
+                })
             })
         })
     </script>
@@ -65,73 +81,6 @@
 <body>
     <div class="picbox" style="position: relative; top: -10px;">
         <ul class="bd" style="padding-inline-start:0px" id = 'pptDiv'>
-            <!-- <li class="item" >
-                <div class="pic">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
-                        <img class="lazy" src="../image/1.jpg" width="240" height="180" alt="ppt" data-url="../image/1.jpg">
-                    </a>
-                </div>
-                <p class="collect">&#10084;</p>
-                <div class="txt">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
-                </div>
-            </li>
-            <li class="item" >
-                <div class="pic">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
-                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
-                    </a>
-                </div>
-                <p class="collect">&#10084;</p>
-                <div class="txt">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
-                </div>
-             
-            </li>
-            <li class="item" >
-                <div class="pic">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
-                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
-                    </a>
-                </div>
-                <p class="collect">&#10084;</p>
-                <div class="txt">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
-                </div>
-            </li>
-            <li class="item">
-                <div class="pic">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
-                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
-                    </a>
-                </div>
-                <p class="collect">&#10084;</p>
-                <div class="txt">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
-                </div>
-            </li>
-            <li class="item" >
-                <div class="pic">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
-                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
-                    </a>
-                </div>
-                <p class="collect">&#10084;</p>
-                <div class="txt">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
-                </div>
-            </li>
-            <li class="item">
-                <div class="pic">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">
-                        <img class="lazy" src="../image/1.jpg" width="240" height="178" alt="ppt" data-url="../image/1.jpg" />
-                    </a>
-                </div>
-                <p class="collect">&#10084;</p>
-                <div class="txt">
-                    <a href="../source/信管 网络实验 复习.ppt" target="_blank">ppt</a>
-                </div>
-            </li> -->
         </ul>
     </div>
     <div id="pagination" class="pagination" style="position: absolute;top: 470px;left: 20px;"></div>
@@ -166,10 +115,19 @@ function gettestdata(page){
         })
         pagetest.init()
         // $('#pptDiv').html('')
-        for(var i =0 ;i < res.res.length;i++){
+        // console.log(res)
+        $.each(res.res,function(k,v){
             $('#pptDiv').append(
-                "<li class='item'><div class='pic'><a href='"+res.res[i].inform_info+"' target='_blank'><img class='lazy' src='"+res.res[i].titleUrl+"' width='240' height='180' alt='ppt' data-url='"+res.res[i].titleUrl+"'></a></div><p class='collect'>&#10084;</p><div class='txt'><a href='"+res.res[i].inform_info+"' target='_blank'>"+res.res[i].inform_Name+"</a></div></li>"
+                "<li class='item'><p data-index = '"+v.inform_ID+"'>&#10084;</p><div class='pic'><a href='"+v.inform_info+"' target='_blank'><img class='lazy' style='float: left' src='"+v.titleUrl+"' width='240' height='180' alt='ppt' data-url='"+v.titleUrl+"'></a></div><div class='txt'><a href='"+v.inform_info+"' target='_blank'>"+v.inform_Name+"</a></div></li>"
             )
+            if(v.flag ==1){
+                $('#pptDiv li p').attr('class','collect cs')
+            }else{
+                $('#pptDiv li p').attr('class','collect')
+            }
+        })
+        for(var i =0 ;i < res.res.length;i++){
+            
         }
     })
 }

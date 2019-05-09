@@ -146,7 +146,7 @@ function listClick(value){
 		$("#listClick16").attr("class","");
 	}
 	if(value == 6){
-		$("#crowdfunding_iframe").attr("src","crowdfunding_center/project_manage.html");
+		$("#crowdfunding_iframe").attr("src","crowdfunding_center/project_manage.html?123");
 		$("#crowdfunding_iframe").attr("height","1045");
 		$("#vertical_navigation").css("height","1050px");
 		
