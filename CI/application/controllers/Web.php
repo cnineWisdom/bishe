@@ -507,7 +507,7 @@ class Web extends CI_Controller {
 		$allCount[0]->page = $page;
 		$allCount[0]->pageSize = $pageSize;
 
-		$sql = "SELECT * FROM `med_information` where `type` = $type order by `createtime` desc limit $pages,$pageSize";
+		$sql = "SELECT * FROM `med_information` as m left join `collect` as c on c.`inform_ID`=m.`inform_ID`  where m.`type` = $type order by m.`createtime` desc limit $pages,$pageSize";
 		$res = $this->db->query($sql)->result();
 		$allCount[0]->res=$res;
 		echo json_encode($allCount);
@@ -671,12 +671,77 @@ class Web extends CI_Controller {
 
 	public function getRead()
 	{
+		$typeArr=[
+			1 =>'内科学',
+			2 =>'外科学',
+			4 =>'妇科'
+		];
 		$userName = $this->input->post('userName');
 		$userMess = $this->getUserId($userName);
 		if($userMess){
 			$userID = $userMess->userID;
-			$sql = "select inform_ID,FROM_UNIXTIME(r.`createtime`,'%Y-%m-%d') as dayTime,count(`readID`) as readCount from `read` as r left join `case` as c on c.caseID = r.inform_ID where r.`userID` = $userID group by dayTime,r.`inform_ID`";
+			$sql = "select inform_ID,FROM_UNIXTIME(r.`createtime`,'%Y-%m-%d') as dayTime,count(`readID`) as readCount,`caseName`,`type` from `read` as r left join `case` as c on c.caseID = r.inform_ID where r.`userID` = $userID group by dayTime,r.`inform_ID` order by r.`createtime` desc";
 			$mess = $this->db->query($sql)->result();
+			foreach ($mess as $key => &$value) {
+				$value->typeTmp = $typeArr[$value->type];
+				$res[$value->dayTime][$value->type] = $value;
+			}
+			echo json_encode($res);
+		}
+	}
+
+	public function collectMsg()
+	{
+		$id = $this->input->post('id');
+		$userName = $this->input->post('userID');
+		$flag = $this->input->post('flag');
+		$userMess = $this->getUserId($userName);
+		if($userMess){
+			$userId = $userMess->userID;
+			$time = time();
+
+			$data = [
+				'createtime'=>$time,
+				'userID' =>$userId,
+				'inform_ID'=>$id,
+				'flag'=>$flag,
+			];
+			$sql = "select * from `collect` where `userID` = $userId and `inform_ID` = $id";
+
+			$res = $this->db->query($sql)->result();
+			if($res){
+				$collectID = $res[0]->collectID;
+				$updateData = ['flag'=>$flag];
+				$updateWhere = "`collectID` = $collectID";
+				$this->db->update('collect', $updateData, $updateWhere);
+				if($flag ==0){
+					$msg = '取消成功';
+				}else{
+					$msg = "收藏成功";
+				}
+			}
+			else{
+				$str = $this->db->insert_string('collect',$data);
+				$query = $this->db->query($str);
+				$msg = "收藏成功";		
+			}
+		}else{$msg ="没有该用户";}
+		echo json_encode($msg);
+
+	}
+
+	public function getCollect()
+	{
+		$userName = $this->input->post('userName');
+		$userMess = $this->getUserId($userName);
+		if($userMess){
+			$userID = $userMess->userID;
+			$sql = "select * from `collect` as c left join `med_information` as m on c.inform_ID = m.inform_ID where c.userID = $userID and flag = 1 order by  c.`createtime` desc";
+			$mess = $this->db->query($sql)->result();
+			foreach ($mess as $key => &$value) {
+				$value->createtime = date('Y-m-d',$value->createtime);
+			}
+			unset($value);
 			echo json_encode($mess);
 		}
 	}

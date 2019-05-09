@@ -22,14 +22,19 @@
         </ul>
     </div>
     <div class="my_info_content">
-        <div class="my_info_content_care">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;暂无完成项目！ </div>
-        <ul>
-            <li>
-                <span>病历名</span>
-                <span>时间</span>
-                <span>次数</span>
-            </li>
-        </ul>
+        <div class="my_info_content_care" style='color: red;text-align: center;display: none'>暂无记录！ </div>
+        <table class='collecttesttable table table-bordered' style='width:100%;text-align: center;'>
+            <thead>
+                <tr class="active" style="font-size: 18px;font-weight: bold;">
+                    <td>类型</td>
+                    <td>病例名</td>
+                    <td>日期</td>
+                    <td>次数</td>
+                </tr>
+            </thead>
+           <tbody>
+           </tbody>   
+        </table>
     </div>
 
     <!-- 结束 -->
@@ -45,6 +50,24 @@
         userName: username
     }
     ajax('getRead',data,function(res){
-
+        console.log(res)
+        if(res.length===0){
+            $('.my_info_content_care').css('display','block')
+            $('.collecttesttable').css('display','none')
+        }
+        else{
+            $.each(res,function(key,value){
+                $.each(value,function(k,v){
+                   $('.collecttesttable tbody').append(
+                        "<tr>"
+                        +"<td>"+v.typeTmp+"</td>"
+                        +"<td style='text-overflow::ellipsis;width:100px;white-space:nowrap'>"+v.caseName+"</td>"
+                        +"<td>"+v.dayTime+"</td>"
+                        +"</tr>"
+                    ); 
+                })
+                
+            })
+        }
     })
 </script>

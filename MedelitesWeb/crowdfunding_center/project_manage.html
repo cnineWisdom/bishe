@@ -20,8 +20,17 @@
         </ul>
     </div>
     <div class="my_info_content">
-        <div class="my_info_content_care"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项目暂无内容！ </div>
-
+        <div class="my_info_content_care" style='color: red;text-align: center;display: none'> 暂无记录！ </div>
+        <table class='collecttesttable table table-bordered' style='width:100%;text-align: center;'>
+            <thead>
+                <tr class="active" style="font-size: 18px;font-weight: bold;">
+                    <td>名称</td>
+                    <td>日期</td>
+                </tr>
+            </thead>
+           <tbody>
+           </tbody>   
+        </table>
     </div>
 
     <!-- 结束 -->
@@ -29,3 +38,28 @@
     <script src="../js/my_info.js"></script>
 </body>
 </html>
+<script src='../js/common.js'></script>
+<script src="../js/index.js"></script>
+<script>
+    username = JSON.parse(localStorage.getItem('user')).username;
+    data = {
+        userName: username
+    }
+    ajax('getCollect',data,function(res){
+        console.log(res)
+        if(res.length===0){
+            $('.my_info_content_care').css('display','block')
+            $('.collecttesttable').css('display','none')
+        }
+        else{
+            $.each(res,function(k,v){
+               $('.collecttesttable tbody').append(
+                    "<tr>"
+                    +"<td style='text-overflow::ellipsis;width:100px;white-space:nowrap'>"+v.inform_Name+"</td>"
+                    +"<td>"+v.createtime+"</td>"
+                    +"</tr>"
+                ); 
+            })
+        }
+    })
+</script>
