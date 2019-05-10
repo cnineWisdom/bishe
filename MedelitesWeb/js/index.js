@@ -4,12 +4,17 @@ $(document).keydown(function(event){ //监听键盘按下时的事件
         
         var key = $(".key").val();
         if(key == ""){
+            alert('关键词不能为空！');
             return ;
         }else{
             var data = {
                 word:key
             };
             ajax('getknowledge',data,function(res){
+                if(res.length == 0){
+                    alert('没有搜索到相关信息！');
+                    return ;
+                }
                 var name = (res[0].Name);
                 var word = (res[0].info);
                 var url = (res[0].url);

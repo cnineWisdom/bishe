@@ -305,7 +305,7 @@
                 ) 
             }else{
                 $('#clearNum').append(
-                    "<div class='download'><a style='cursor:pointer' onclick='download1(\""+res.case_info+"\",\""+res.caseName+"\")'><img src='image/down.gif' data-bd-imgshare-binded='1'></a></div></div>"
+                    "<div class='download'><a href='"+res.case_info+"' style='cursor:pointer' download='jpg.jpg'><img src='image/down.gif' data-bd-imgshare-binded='1'></a></div></div>"
                 )
             }
             $('#comment_show').html('')
@@ -352,7 +352,11 @@
         }
     })
     function download1(url,name){
-        window.open(url)
+        // $(this).attr('href',url);
+        // this.href = url;
+        // console.log(this.href);
+        // this.click;
+        // window.location.href = url;
 
         var data3 = {
                             'username':getusername(),
