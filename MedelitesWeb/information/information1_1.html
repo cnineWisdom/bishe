@@ -79,7 +79,7 @@ function gettestdata(page){
             curPage: page, //初始页码
             pageTotal: Math.ceil(res.pageCount), //总页数
             pageAmount: res.pageSize, //每页多少条
-            dataTotal: res.pageCount, //总共多少条数据
+            dataTotal: res.allCount, //总共多少条数据
             showPageTotalFlag: true, //是否显示数据统计
             showSkipInputFlag: true, //是否支持跳转
             getPage: function (page) {

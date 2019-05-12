@@ -138,7 +138,7 @@
     </div><!-- banner -->
     <!-- local栏 -->
     <div class="position" style="height: 60px; margin-left:60px; padding-top: 20px;padding-bottom: 20px; font-size:15px;">
-        <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="Index.html">首页</a> - 在线答题 - <a class='major1' href="test1.html">临床医学</a> - <a class='subject1' href="test1_1.html">外科学</a>
+        <i><img src="image/po.png" width="20" height="20" alt=""></i>&nbsp;&nbsp;&nbsp;&nbsp;当前位置：<a href="Index.html">首页</a> - 在线答题 - <a class='major1' href="test1.html"></a> - <a class='subject1' href="test1_1.html"></a>
     </div>
     <!-- text栏 -->
     <div style="margin-left:60px;">
@@ -293,7 +293,12 @@
 
             })
             pagetest.init()
-
+            var major1 = $('.major1');
+            var subject1 = $('.subject1');
+            major1.text(res.navmsg[0].majorName);
+            subject1.text(res.navmsg[0].subjectName);
+            major1.attr('href','test1.html?majorID='+res.navmsg[0].majorID);
+            subject1.attr('href','test1_1.html?id='+res.navmsg[0].subjectID);
             $('.test1table tbody').html("");
             for(var i = 0 ; i < res.res.length ; i++){
                 $('.test1table tbody').append(

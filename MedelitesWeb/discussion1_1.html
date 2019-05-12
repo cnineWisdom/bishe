@@ -305,7 +305,7 @@
                 ) 
             }else{
                 $('#clearNum').append(
-                    "<div class='download'><a href='"+res.case_info+"' style='cursor:pointer' download='jpg.jpg'><img src='image/down.gif' data-bd-imgshare-binded='1'></a></div></div>"
+                    "<div class='download' onclick='download1(\""+res.case_info+"\",\""+res.caseName+"\")'><a href='"+res.case_info+"' style='cursor:pointer'  download='pic.jpg'><img src='image/down.gif' data-bd-imgshare-binded='1'></a></div></div>"
                 )
             }
             $('#comment_show').html('')
@@ -357,7 +357,7 @@
         // console.log(this.href);
         // this.click;
         // window.location.href = url;
-
+        console.log(1);
         var data3 = {
                             'username':getusername(),
                             'type':5,

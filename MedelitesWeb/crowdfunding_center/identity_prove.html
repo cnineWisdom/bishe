@@ -266,7 +266,7 @@ but3.click(function(){
                'id':id
            }
            ajax('deleteerrorquestion',data,function(res){
-
+            
            })
        }
        
@@ -298,6 +298,33 @@ btn.on('click','.show',function(){
 //     // }
    
 // })
+var checkall1 = $('.checkall'); 
+checkall1.click(function(){
+        
+        var checkbox1 = $('.checkbox1');
+        checkarr = [];
+        
+        if($(this).is(":checked")){
+            checkbox1.each(function(){
+                var id = $(this).parents('.table_div').find('.id');
+                $(this).prop('checked',true);
+                checkarr.push(id.val());
+              
+            })
+        }else{
+            checkbox1.each(function(item){
+                var id = $(this).parents('.table_div').find('.id');
+                $(this).prop('checked',false);
+                checkarr = []
+            })
+          
+        }
+       
+    })
+
+
+
+
 btn.on('click','.checkbox1',function(){
     var id = $(this).parents('.table_div').find('.errorquestion');
     var checkbox = $('.checkbox1');

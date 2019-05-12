@@ -54,8 +54,8 @@
         else{
             $.each(res,function(k,v){
                $('.collecttesttable tbody').append(
-                    "<tr>"
-                    +"<td style='text-overflow::ellipsis;width:100px;white-space:nowrap'>"+v.inform_Name+"</td>"
+                    "<tr>"  
+                    +"<td style='text-overflow::ellipsis;width:100px;white-space:nowrap'><a href='"+v.inform_info+"'>"+v.inform_Name+"</a></td>"
                     +"<td>"+v.createtime+"</td>"
                     +"</tr>"
                 ); 

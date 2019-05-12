@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    
     <!--布局样式，意义不大-->
     <style type="text/css">
         #skins {
@@ -35,13 +36,15 @@
 <body>
     <section class="demo-section demo-section--light" id="skins">
         <div class="container">
+                
             <ul class="demo-list" id = "videoDiv">
-                <!-- <li class="demo-list__item">
-                    <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
+                
+              <!-- <li class="demo-list__item">
+                    <video class="video" poster="../image/ckin.jpg" controls="controls" src="../image/ckin.mp4" ></video>
                     <p>视频1</p>
                 </li>
                 <li class="demo-list__item">
-                    <video class="video" poster="../image/ckin.jpg" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
+                    <video class="video" poster="../image/ckin.jpg" controls="controls" src="../image/ckin.mp4" data-ckin="minimal" data-overlay="1"></video>
                     <p>视频2</p>
                 </li> -->
                <!--  <li class="demo-list__item">
@@ -61,10 +64,9 @@
     </section>
 
     <div id="pagination" class="pagination" style="position: absolute;top: 400px;left: 20px;"></div>
-
-    <script src="../js/information/ckin.js"></script>
+    
+  
 </body>
-</html>
 <script type="text/javascript" src="../js/information/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="../js/information/jquery.fancybox.js?v=2.1.5"></script>
 <script src='../js/common.js'></script>
@@ -84,7 +86,7 @@ function gettestdata(page){
             curPage: page, //初始页码
             pageTotal: Math.ceil(res.pageCount), //总页数
             pageAmount: res.pageSize, //每页多少条
-            dataTotal: res.pageCount, //总共多少条数据
+            dataTotal: res.allCount, //总共多少条数据
             showPageTotalFlag: true, //是否显示数据统计
             showSkipInputFlag: true, //是否支持跳转
             getPage: function (page) {
@@ -92,15 +94,32 @@ function gettestdata(page){
             }
 
         })
+        // alert(1)
         pagetest.init()
         $('#videoDiv').html('')
         for(var i =0 ;i < res.res.length;i++){
-            $('#skins div ul').append(
-                "<li class='demo-list__item'><video class='video' id ='video"+i+"' poster='"+res.res[i].titleUrl+"' src='' data-ckin='minimal' controls='controls' data-overlay='1'></video><p>"+res.res[i].inform_Name+"</p></li>"
+            $('#skins ul').append(
+                "<li class='demo-list__item'><video class='video3' id ='video"+i+"' controls='controls'  poster='"+res.res[i].titleUrl+"' src='"+res.res[i].inform_info+"' data-ckin='minimal'  data-overlay='1'></video><p>"+res.res[i].inform_Name+"</p></li>"
             )
+      
+            
+
             document.getElementById("video"+i).src=res.res[i].inform_info;
+           
         }
+        // init123();
+        // wrapPlayers();
     })
 }
 gettestdata(1);
+
 </script>
+
+
+
+<!-- <script src="../js/information/ckin.js"></script> -->
+
+</html>
+
+
+

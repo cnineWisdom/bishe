@@ -18,7 +18,17 @@ class Web extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	
+	public function updatemsgshow(){
+		$id = $this->input->post('id');
+		$data = array('msgshow'=>'N');
+		$where = "ID='$id'";
+		$sql = $this->db->update_string('total',$data,$where);
+		$query = $this->db->query($sql);
+		$arr = array(
+			'status'=>$sql
+		);
+		echo json_encode($arr);
+	}
 	public function getknowledge(){
 		$word = $this->input->post('word');
 		// $caseID = $this->input->post('caseID');
@@ -30,7 +40,7 @@ class Web extends CI_Controller {
 	public function getmsg(){
 		$username = $this->input->post('username');
 		// $caseID = $this->input->post('caseID');
-		$sql = "select * from total where (ruleID = 5 or ruleID = 6) and userID ='$username' order by createtime desc";
+		$sql = "select * from total where (ruleID = 5 or ruleID = 6) and userID ='$username' and msgshow = 'Y' order by createtime desc";
 		$query = $this->db->query($sql);
 		$res = $query->result();
 		echo json_encode($res);
@@ -202,16 +212,17 @@ class Web extends CI_Controller {
 		$num = self::getestpagetotalnum($id);
 		$pagenum = 5;
 		$startpage = $pagenum*($page-1);
-		$sql = "select * from test where subjectID = '$id' limit $startpage,$pagenum";
+		$sql = "select * from (test join subject on test.subjectID = subject.subjectID) join major on subject.majorID = major.majorID  where test.subjectID = '$id' limit $startpage,$pagenum";
 		$query = $this->db->query($sql);
-
+		$sql1 = "select * from  subject join major on subject.majorID = major.majorID  where subject.subjectID = '$id'";
+		$query1 = $this->db->query($sql1);
 		$arr;
 
 		$arr = array(
 			'currentpage'=>$page,
 			'total'=>$num,
-			'res'=>$query->result()
-
+			'res'=>$query->result(),
+			'navmsg'=>$query1->result()
 		);
 		echo json_encode($arr);
 	}
@@ -235,7 +246,7 @@ class Web extends CI_Controller {
 		
 		$newpwd = $this->input->post('newpwd');
 		$arr;
-		$data = array('pwd' => $newpwd,);
+		$data = array('pwd' => $newpwd);
 		$where = "username='$username'";
 		$str = $this->db->update_string('usermsg', $data, $where);
 		$query = $this->db->query($str);
@@ -496,7 +507,7 @@ class Web extends CI_Controller {
 //
 	public function getInformation()
 	{
-		$pageSize = 2;
+		$pageSize = 6;
 		$type = $this->input->post('type');
 		$page = $this->input->post('page') ? $this->input->post('page') : 1;
 		$pages = ($page-1)*$pageSize;
@@ -515,7 +526,7 @@ class Web extends CI_Controller {
 
 
 	public function getCritic(){
-		$pageSize = 2;
+		$pageSize = 15;
 		$typeArr = [
 			1 =>'内科学',
 			2 =>'外科学',

@@ -35,7 +35,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr class="active">
-                    <th class="text-center"><input type="checkbox" name="che_all" id="che_all" /></th>
+                    <th class="text-center"><input type="checkbox" name="che_all" class='checkall' id="che_all" /></th>
                     <th class="text-center">序号</th>
                     <th class="text-center">内容</th>
                     <th class="text-center">时间</th>
@@ -44,17 +44,10 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr class="">
-                    <td class="text-center"><input type="checkbox" name="che_one" id="che_one" /></td>
-                    <td class="text-center">序号</td>
-                    <td class="text-center">消息内容</td>
-                    <td class="text-center">发件人</td>
-                    <td class="text-center">发送时间</td>
-
-                </tr> -->
+              
             </tbody>
         </table>
-        <input type="button" class="but2" value="删除选中" />
+        <input type="button" class="but2 but3" value="删除选中" />
     </div>
 
     <!-- 结束 -->
@@ -74,8 +67,9 @@
                 var type = '打印成功'
             }
             $('.table tbody').append(
-            "  <tr >"
-               +    " <td class='text-center'><input type='checkbox' name='che_one' id='che_one' /></td>"
+            "  <tr class='table_div'>"
+               +    "<input type='hidden' class='id' value='"+res[i].ID+"'>"
+               +    " <td class='text-center'><input type='checkbox' class='checkbox1' name='che_one' id='che_one' /></td>"
                +    " <td class='text-center'>"+(i+1)+"</td>"
                +    " <td class='text-center'>"+res[i].target+"</td>"
                +    " <td class='text-center'>"+res[i].createtime+"</td>"
@@ -86,5 +80,73 @@
         }
         
     });
+    var table = $('.table');
+    var checkall = $('.checkall');
+    checkarr=[];
+    checkall.click(function(){
+        
+        var checkbox1 = $('.checkbox1');
+        checkarr = [];
+        
+        if($(this).is(":checked")){
+            checkbox1.each(function(){
+                var id = $(this).parents('.table_div').find('.id');
+                $(this).prop('checked',true);
+                checkarr.push(id.val());
+              
+            })
+        }else{
+            checkbox1.each(function(item){
+                var id = $(this).parents('.table_div').find('.id');
+                $(this).prop('checked',false);
+                checkarr = []
+            })
+          
+        }
+       
+    })
+    table.on('click','.checkbox1',function(){
+    var id = $(this).parents('.table_div').find('.id');
+    var checkbox = $('.checkbox1');
+    var length = checkbox.length;
+    checkarr = [];
+    console.log(length);
+    var num = 0 ; 
+    checkbox.each(function(){
+        var errorquestion = $(this).parents('.table_div').find('.id');
+        if($(this).is(":checked")){
+            checkarr.push(errorquestion.val())
+            num++;
+        }
+    })
+
+    console.log(checkarr);
+    var checkall = $('.checkall');
+    if(length == num){
+        
+        checkall.prop('checked',true)
+    }else{
+        checkall.prop('checked',false)
+    }
+})
+but3 = $('.but3');
+but3.click(function(){
+    if(confirm('是否确认删除所选错题集？')){
+        var length =  checkarr.length;
+       for(var i = 0 ; i < length ; i++){
+           var id = checkarr[i];
+           var data = {
+               'id':id
+           }
+           ajax('updatemsgshow',data,function(res){
+
+           })
+       }
+       
+       alert('删除成功');
+       location.reload();
+    }
+      
+})
 </script>
 </html>

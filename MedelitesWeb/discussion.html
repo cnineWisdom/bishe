@@ -261,7 +261,7 @@
 <script src="js/index.js"></script>
 <script>
 
-function gettestdata(page,type=0){
+function gettestdata(page,type){
     var id = getUrlParam('id');
     var data = {
         page:page,
@@ -304,5 +304,5 @@ function gettestdata(page,type=0){
         })
     })
 }
-gettestdata(1);
+gettestdata(1,0);
 </script>

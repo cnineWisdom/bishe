@@ -62,18 +62,31 @@ function collecttest(){
             $('.collecttesttable').show();
         }
         for(var i = 0 ; i < res.length ; i++){
-            
+            var usetime = filter(res[i].usetime,res[i].time);
             $('.collecttesttable tbody').append(
                 "<tr>"
-                +"<td>"+res[i].testName+"</td>"
+                +"<td><a href='../exams/exams.html?testID="+res[i].testID+"' target='_blank'>"+res[i].testName+"</a></td>"
                 +"<td>"+res[i].createtime+"</td>"
-                +"<td>"+res[i].usetime+"</td>"
+                +"<td>"+usetime+"</td>"
                 +"<td>"+res[i].score+"</td>"
                 +"</tr>"
             );
         }
     })
     
+}
+function filter(usetime,time){
+    var usetime1 = usetime.split(':');
+    var usetime3 = parseInt(usetime1[0])*60*60 + parseInt(usetime1[1])*60 + parseInt(usetime1[2]);
+    var time1 = time.split(':');
+    var time3 = parseInt(time1[0])*60*60 + parseInt(time1[1])*60 + parseInt(time1[2]);
+    var cal = time3 - usetime3;
+    var hour = Math.floor(cal/60/60);
+    var cal3 = cal - hour*60*60;
+    var minute =  Math.floor(cal3/60);
+    var cal4 =  Math.floor(cal3-minute*60);
+    // console.log(cal4);
+    return hour+":"+minute+":"+cal4;
 }
 collecttest();
     </script>
