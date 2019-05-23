@@ -38,8 +38,11 @@
                   <span class="x-red">*</span>类型
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
+                    <select name="city" lay-verify="required">
+                            <option value=""></option>
+                            <option value=1>外科学</option>
+                            <option value=2>内科学</option>
+                          </select>
               </div>
           </div>
           <div class="layui-form-item">
@@ -70,6 +73,15 @@
       </form>
     </div>
     <script>
+
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#createtime' //指定元素
+  });
+});
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form

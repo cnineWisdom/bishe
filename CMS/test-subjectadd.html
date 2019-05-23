@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -38,18 +39,25 @@
                   <span class="x-red">*</span>所属专业
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="createtime" name="createtime" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
+                  <select id='key' name="majorID" lay-verify="required">
+                      <!-- <option value=""></option>
+                      <option value=1>外科学</option>
+                      <option value=2>内科学</option> -->
+                    </select>
               </div>
           </div>
-          <div class="layui-form-item layui-form-text">
+          <!-- <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
-                  描述
+                  所属专业
               </label>
               <div class="layui-input-block">
-                  <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
+                  <select name="city" lay-verify="required">
+                      <option value=""></option>
+                      <option value=1>外科学</option>
+                      <option value=2>内科学</option>
+                    </select>
               </div>
-          </div>
+          </div> -->
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
@@ -60,6 +68,19 @@
       </form>
     </div>
     <script>
+     
+      var data = {
+        table:'major'
+      }
+        ajax('selectF1',data,function(res){
+          var str = "<option value=''>1</option>";
+            // $('#key').html("<option value=''></option>");
+            for(var i = 0 ; i < res.res.length ; i++){
+              str = str + "<option value="+res.res[i].majorID+">"+res.res[i].majorName+"</option>"
+              
+            }
+            $('#key').html(str);
+        })
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -95,6 +116,7 @@
           
           
         });
+        
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");

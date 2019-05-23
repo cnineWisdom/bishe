@@ -767,4 +767,161 @@ class Web extends CI_Controller {
 			return false;
 		}
 	}
+	public function selectF1(){
+		$table = $this->input->post('table');
+		$sql = "select * from `$table`";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		$arr = array(
+			'res'=>$res
+		);
+		echo json_encode($arr);
+	}
+	public function select3()
+	{	
+		$table = $this->input->post('table');
+		$page = $this->input->post('page');
+		$pagenum = $this->input->post('pagenum');
+
+
+		$sql = "select * from $table";
+		$query = $this->db->query($sql);
+		$num =  $query->num_rows();
+
+
+		// $id = $this->input->post('id');
+		
+		// $num = self::getestpagetotalnum($id);
+		
+		$startpage = $pagenum*($page-1);
+		$sql1 = "select * from subject join major on subject.majorID = major.majorID limit $startpage,$pagenum";
+		$query1 = $this->db->query($sql1);
+		
+		$arr;
+
+		$arr = array(
+			'currentpage'=>$page,
+			'pagenum'=>$pagenum,
+			'total'=>$num,
+			'res'=>$query1->result()
+		);
+		echo json_encode($arr);
+		// $sql = "select * from `usermsg` where userName = $username";
+	}
+	public function select4()
+	{	
+		$table = $this->input->post('table');
+		$page = $this->input->post('page');
+		$pagenum = $this->input->post('pagenum');
+
+
+		$sql = "select * from $table";
+		$query = $this->db->query($sql);
+		$num =  $query->num_rows();
+
+
+		// $id = $this->input->post('id');
+		
+		// $num = self::getestpagetotalnum($id);
+		
+		$startpage = $pagenum*($page-1);
+		$sql1 = "select * from test join subject on subject.subjectID = test.subjectID limit $startpage,$pagenum";
+		$query1 = $this->db->query($sql1);
+		
+		$arr;
+
+		$arr = array(
+			'currentpage'=>$page,
+			'pagenum'=>$pagenum,
+			'total'=>$num,
+			'res'=>$query1->result()
+		);
+		echo json_encode($arr);
+		// $sql = "select * from `usermsg` where userName = $username";
+	}
+	public function select6()
+	{	
+		$table = $this->input->post('table');
+		$page = $this->input->post('page');
+		$pagenum = $this->input->post('pagenum');
+
+
+		$sql = "select * from $table";
+		$query = $this->db->query($sql);
+		$num =  $query->num_rows();
+
+
+		// $id = $this->input->post('id');
+		
+		// $num = self::getestpagetotalnum($id);
+		
+		$startpage = $pagenum*($page-1);
+		$sql1 = "select * from question join test on question.testID = test.testID limit $startpage,$pagenum";
+		$query1 = $this->db->query($sql1);
+		
+		$arr;	
+
+		$arr = array(
+			'currentpage'=>$page,
+			'pagenum'=>$pagenum,
+			'total'=>$num,
+			'res'=>$query1->result()
+		);
+		echo json_encode($arr);
+		// $sql = "select * from `usermsg` where userName = $username";
+	}
+	public function selectF()
+	{	
+		$table = $this->input->post('table');
+		$page = $this->input->post('page');
+		$pagenum = $this->input->post('pagenum');
+
+
+		$sql = "select * from `$table`";
+		$query = $this->db->query($sql);
+		$num =  $query->num_rows();
+
+
+		// $id = $this->input->post('id');
+		
+		// $num = self::getestpagetotalnum($id);
+		
+		$startpage = $pagenum*($page-1);
+		$sql1 = "select * from `$table` limit $startpage,$pagenum";
+		$query1 = $this->db->query($sql1);
+		
+		$arr;
+
+		$arr = array(
+			'currentpage'=>$page,
+			'pagenum'=>$pagenum,
+			'total'=>$num,
+			'res'=>$query1->result()
+		);
+		echo json_encode($arr);
+		// $sql = "select * from `usermsg` where userName = $username";
+	}
+
+	public function insertF()
+	{	
+		$data = $this->input->post('data');
+		$table = $this->input->post('table');
+		// $data = json_decode($data);
+		$sql = $this->db->insert_string($table, $data);
+		$this->db->query($sql);
+		// echo 'success';
+		// $msg ="没有该用户";
+		// echo json_encode($msg);
+	}
+
+	public function updateF($data,$table)
+	{
+		
+	}
+
+	public function deteleF($data,$table,$id)
+	{
+		
+	}
+
 }

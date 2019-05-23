@@ -14,6 +14,9 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <link rel="stylesheet" href="./css/myPagination.css" />
+    <script src="./js/myPagination.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -75,7 +78,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="page">
+      <!-- <div class="page">
         <div>
           <a class="prev" href="">&lt;&lt;</a>
           <a class="num" href="">1</a>
@@ -84,10 +87,64 @@
           <a class="num" href="">489</a>
           <a class="next" href="">&gt;&gt;</a>
         </div>
-      </div>
-
+      </div> -->
+      <div id="pagination" class="pagination" style="margin-left: 180px;"></div>
     </div>
     <script>
+       function gettestdata(table,page,pagenum){
+        var data = {
+        'table':table,
+        'page':page,
+        'pagenum':pagenum,
+      }
+      $('.layui-table tbody').html("");
+      ajax('selectF',data,function(res){
+        for(var i = 0 ; i < res.res.length ; i++){
+          $('.layui-table tbody').append("<tr><td>"
+              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div>"
+           +" </td>"
+            +"<td>1</td>"
+            +"<td>"+res.res[i].caseName+"</td>"
+            +"<td>"+res.res[i].type+"</td>"
+            +"<td>"+res.res[i].case_info+"</td>"
+            +"<td>"+res.res[i].createtime+"</td>"
+         
+            +"<td class='td-manage'>"
+              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"terminology-edit.html\")' href='javascript:;'>"
+               +" <i class='layui-icon'><!-- &#xe63c; -->&#xe642;</i>"
+            + " </a>"
+              +"<a title='删' onclick='member_del(this,\"要删除的id\")' href='javascript:;'>"
+              + " <i class='layui-icon'>&#xe640;</i>"
+             +" </a>"
+           +" </td>"
+         +" </tr>"
+            )
+          }
+          var page = res.currentpage;
+          var pagenum = res.pagenum;
+          var pagetest = new myPagination({
+                id: 'pagination',
+                curPage: page, //初始页码
+                pageTotal: Math.ceil((res.total)/pagenum), //总页数
+                pageAmount: pagenum,  //每页多少条
+                dataTotal: res.total, //总共多少条数据
+                // pageSize: res.total, //可选,分页个数
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    gettestdata('case',page,4);
+                }
+              })
+              pagetest.init()
+      })
+        
+        
+      
+     
+      }
+     
+
+      gettestdata('case',1,4);
       layui.use('laydate', function(){
         var laydate = layui.laydate;
         
