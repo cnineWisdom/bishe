@@ -27,7 +27,8 @@
 </head>
 <body>
     <header class="header">
-        <div class="container clearfix">
+        <div class="container clearfix" style="position:relative">
+            <div id='session' style='position: absolute;top:13px;left:149px;color: white;font-size: 18px;display: none'><span id='user' style='cursor: pointer;' ></span>,欢迎您！<span style='font-size: 18px;cursor: pointer;' onclick="loginout()">&nbsp;&nbsp;退出</span></div>
             <div class="fl left">
                 <a href="javascript:void(0)"><img src="image/logo.png" alt="" class="img1" /></a>
                 <a href="javascript:void(0)"><img src="image/logo2.png" alt="" class="img2" /></a>
@@ -37,11 +38,11 @@
                     <li class="active">
                         <a href="Index.html">首页</a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" id='major'>
                         <a href="javascript:void(0)">在线答题</a>
                         <div class="dropdown_menu">
-                            <a href="test1.html">临床医学</a>
-
+                            <!-- <a href="test1.html">临床医学</a> -->
+                            
                         </div>
                     </li>
                     <li class="dropdown">
@@ -65,15 +66,17 @@
                             <a href="member_center6.html ">设置</a>
                         </div>
                     </li>
+                   
                 </ul>
             </div>
             <a href="javascript:void(0)" id="navToggle">
                 <span></span>
             </a>
             <div>
-                <input type="text" placeholder="请输入关键词">
+                <input type="text" class='key' placeholder="请输入关键词">
                 <div class="search"></div>
             </div>
+            
         </div>
 
 
@@ -198,6 +201,16 @@
    
 
 $('.username').html(getusername());
-
+function getmajor(){
+    ajax('getmajor',{},function(res){
+        for(var i = 0 ; i < res.length ; i++){
+            $('#major .dropdown_menu').append(
+                "<a href='test1.html?majorID="+res[i].majorID+"'>"+res[i].majorName+"</a>"
+            )
+        }
+       
+    })
+}
+getmajor();
 </script>
 </html>

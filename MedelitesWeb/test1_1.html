@@ -304,8 +304,8 @@
                 $('.test1table tbody').append(
                 "<tr style='height:35px;'>"
                 +"<td style='border-right: 1px solid #fff; text-align: center'>"+(i+1)+"</td>"
-                +"<td style='border-right: 1px solid #fff; text-align: center'><a href='exams/exams.html?id="+res.res[i].testID+"' target='_blank'>"+res.res[i].testName+"</a></td>"
-                +"<td style='border-right: 1px solid #fff; text-align: center'><a href='exams/exams.html?id="+res.res[i].testID+"' target='_blank'>进入答题</a></td>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'><a href='exams/exams.html?testID="+res.res[i].testID+"' target='_blank'>"+res.res[i].testName+"</a></td>"
+                +"<td style='border-right: 1px solid #fff; text-align: center'><a href='exams/exams.html?testID="+res.res[i].testID+"' target='_blank'>进入答题</a></td>"
                 +"<td style='border-right: 1px solid #fff; text-align: center'><a style='cursor:pointer' onclick='download1(\""+res.res[i].url+"\","+res.res[i].testID+")' class='download'><img src='image/download.jpg' width='20' height='20'></a></td>"
                 +"<td style='border-right: 1px solid #fff; text-align: center'><a class='print' style='cursor:pointer' onclick='printf(\""+res.res[i].url+"\","+res.res[i].testID+")'><img src='image/print.jpg' width='20' height='20'></a></td>"
             +"</tr>"

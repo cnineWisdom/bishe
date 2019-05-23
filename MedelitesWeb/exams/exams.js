@@ -414,7 +414,7 @@ function j(){
             var usetime = $('.alt').text();
             var username = getusername();
             var testID = $('.testID').val();
-            var score = $('.num4').text();
+            var score = $('.num9').text();
             var data = {
                 username:username,
                 userID:username,

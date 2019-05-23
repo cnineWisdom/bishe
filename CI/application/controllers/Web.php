@@ -169,7 +169,7 @@ class Web extends CI_Controller {
 	}
 	public function getcollecttest(){
 		 $id = $this->input->post('userID');
-		 $sql = "select * from collecttest join test on collecttest.testID = test.testID  where userID = '$id' ";
+		 $sql = "select *,collecttest.createtime as testtime from collecttest join test on collecttest.testID = test.testID  where userID = '$id' ";
 		 $query = $this->db->query($sql);
 		 echo json_encode($query->result());
 	}
