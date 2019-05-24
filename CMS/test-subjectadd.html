@@ -24,7 +24,7 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form">
+        <form class="">
           <div class="layui-form-item">
               <label for="testname" class="layui-form-label">
                   <span class="x-red">*</span>学科名
@@ -39,11 +39,7 @@
                   <span class="x-red">*</span>所属专业
               </label>
               <div class="layui-input-inline">
-                  <select id='key' name="majorID" lay-verify="required">
-                      <!-- <option value=""></option>
-                      <option value=1>外科学</option>
-                      <option value=2>内科学</option> -->
-                    </select>
+                  <select id='key1' name="majorID" lay-verify="required"></select>
               </div>
           </div>
           <!-- <div class="layui-form-item layui-form-text">
@@ -69,23 +65,53 @@
     </div>
     <script>
      
-      var data = {
+     //重新渲染表单 
+    //  function renderForm(){ layui.use('form', function(){ 
+    //    var form = layui.form;
+    //    var data = {
+    //     table:'major'
+    //   }
+    //     ajax('selectF1',data,function(res){
+    //       var str = "<option value=''>1</option>";
+    //         // $('#key').html("<option value=''></option>");
+    //         for(var i = 0 ; i < res.res.length ; i++){
+    //           str = str + "<option value="+res.res[i].majorID+">"+res.res[i].majorName+"</option>"
+              
+    //         }
+    //         $('#key1').html(str);
+    //         // $("#key1").selectmenu('refresh', true);
+    //         console.log($('#key1').html());
+           
+    //     })//高版本建议把括号去掉，有的低版本，需要加() form.render(); 
+    // }); 
+    // form.render();
+    // }
+    // renderForm();
+    
+
+        layui.use(['form','layer'], function(){
+          // var form = layui.form;
+         
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+          var data = {
         table:'major'
       }
         ajax('selectF1',data,function(res){
-          var str = "<option value=''>1</option>";
+          var str = "";
             // $('#key').html("<option value=''></option>");
             for(var i = 0 ; i < res.res.length ; i++){
               str = str + "<option value="+res.res[i].majorID+">"+res.res[i].majorName+"</option>"
               
             }
-            $('#key').html(str);
-        })
-        layui.use(['form','layer'], function(){
-            $ = layui.jquery;
-          var form = layui.form
-          ,layer = layui.layer;
-        
+            $('#key1').html(str);
+            // $("#key1").selectmenu('refresh', true);
+            console.log($('#key1').html());
+           
+        })//高版本建议把括号去掉，有的低版本，需要加() form.render(); 
+    // }); 
+          form.render();
           //自定义验证规则
           form.verify({
             nikename: function(value){
