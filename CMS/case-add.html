@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -25,11 +26,11 @@
     <div class="x-body">
         <form class="layui-form">
           <div class="layui-form-item">
-              <label for="testname" class="layui-form-label">
+              <label for="caseName" class="layui-form-label">
                   <span class="x-red">*</span>病例名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="caseName" name="caseName" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -38,19 +39,20 @@
                   <span class="x-red">*</span>类型
               </label>
               <div class="layui-input-inline">
-                    <select name="city" lay-verify="required">
+                    <select name="type" lay-verify="required">
                             <option value=""></option>
                             <option value=1>外科学</option>
                             <option value=2>内科学</option>
+                           
                           </select>
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="testname" class="layui-form-label">
+              <label for="case_info" class="layui-form-label">
                   <span class="x-red">*</span>存储位置
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="case_info" name="case_info" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>  
@@ -73,7 +75,10 @@
       </form>
     </div>
     <script>
-
+      // var data = {
+      //   table:'case'
+      // }
+      // ajax('selectF',)
 layui.use('laydate', function(){
   var laydate = layui.laydate;
   
@@ -104,7 +109,18 @@ layui.use('laydate', function(){
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            var time = new Date(data.field.createtime);
+            var date = time.getTime().toString();
+            date = date.substr(0,10);
+            data.field.createtime  = date;
+            // console.log(data.field);
+            var data = {
+                data:data.field,
+                table:'case'
+            }
+            ajax('insertF',data,function(){
+                
+            });
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
