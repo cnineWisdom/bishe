@@ -15,7 +15,30 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
-
+    <script type="text/javascript" src="./js/common.js"></script>
+    <style>
+        #nav #user1{
+            display:none
+        }
+        #nav #adminuser1{
+            display:none
+        }
+        #nav #test1{
+            display:none
+        }
+        #nav #case1{
+            display:none
+        }
+        #nav #inform1{
+            display:none
+        }
+        #nav #terminology1{
+            display:none
+        }
+        #nav #data1{
+            display:none
+        }
+    </style>
 </head>
 <body>
     <!-- 顶部开始 -->
@@ -41,7 +64,7 @@
               <!-- <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd> -->
               <!-- <dd><a onclick="x_admin_show('切换帐号','./login.html')">切换帐号</a></dd> -->
               <dd><a href="./login.html">切换帐号</a></dd>
-              <dd><a href="./login.html">退出</a></dd>
+              <dd><a href="./login.html" onclick='loginout()'>退出</a></dd>
             </dl>
           </li>
           <li class="layui-nav-item to-index"><a href="../Index.html">前台首页</a></li>
@@ -53,8 +76,8 @@
      <!-- 左侧菜单开始 -->
     <div class="left-nav">
       <div id="side-nav">
-        <ul id="nav">
-            <li>
+        <ul id="nav" >
+            <li id='user1'>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b8;</i>
                     <cite>用户管理</cite>
@@ -77,7 +100,7 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li id='adminuser1'>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
                     <cite>管理员管理</cite>
@@ -110,67 +133,8 @@
                     </li > -->
                 </ul>
             </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
-                    <cite>个人中心管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="order-list.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>答题记录</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="order-list2.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>阅读记录</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="order-list3.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>收藏记录</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="order-list4.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>消息管理</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="order-list5.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>错题管理</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe723;</i>
-                            <cite>积分管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="order-list6.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>积分规则</cite>
-                                </a>
-                            </li >
-                            <li>
-                                <a _href="order-list7.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>积分记录</cite>
-                                </a>
-                            </li >
-                        </ul>
-                    </li >
-                </ul>
-            </li>
-            <li>
+         
+            <li id='test1'>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ce;</i>
                     <cite>试题管理</cite>
@@ -203,7 +167,7 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li id='case1'>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ce;</i>
                     <cite>病例管理</cite>
@@ -218,7 +182,7 @@
                     </li >
                 </ul>
             </li>
-            <li>
+            <li id='inform1'>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ce;</i>
                     <cite>医学资料管理</cite>
@@ -233,7 +197,7 @@
                     </li >
                 </ul>
             </li>
-            <li>
+            <li id='terminology1'>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ce;</i>
                     <cite>术语管理</cite>
@@ -245,6 +209,66 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>术语管理</cite>
                         </a>
+                    </li >
+                </ul>
+            </li>
+            <li id='data1'>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>数据统计</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="order-list.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>统计图表</cite>
+                        </a>
+                    </li >
+                    <!-- <li>
+                        <a _href="order-list2.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>用户答题</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="order-list3.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>收藏记录</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="order-list4.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>消息管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="order-list5.html">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>错题管理</cite>
+                        </a>
+                    </li > -->
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont">&#xe723;</i>
+                            <cite>积分管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a _href="order-list6.html">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>积分规则维护</cite>
+                                </a>
+                            </li >
+                            <li>
+                                <a _href="order-list7.html">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>积分排行</cite>
+                                </a>
+                            </li >
+                        </ul>
                     </li >
                 </ul>
             </li>
@@ -276,4 +300,34 @@
     <!-- 底部结束 -->
     
 </body>
+<script>
+    function loginout(){
+        localStorage.removeItem('adminuser')
+    }
+    var id = localStorage.getItem('adminuser');
+
+ajax('selectF7',{Id:id},function(res){
+    var role = JSON.parse(res.res[0].role);
+    for(var i = 0 ; i < role.length ; i++){
+        if(role[i] == 1){     
+            $('#nav #user1').show();
+            $('#nav #adminuser1').show();
+            $('#nav #test1').show();
+            $('#nav #case1').show();
+            $('#nav #inform1').show();
+            $('#nav #terminology1').show();
+            $('#nav #data1').show();
+        }
+        if(role[i] == 2){
+            $('#nav #test1').show();
+            $('#nav #terminology1').show();
+        }
+        if(role[i] == 3){
+            $('#nav #case1').show();
+            $('#nav #inform1').show();
+            $('#nav #terminology1').show();
+        }
+    }
+})
+</script>
 </html>

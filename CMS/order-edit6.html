@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -47,7 +48,7 @@
                   <span class="x-red">*</span>积分规则
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="ruleName" name="ruleName" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -65,9 +66,9 @@
                   <span class="x-red">*</span>类型
               </label>
               <div class="layui-input-inline">
-                  <select id="shipping" name="shipping" class="valid">
-                    <option value="wrenwujiangli">任务奖励</option>
-                    <option value="xuexijiangli">学习奖励</option>
+                  <select id="ruletype" name="ruletype" class="valid">
+                    <option value="任务奖励">任务奖励</option>
+                    <option value="学习奖励">学习奖励</option>
                   </select>
               </div>
           </div>
@@ -76,80 +77,11 @@
                   <span class="x-red">*</span>来源页
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="createtime" name="createtime" required="" lay-verify="required"
+                  <input type="text" id="from" name="from"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
-          <!-- <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
-                  <span class="x-red">*</span>收货地址
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="username" name="username" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
-                  <span class="x-red">*</span>配送物流
-              </label>
-              <div class="layui-input-inline">
-                  <select id="shipping" name="shipping" class="valid">
-                    <option value="shentong">申通物流</option>
-                    <option value="shunfeng">顺丰物流</option>
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="username" class="layui-form-label">
-                  <span class="x-red">*</span>支付方式
-              </label>
-              <div class="layui-input-inline">
-                  <select name="contrller">
-                    <option>支付方式</option>
-                    <option>支付宝</option>
-                    <option>微信</option>
-                    <option>货到付款</option>
-                  </select>
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_email" class="layui-form-label">
-                  <span class="x-red">*</span>发票抬头
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                  autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>
-              </div>
-          </div>
-          <div class="layui-form-item layui-form-text">
-              <label for="desc" class="layui-form-label">
-                  商品增加
-              </label>
-              <div class="layui-input-block">
-                  <table class="layui-table">
-                    <tbody>
-                      <tr>
-                        <td>haier海尔 BC-93TMPF 93升单门冰箱</div></td>
-                        <td>0.01</div></td>
-                        <td>984</div></td>
-                        <td>1</td>
-                        <td>删除</td>
-                      </tr>
-                      <tr>
-                        <td>haier海尔 BC-93TMPF 93升单门冰箱</div></td>
-                        <td>0.01</div></td>
-                        <td>984</div></td>
-                        <td>1</td>
-                        <td>删除</td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
-          </div> -->
+<!--          
           <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   描述
@@ -157,17 +89,24 @@
               <div class="layui-input-block">
                   <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
               </div>
-          </div>
+          </div> -->
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
               <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  更新
               </button>
           </div>
       </form>
     </div>
     <script>
+         var id = getUrlParam('data');
+         ajax('selectF3',{Id:id,table:'rule',idName:'ruleID'},function(res){
+            $('#ruleName').val(res.res[0].ruleName);
+            $('#from').val(res.res[0].from);
+            $('#ruletype').val(res.res[0].ruletype);
+            $('#score').val(res.res[0].score);
+         });
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -191,12 +130,22 @@
           //监听提交
           form.on('submit(add)', function(data){
             console.log(data);
+            var data1 = {
+              table:'rule',
+              data:data.field,
+              id:id,
+              idName:'ruleID'
+            }
+            ajax('updateF',data1,function(){
+            
+            });
             //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
+            layer.alert("更新成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -48,7 +49,7 @@
                   <span class="x-red">*</span>积分规则
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="ruleName" name="ruleName" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -66,9 +67,9 @@
                   <span class="x-red">*</span>类型
               </label>
               <div class="layui-input-inline">
-                  <select id="shipping" name="shipping" class="valid">
-                    <option value="wrenwujiangli">任务奖励</option>
-                    <option value="xuexijiangli">学习奖励</option>
+                  <select id="ruletype" name="ruletype" class="valid">
+                    <option value="任务奖励">任务奖励</option>
+                    <option value="学习奖励">学习奖励</option>
                   </select>
               </div>
           </div>
@@ -77,7 +78,7 @@
                   <span class="x-red">*</span>来源页
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="createtime" name="createtime" required="" lay-verify="required"
+                  <input type="text" id="from" name="from"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -151,14 +152,14 @@
                   </table>
               </div>
           </div> -->
-          <div class="layui-form-item layui-form-text">
+          <!-- <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   描述
               </label>
               <div class="layui-input-block">
                   <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
               </div>
-          </div>
+          </div> -->
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
@@ -190,14 +191,27 @@
           });
 
           //监听提交
-          form.on('submit(add)', function(data){
-            console.log(data);
+          form.on('submit(add)', function(obj){
+            // console.log(data);
+            var data = {
+              data:obj.field,
+              table:'rule'
+            };
+      
+            // console.log(data);
+            ajax('insertF',data,function(){
+              
+              // 发异步，把数据提交给php
+              
+            // return false;
+            })
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -29,7 +30,7 @@
                   <span class="x-red">*</span>名称
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="inform_Name" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -38,10 +39,10 @@
                   <span class="x-red">*</span>类型
               </label>
               <div class="layui-input-inline">
-                  <select id="shipping" name="shipping" class="valid">
-                    <option value="waikexue">图片</option>
-                    <option value="neikexue">视频</option>
-                    <option value="neikexue">PPT</option>
+                  <select id="shipping" name="type" class="valid">
+                    <option value="1">图片</option>
+                    <option value="2">视频</option>
+                    <option value="3">PPT</option>
                   </select>
               </div>
           </div>
@@ -50,7 +51,7 @@
                   <span class="x-red">*</span>存储位置
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="inform_info" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>  
@@ -65,10 +66,10 @@
           </div>
           <div class="layui-form-item">
               <label for="testname" class="layui-form-label">
-                  <span class="x-red">*</span>首帧位置
+                  <span class="x-red">*</span>封面地址
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="titleUrl" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>  
@@ -82,6 +83,8 @@
       </form>
     </div>
     <script>
+
+
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -104,13 +107,22 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            console.log(data.field);
+            var data = {
+                data:data.field,
+                table:'med_information'
+            }
+            ajax('insertF',data,function(){
+
+            })
+
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });

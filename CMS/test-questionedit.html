@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -29,18 +30,19 @@
                   <span class="x-red">*</span>题干
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="question" name="question" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
           <div class="layui-form-item">
-              <label for="testname" class="layui-form-label">
-                  <span class="x-red">*</span>所属试卷名
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
-              </div>
+                <label for="testname" class="layui-form-label">
+                        <span class="x-red">*</span>所属试卷名
+                    </label>
+                    <div class="layui-input-inline">
+                          <select id='key1' name="testID" lay-verify="required"></select>
+                        <!-- <input type="text" id="testID" name="testID" required="" lay-verify="required"
+                        autocomplete="off" class="layui-input"> -->
+                    </div>
           </div> 
           <div class="layui-form-item">
               <label for="choiceA" class="layui-form-label">
@@ -83,7 +85,7 @@
                   <span class="x-red">*</span>选项E
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="choiceE" name="choiceE" required="" lay-verify="required"
+                  <input type="text" id="choiceE" name="choiceE" 
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -92,7 +94,7 @@
                   <span class="x-red">*</span>选项F
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="choiceF" name="choiceF" required="" lay-verify="required"
+                  <input type="text" id="choiceF" name="choiceF" 
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -101,7 +103,7 @@
                   <span class="x-red">*</span>正确答案
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="answer" name="answer" required="" lay-verify="required"
+                  <input type="text" id="right_answer" name="right_answer" 
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -110,7 +112,7 @@
                   <span class="x-red">*</span>解析
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="jiexi" name="jiexi" required="" lay-verify="required"
+                  <input type="text" id="jiexi" name="jiexi" 
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -127,21 +129,51 @@
               <label for="createtime" class="layui-form-label">
                   <span class="x-red">*</span>类型
               </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="createtime" name="createtime" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
-              </div>
+              
           </div>
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
               <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  更新
               </button>
           </div>
       </form>
     </div>
     <script>
+        var data3 = {
+            'table':'test'
+        }
+        ajax('selectF1',data3,function(res){
+            var str = "";
+            // $('#key').html("<option value=''></option>");
+            for(var i = 0 ; i < res.res.length ; i++){
+              str = str + "<option value="+res.res[i].testID+">"+res.res[i].testName+"</option>"
+              
+            }
+            $('#key1').html(str);
+            // $("#key1").selectmenu('refresh', true);
+            console.log($('#key1').html());
+           
+        })//高版本建议把括号去掉，有的低版本，需要加() form.render(); 
+        var id = getUrlParam('data');
+        ajax('selectF3',{Id:id,table:'question',idName:'questionID'},function(res){
+            $('#testID').val(res.res[0].testID);
+            $('#question').val(res.res[0].question);
+            $('#choiceA').val(res.res[0].choiceA);
+            $('#choiceB').val(res.res[0].choiceB);
+            $('#choiceC').val(res.res[0].choiceC);
+            $('#choiceD').val(res.res[0].choiceD);
+            $('#choiceE').val(res.res[0].choiceE);
+            $('#choiceF').val(res.res[0].choiceF);
+            $('#right_answer').val(res.res[0].right_answer);
+            $('#jiexi').val(res.res[0].jiexi);
+            $('#score').val(res.res[0].score);
+            $('#type').val(res.res[0].type);
+        
+  
+            // $('#info').val(res.res[0].info);
+         });
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -164,13 +196,21 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
+            var data1 = {
+              table:'question',
+              data:data.field,
+              id:id,
+              idName:'questionID'
+            }
+            ajax('updateF',data1,function(){
+            
+            });
+            layer.alert("更新成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });

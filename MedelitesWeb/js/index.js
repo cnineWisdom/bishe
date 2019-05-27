@@ -113,6 +113,12 @@ function checkphone(poneInput) {
         return true;
     }
 }
+function countnum(){
+    ajax('addF',{},function(){
+            
+    })
+}
+countnum();
 function register(){
 
     var usernames = $('#usernames');

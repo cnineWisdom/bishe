@@ -130,19 +130,33 @@
       <div id="pagination" class="pagination" style="margin-left: 180px;"></div>
     </div>
     <script>
+        layui.use('table', function(){
+  var table = layui.table;
+  
+  //监听单元格编辑
+  table.on('edit(test3)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+  });
+});
+
+
        function gettestdata(table,page,pagenum){
         var data = {
         'table':table,
         'page':page,
         'pagenum':pagenum,
+        'keyvalue':'userID',
       }
       $('.layui-table tbody').html("");
       ajax('selectF',data,function(res){
         for(var i = 0 ; i < res.res.length ; i++){
           $('.layui-table tbody').append("<tr><td>"
-              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div>"
+              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='"+res.res[i].userID+"'><i class='layui-icon'>&#xe605;</i></div>"
            +" </td>"
-            +"<td>1</td>"
+            +"<td>"+res.res[i].userID+"</td>"
             +"<td>"+res.res[i].userName+"</td>"
             +"<td>"+res.res[i].createtime+"</td>"
        
@@ -152,10 +166,10 @@
                 +"<a onclick='member_stop(this,\"10001\")' href='javascript:;'  title='启用'>"
                 +"<i class='layui-icon'>&#xe601;</i>"
              +" </a>"
-              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"terminology-edit.html\")' href='javascript:;'>"
+              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"member-edit.html?data="+res.res[i].userID+"\")' href='javascript:;'>"
                +" <i class='layui-icon'><!-- &#xe63c; -->&#xe642;</i>"
             + " </a>"
-              +"<a title='删' onclick='member_del(this,\"要删除的id\")' href='javascript:;'>"
+              +"<a title='删' onclick='member_del(this,\""+res.res[i].userID+"\")' href='javascript:;'>"
               + " <i class='layui-icon'>&#xe640;</i>"
              +" </a>"
            +" </td>"
@@ -226,11 +240,23 @@
       }
 
       /*用户-删除*/
-      function member_del(obj,id){
+        /*用户-删除*/
+        function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              
+              
+              var data = {
+                id:id,
+                table:'usermsg',
+                key:'userID'
+              }
+              ajax('deteleF',data,function(){
+                $(obj).parents("tr").remove();
+                layer.msg('已删除!',{icon:1,time:2000});
+                
+                // location.reload();
+              })
           });
       }
 
@@ -238,12 +264,26 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
+        var data1 = tableCheck.getData();
+       
+      
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
+            for(var i = 0 ; i < data1.length ; i++){
+              var data = {
+                id:data1[i],
+                table:'usermsg',
+                key:'userID'
+              }
+              ajax('deteleF',data,function(){
+                // $(obj).parents("tr").remove();
+                // layer.msg('已删除!',{icon:1,time:2000});
+           
+                // location.reload();
+              })
+            }
             layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+              $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
     </script>

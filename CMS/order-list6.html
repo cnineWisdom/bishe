@@ -14,6 +14,9 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
+    <link rel="stylesheet" href="./css/myPagination.css" />
+    <script src="./js/myPagination.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -71,7 +74,7 @@
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加规则','./order-add6.html')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <!-- <span class="x-right" style="line-height:40px">共有数据：88 条</span> -->
       </xblock>
       <table class="layui-table">
         <thead>
@@ -79,7 +82,7 @@
             <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
-            <th>记录编号</th>
+            <th>ID</th>
             <th>积分规则</th>
             <!-- <th>用户名</th> -->
             <th>分值</th>
@@ -110,7 +113,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="page">
+      <!-- <div class="page">
         <div>
           <a class="prev" href="">&lt;&lt;</a>
           <a class="num" href="">1</a>
@@ -119,10 +122,68 @@
           <a class="num" href="">489</a>
           <a class="next" href="">&gt;&gt;</a>
         </div>
-      </div>
-
+      </div> -->
+      <div id="pagination" class="pagination" style="margin-left: 180px;"></div>
     </div>
     <script>
+     
+
+
+       function gettestdata(table,page,pagenum){
+        var data = {
+        'table':table,
+        'page':page,
+        'pagenum':pagenum,
+      }
+      $('.layui-table tbody').html("");
+      ajax('selectF',data,function(res){
+        for(var i = 0 ; i < res.res.length ; i++){
+          $('.layui-table tbody').append("<tr><td>"
+              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='"+res.res[i].ruleID+"'><i class='layui-icon'>&#xe605;</i></div>"
+           +" </td>"
+            
+            +"<td>"+res.res[i].ruleID+"</td>"
+            +"<td>"+res.res[i].ruleName+"</td>"
+            +"<td>"+res.res[i].score+"</td>"
+            +"<td>"+res.res[i].ruletype+"</td>"
+            +"<td>"+res.res[i].from+"</td>"
+            +"<td class='td-manage'>"
+              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"order-edit6.html?data="+res.res[i].ruleID+"\")' href='javascript:;'>"
+               +" <i class='layui-icon'><!-- &#xe63c; -->&#xe642;</i>"
+            + " </a>"
+              +"<a title='删' onclick='member_del(this,\""+res.res[i].ruleID+"\")' href='javascript:;'>"
+              + " <i class='layui-icon'>&#xe640;</i>"
+             +" </a>"
+           +" </td>"
+         +" </tr>"
+            )
+          }
+          var page = res.currentpage;
+          var pagenum = res.pagenum;
+          var pagetest = new myPagination({
+                id: 'pagination',
+                curPage: page, //初始页码
+                pageTotal: Math.ceil((res.total)/pagenum), //总页数
+                pageAmount: pagenum,  //每页多少条
+                dataTotal: res.total, //总共多少条数据
+                // pageSize: res.total, //可选,分页个数
+                showPageTotalFlag: true, //是否显示数据统计
+                showSkipInputFlag: true, //是否支持跳转
+                getPage: function (page) {
+                    gettestdata('rule',page,4);
+                }
+              })
+              pagetest.init()
+      })
+        
+        
+      
+     
+      }
+     
+
+      gettestdata('rule',1,9);
+
       layui.use('laydate', function(){
         var laydate = layui.laydate;
         
@@ -138,6 +199,7 @@
       });
 
        /*用户-停用*/
+
       function member_stop(obj,id){
           layer.confirm('确认要停用吗？',function(index){
 
@@ -162,11 +224,23 @@
       }
 
       /*用户-删除*/
-      function member_del(obj,id){
+        /*用户-删除*/
+        function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              
+              
+              var data = {
+                id:id,
+                table:'rule',
+                key:'ruleID'
+              }
+              ajax('deteleF',data,function(){
+                $(obj).parents("tr").remove();
+                layer.msg('已删除!',{icon:1,time:2000});
+                
+                // location.reload();
+              })
           });
       }
 
@@ -174,21 +248,30 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
+        var data1 = tableCheck.getData();
+       
+      
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
+            for(var i = 0 ; i < data1.length ; i++){
+              var data = {
+                id:data1[i],
+                table:'rule',
+                key:'ruleID'
+              }
+              ajax('deteleF',data,function(){
+                // $(obj).parents("tr").remove();
+                // layer.msg('已删除!',{icon:1,time:2000});
+           
+                // location.reload();
+              })
+            }
             layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+              $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
     </script>
-    <script>var _hmt = _hmt || []; (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-      })();</script>
+   
   </body>
 
 </html>

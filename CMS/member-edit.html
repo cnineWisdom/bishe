@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -29,7 +30,7 @@
                   <span class="x-red">*</span>手机
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="phone" name="phone" required="" lay-verify="phone"
+                  <input type="text" id="userName" name="userName" required="" lay-verify="phone"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -50,7 +51,7 @@
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                  <input type="password" id="pwd" name="pwd" required="" lay-verify="pass"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -62,7 +63,7 @@
                   <span class="x-red">*</span>确认密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                  <input type="password" id="L_repass" required="" lay-verify="repass"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -76,6 +77,17 @@
       </form>
     </div>
     <script>
+          var id = getUrlParam('data');
+            ajax('selectF3',{Id:id,table:'usermsg',idName:'userID'},function(res){
+            $('#userName').val(res.res[0].userName);
+            $('#pwd').val(res.res[0].pwd);
+           
+            
+          
+            // $('#createtime').val(res.res[0].createtime);
+  
+            // $('#info').val(res.res[0].info);
+         });
       layui.use(['form','layer'], function(){
           $ = layui.jquery;
         var form = layui.form
@@ -99,12 +111,22 @@
         //监听提交
         form.on('submit(add)', function(data){
           console.log(data);
+          var data1 = {
+              table:'case',
+              data:data.field,
+              id:id,
+              idName:'caseID'
+            }
+            ajax('updateF',data1,function(){
+                
+            });
           //发异步，把数据提交给php
           layer.alert("增加成功", {icon: 6},function () {
               // 获得frame索引
               var index = parent.layer.getFrameIndex(window.name);
               //关闭当前frame
               parent.layer.close(index);
+              parent.location.reload();
           });
           return false;
         });

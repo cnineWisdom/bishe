@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -29,7 +30,7 @@
                   <span class="x-red">*</span>专业名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="majorName" name="majorName" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -38,28 +39,35 @@
                   <span class="x-red">*</span>专业名（英文）
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="createtime" name="createtime" required="" lay-verify="required"
+                  <input type="text" id="englishname" name="englishname" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
-          <div class="layui-form-item layui-form-text">
+          <!-- <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   描述
               </label>
               <div class="layui-input-block">
                   <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
               </div>
-          </div>
+          </div> -->
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
               <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  更新
               </button>
           </div>
       </form>
     </div>
     <script>
+      var id = getUrlParam('data');
+         ajax('selectF3',{Id:id,table:'major',idName:'majorID'},function(res){
+            $('#majorName').val(res.res[0].majorName);
+            $('#englishname').val(res.res[0].englishname);
+            // $('#ruletype').val(res.res[0].ruletype);
+            // $('#score').val(res.res[0].score);
+         });
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -84,11 +92,21 @@
           form.on('submit(add)', function(data){
             console.log(data);
             //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
+            var data1 = {
+              table:'major',
+              data:data.field,
+              id:id,
+              idName:'majorID'
+            }
+            ajax('updateF',data1,function(){
+            
+            });
+            layer.alert("更新成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });
@@ -96,12 +114,12 @@
           
         });
     </script>
-    <script>var _hmt = _hmt || []; (function() {
+    <!-- <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
-      })();</script>
+      })();</script> -->
   </body>
 
 </html>

@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -29,8 +30,8 @@
                   <span class="x-red">*</span>登录名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="username" name="username" required="" lay-verify="required"
-                  autocomplete="off" value="admin" class="layui-input">
+                  <input type="text" id="adminuser" name="adminuser" required="" lay-verify="required"
+                  autocomplete="off" value="" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>将会成为您唯一的登入名
@@ -41,7 +42,7 @@
                   <span class="x-red">*</span>手机
               </label>
               <div class="layui-input-inline">
-                  <input type="text" value="18925139194" id="phone" name="phone" required="" lay-verify="phone"
+                  <input type="text" value="" id="phonenum" name="phonenum" required="" lay-verify="phone"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -53,7 +54,7 @@
                   <span class="x-red">*</span>邮箱
               </label>
               <div class="layui-input-inline">
-                  <input type="text" value="113664000@qq.com" id="L_email" name="email" required="" lay-verify="email"
+                  <input type="text" value="" id="mail" name="mail" required="" lay-verify="email"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -63,17 +64,29 @@
           <div class="layui-form-item">
               <label class="layui-form-label"><span class="x-red">*</span>角色</label>
               <div class="layui-input-block">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="超级管理员" checked="">
-                <input type="checkbox" name="like1[read]" lay-skin="primary" title="编辑人员">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="宣传人员" >
+                <input type="checkbox" name="role" id='role1' value=1 lay-skin="primary" title="超级管理员">
+                <input type="checkbox" name="role" id='role3' value=2 lay-skin="primary" title="编辑人员">
+                <input type="checkbox" name="role" id='role4' value=3 lay-skin="primary" title="宣传人员" >
               </div>
           </div>
+          <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">
+                        <span class="x-red">*</span>加入时间
+                    </label>
+                    <div class="layui-input-inline">
+                        <input  id="createtime" name="createtime"
+                        autocomplete="off" class="layui-input">
+                    </div>
+                    <!-- <div class="layui-form-mid layui-word-aux">
+                
+                    </div> -->
+            </div>
           <div class="layui-form-item">
               <label for="L_pass" class="layui-form-label">
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                  <input type="password" id="password" name="password" required="" lay-verify="pass"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -85,7 +98,7 @@
                   <span class="x-red">*</span>确认密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                  <input type="password" id="L_repass" name="" required="" lay-verify="repass"
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -93,12 +106,47 @@
               <label for="L_repass" class="layui-form-label">
               </label>
               <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  更新
               </button>
           </div>
       </form>
     </div>
     <script>
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#createtime' //指定元素
+  });
+});
+          var id = getUrlParam('data');
+
+         ajax('selectF3',{Id:id,table:'root',idName:'Id'},function(res){
+            var role = JSON.parse(res.res[0].role);
+            console.log(role);
+            if(role.length != 0){
+                for(var j = 0 ; j < role.length ; j++){
+                    if(role[j] == "1"){
+                    $('#role1').attr('checked','checked')
+                }
+                if(role[j] == "2"){
+                    $('#role3').attr('checked','checked')
+                }
+                if(role[j] == "3"){
+                    $('#role4').attr('checked','checked')
+                }
+                }
+            }
+            
+            $('#adminuser').val(res.res[0].adminuser);
+            $('#phonenum').val(res.res[0].phonenum);
+            $('#mail').val(res.res[0].mail);
+            $('#createtime').val(res.res[0].createtime);
+            $('#password').val(res.res[0].password);
+           
+         });
+
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -110,10 +158,9 @@
               if(value.length < 5){
                 return '昵称至少得5个字符啊';
               }
-            }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
+            },
+            repass: function(value){
+                if($('#password').val()!=$('#L_repass').val()){
                     return '两次密码不一致';
                 }
             }
@@ -122,12 +169,32 @@
           //监听提交
           form.on('submit(add)', function(data){
             console.log(data);
+            var role = [];//定义一个空数组
+  
+  $("input[name='role']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+    console.log($(this).val());
+    role[i] =$(this).val();
+  });
+  role = JSON.stringify(role);
+  data.field.role = role
+
+  
+  var data1 = {
+              table:'root',
+              data:data.field,
+              id:id,
+              idName:'Id'
+            }
+            ajax('updateF',data1,function(){
+            
+            });
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });

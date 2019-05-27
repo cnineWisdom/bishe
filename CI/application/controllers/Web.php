@@ -435,6 +435,31 @@ class Web extends CI_Controller {
 		}
 		echo json_encode($arr);
 	}
+	public function login1(){
+		$username = $this->input->post('adminuser');
+		$password = $this->input->post('password');	
+		$arr;
+		
+		$sql = "select Id,password,adminuser from root where adminuser='$username' and password='$password'";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		$EffectRow = $query->num_rows();
+
+		if($EffectRow>0){
+			$arr = array(
+				'status'=>200,
+				'message'=>$res
+
+			);
+			
+		}else{
+			$arr = array(
+				'status'=>404,
+				'message'=>'账号或者密码错误，请重试！'
+			);
+		}
+		echo json_encode($arr);
+	}
 	public function checkname($usernames){
 		$str = "select * from usermsg where userName = '$usernames'";
 		$query = $this->db->query($str);
@@ -461,6 +486,41 @@ class Web extends CI_Controller {
 				'status'=>'error'
 			);
 		}
+		echo json_encode($arr);
+	}
+	public function register1(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d H:i:s');
+		$usernames = $this->input->post('username');
+		$passwords = $this->input->post('pwd');
+		$data =array('userName'=>$usernames,'pwd'=>$passwords,'createtime'=>$date);
+		$arr;
+		if(self::checkname($usernames)){
+			$arr = array(
+				'status' => 400,
+				'message' => "用户名已存在",
+			);
+		}else{
+			$str = $this->db->insert_string('usermsg', $data);
+			$query = $this->db->query($str);
+			
+			
+			//echo $this->db->insert_id();
+			if ($query) {
+				$arr = array(
+				'status' => 200,
+				'message' => "录入成功！",
+				);
+			}
+			else
+			{
+				$arr = array(
+				'status' => 400,
+				'message' => "录入失败！",
+				);
+			}
+		}
+		
 		echo json_encode($arr);
 	}
 	public function register(){
@@ -777,6 +837,29 @@ class Web extends CI_Controller {
 		);
 		echo json_encode($arr);
 	}
+	public function selectF7(){
+		// $table = $this->input->post('table');
+		$Id = $this->input->post('Id');
+		$sql = "select * from root where Id = '$Id'";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		$arr = array(
+			'res'=>$res
+		);
+		echo json_encode($arr);
+	}
+	public function selectF3(){
+		$table = $this->input->post('table');
+		$id = $this->input->post('Id');
+		$idName = $this->input->post('idName');
+		$sql = "select * from `$table` where $idName = $id";
+		$query = $this->db->query($sql);
+		$res = $query->result();
+		$arr = array(
+			'res'=>$res
+		);
+		echo json_encode($arr);
+	}
 	public function select3()
 	{	
 		$table = $this->input->post('table');
@@ -913,15 +996,380 @@ class Web extends CI_Controller {
 		// $msg ="没有该用户";
 		// echo json_encode($msg);
 	}
-
-	public function updateF($data,$table)
-	{
+	public function insertF1()
+	{	
+		date_default_timezone_set('PRC');
+				$date1 = date('Y-m-d H:i:s');
+		// $date = array(
+		// 	"createtime"=>$date1
+		// );
 		
+		$data = $this->input->post('data');
+		$table = $this->input->post('table');
+		$data['createtime'] = $date1;
+		// array_push($data,$date);
+		// $data = json_decode($data);
+		$sql = $this->db->insert_string($table, $data);
+		$this->db->query($sql);
+		// echo 'success';
+		// $msg ="没有该用户";
+		// echo json_encode($msg);
 	}
 
-	public function deteleF($data,$table,$id)
+	public function updateF()
 	{
+		$id = $this->input->post('id');
+		$table = $this->input->post('table');
+		$idname = $this->input->post('idName');
+		$data = $this->input->post('data');
 		
+		// $data = array('msgshow'=>'N');
+		$where = "`$idname`=$id";
+		$sql = $this->db->update_string($table,$data,$where);
+		$query = $this->db->query($sql);
+		$arr = array(
+			'status'=>$sql
+		);
+		echo json_encode($arr);
+	}
+	public function addF(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d');
+		$sql = "select Id,date,amountnum from data where date = '$date'";
+		$query = $this->db->query($sql);
+		$EffectRow = $query->num_rows();
+
+		if($EffectRow > 0){
+
+				
+				$num = $query->result()[0]->amountnum;
+				$id = $query->result()[0]->Id;
+				$num++;
+				$data3 = array('amountnum'=>$num);
+				$where = "Id='$id'";
+				$str3 = $this->db->update_string('data',$data3,$where);
+				$query3 = $this->db->query($str3);
+			
+		}else{
+			$num = 1;
+
+			$data1 =array('amountnum'=>$num,'date'=>$date);
+			$str = $this->db->insert_string('data', $data1);
+			$query1 = $this->db->query($str);
+		}
+		$id = $this->input->post('id');
+
+	}
+	public function deteleF()
+	{	
+		$id = $this->input->post('id');
+		$table = $this->input->post('table');
+		$key = $this->input->post('key');
+		$sql = "delete from `$table` where $key = '$id'";
+		$this->db->query($sql);
+		$arr = array(
+			'status'=>$sql
+		);
+		echo json_encode($arr);
+	}
+	public function selectF8(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d');
+		$sql1 = "select * from data where date = '$date'";
+		$sql3 = "select * from data";
+		$query3 = $this->db->query($sql3);
+		$total3 = 0;
+		foreach($query3->result() as $row){
+			$total3 = $total3 + $row->amountnum;
+		}
+		$query = $this->db->query($sql1);
+		$EffecRow = $query->num_rows();
+		if($EffecRow > 0){
+			$arr = array(
+				'res'=>$query->result(),
+				'tatal3'=>$total3
+			);
+			echo json_encode($arr);
+		}else{
+			self::addF();
+			self::selectF8();
+		}
+	}
+	public function selectFdata(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d');
+		$length = 7;
+		$datearr = [];
+		$data9 = [];
+		$readarr = [];
+		$downloadarr = [];
+		$testarr = [];
+		$printarr = [];
+		$res;
+
+
+		$num1 = 0;
+		$num3 = 0;
+		$num4 = 0;
+		$num6 = 0;
+	
+		$num9 = 0;
+		
+		
+		// $amount3 = 0;
+		// $amount4 = 0;
+		$amount6 = 0;
+	
+		$amount9 = 0;
+
+
+
+		for($i = 0 ; $i < $length ; $i++){
+			array_push($datearr,date('Y-m-d',strtotime(-$i." day")));
+		}
+		$datearr = array_reverse($datearr);
+		foreach($datearr as $row){
+			$amount1 = 0;
+			$sql1='select * from data';
+			$query1 = $this->db->query($sql1);
+			foreach($query1->result() as $row1){
+				if($row == $row1->date){
+					$amount1 = $amount1 + $row1->amountnum;
+				}
+			}
+			$data9[$num1] = $amount1;
+			$num1++;
+
+			$amount3 = 0;
+			$sql3="select * from `read`";
+			$query3 = $this->db->query($sql3);
+			foreach($query3->result() as $row3){
+				$date3 = date('Y-m-d',$row3->createtime);
+				if($row == $date3){
+					$amount3++;
+				}
+			}
+			$readarr[$num3] = $amount3;
+			$num3++;
+
+			$amount4 = 0;
+			$sql4="select * from `total` where ruleID = 4";
+			$query4 = $this->db->query($sql4);
+			foreach($query4->result() as $row4){
+				$date4 = date('Y-m-d',strtotime($row4->createtime));
+				if($row == $date4){
+					$amount4++;
+				}
+			}
+			$testarr[$num4] = $amount4;
+			$num4++;
+
+			$amount6 = 0;
+			$sql6="select * from `total` where ruleID = 5";
+			$query6 = $this->db->query($sql6);
+			foreach($query6->result() as $row6){
+				$date6 = date('Y-m-d',strtotime($row6->createtime));
+				if($row == $date6){
+					$amount6++;
+				}
+			}
+			$downloadarr[$num6] = $amount6;
+			$num6++;
+
+			$amount9 = 0;
+			$sql9="select * from `total` where ruleID = 6";
+			$query9 = $this->db->query($sql9);
+			foreach($query9->result() as $row9){
+				$date9 = date('Y-m-d',strtotime($row9->createtime));
+				if($row == $date9){
+					$amount9++;
+				}
+			}
+			$printarr[$num9] = $amount9;
+			$num9++;
+
+		}
+		// $datearr = [];
+		// $dataarr = [];
+		// $readarr = [];
+		// $downloadarr = [];
+		// $testarr = [];
+		// $printarr = [];
+		$res = array(
+			'datearr'=>$datearr,
+			'data9'=>$data9,
+			'readarr'=>$readarr,
+			'downloadarr'=>$downloadarr,
+			'testarr'=>$testarr,
+			'printarr'=>$printarr
+		);
+		echo json_encode($res);
+
+	}
+	public function selectF18(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d');
+		$arr;
+		$num = 0;
+		$num1 = 0;
+		$sql = "select * from `read`";
+		$query = $this->db->query($sql);
+		foreach($query->result() as $row){
+			$num1++;
+			$data1 = date('Y-m-d',$row->createtime);
+			if($date == $data1){
+				$num++;
+			}
+		}
+		$arr = array(
+			'amountnum'=>$num,
+			'total'=>$num1
+		);
+		echo json_encode($arr);
+	}
+	public function selectF9(){
+		date_default_timezone_set('PRC');
+		$date = date('Y-m-d');
+
+		$sql1 = "select * from total";
+		$query = $this->db->query($sql1);
+		$EffecRow = $query->num_rows();
+		$num4 = 0;
+		$num8 = 0;
+		$num9 = 0;
+		$num999 = 0;
+		$num888 = 0;
+		$num444 = 0;
+		$arr4= array(
+			'test'=> 0
+		);
+		$arr8= array(
+			'download'=> 0
+		);
+		$arr9= array(
+			'print'=> 0
+		);
+		
+		$arr999= array(
+			'testtotal'=> 0
+		);
+		$arr888= array(
+			'downloadtotal'=> 0
+		);
+		$arr444= array(
+			'printtotal'=> 0
+		);
+	
+		foreach($query->result() as $row){
+			// if(){
+
+			// }
+			$date1 = strtotime($row->createtime);
+			$date3 = date("Y-m-d",$date1);
+			if($date3 == $date){
+				if($row->ruleID == 4){
+					$num4++;
+					$arr4= array(
+						'test'=> $num4
+					);
+					
+				}
+				if($row->ruleID == 5){
+					$num8++;
+					$arr8 = array(
+						'download'=> $num8
+					);
+					
+				}
+				if($row->ruleID == 6){
+					$num9++;
+					$arr9 = array(
+						'print'=> $num9
+					);
+					
+				}
+			}
+			
+		}
+		foreach($query->result() as $row){
+			
+				if($row->ruleID == 4){
+					$num999++;
+					$arr999 = array(
+						'testtotal'=> $num999
+					);
+					
+				}
+				if($row->ruleID == 5){
+					$num888++;
+					$arr888 = array(
+						'downloadtotal'=> $num888
+					);
+					
+				}
+				if($row->ruleID == 6){
+					$num444++;
+					$arr444 = array(
+						'printtotal'=> $num444
+					);
+					
+				}
+		
+			
+		}
+		$data = array(
+			'arr1'=>$arr4,
+			'arr2'=>$arr8,
+			'arr3'=>$arr9,
+			'arr4'=>$arr999,
+			'arr5'=>$arr888,
+			'arr6'=>$arr444
+		);
+	
+		echo json_encode($data);
+	}
+	public function deteleF1()
+	{	
+		$id = $this->input->post('id');
+	
+		$sql = "delete major,subject,test,question from major left join subject on major.majorID = subject.majorID 
+		left join test on test.subjectID = subject.subjectID 
+		left join question on question.testID = test.testID 
+		where major.majorID = '$id'";
+		$this->db->query($sql);
+		$arr = array(
+			'status'=>$sql
+		);
+		echo json_encode($arr);
+	}
+
+	public function deteleF3()
+	{	
+		$id = $this->input->post('id');
+	
+		$sql = "delete subject,test,question from subject 
+		left join test on test.subjectID = subject.subjectID 
+		left join question on question.testID = test.testID 
+		where subject.subjectID = '$id'";
+		$this->db->query($sql);
+		$arr = array(
+			'status'=>$sql
+		);
+		echo json_encode($arr);
+	}
+
+	public function deteleF4()
+	{	
+		$id = $this->input->post('id');
+	
+		$sql = "delete test,question from test 
+		left join question on question.testID = test.testID 
+		where test.testID = '$id'";
+		$this->db->query($sql);
+		$arr = array(
+			'status'=>$sql
+		);
+		echo json_encode($arr);
 	}
 
 }

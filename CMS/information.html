@@ -54,7 +54,7 @@
             <th>类型</th>
             <th>存储位置</th>
             <th>创建时间</th>
-            <th>首帧位置</th>
+            <th>封面地址</th>
             <th>操作</th>
             </tr>
         </thead>
@@ -98,24 +98,37 @@
         'table':table,
         'page':page,
         'pagenum':pagenum,
+        'keyvalue':'inform_ID',
       }
       $('.layui-table tbody').html("");
+   
       ajax('selectF',data,function(res){
         for(var i = 0 ; i < res.res.length ; i++){
+          var type = '';
+          if(res.res[i].type == 1){
+            type = '图片';
+          }
+          if(res.res[i].type == 2){
+            type = '视频'
+          }
+          if(res.res[i].type == 3){
+            type = 'PPT'
+          }
+          
           $('.layui-table tbody').append("<tr><td>"
-              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div>"
+              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='"+res.res[i].inform_ID+"'><i class='layui-icon'>&#xe605;</i></div>"
            +" </td>"
-            +"<td>1</td>"
-            +"<td>"+res.res[i].caseName+"</td>"
+           +"<td>"+(i+1)+"</td>"
+            +"<td>"+res.res[i].inform_Name+"</td>"
+            +"<td>"+type+"</td>"
+            +"<td>"+res.res[i].inform_info+"</td>"
             +"<td>"+res.res[i].createtime+"</td>"
-            +"<td>"+res.res[i].case_info+"</td>"
-            +"<td>"+res.res[i].type+"</td>"
-         
+            +"<td>"+res.res[i].titleUrl+"</td>"
             +"<td class='td-manage'>"
-              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"terminology-edit.html\")' href='javascript:;'>"
+              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"information-edit.html?data="+res.res[i].inform_ID+"\")' href='javascript:;'>"
                +" <i class='layui-icon'><!-- &#xe63c; -->&#xe642;</i>"
             + " </a>"
-              +"<a title='删' onclick='member_del(this,\"要删除的id\")' href='javascript:;'>"
+              +"<a title='删' onclick='member_del(this,\""+res.res[i].inform_ID+"\")' href='javascript:;'>"
               + " <i class='layui-icon'>&#xe640;</i>"
              +" </a>"
            +" </td>"
@@ -134,7 +147,7 @@
                 showPageTotalFlag: true, //是否显示数据统计
                 showSkipInputFlag: true, //是否支持跳转
                 getPage: function (page) {
-                    gettestdata('case',page,4);
+                    gettestdata('med_information',page,4);
                 }
               })
               pagetest.init()
@@ -146,7 +159,7 @@
       }
      
 
-      gettestdata('case',1,4);
+      gettestdata('med_information',1,4);
       layui.use('laydate', function(){
         var laydate = layui.laydate;
         
@@ -189,8 +202,19 @@
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              
+              
+              var data = {
+                id:id,
+                table:'med_information',
+                key:'inform_ID'
+              }
+              ajax('deteleF',data,function(){
+                $(obj).parents("tr").remove();
+                layer.msg('已删除!',{icon:1,time:2000});
+                
+                // location.reload();
+              })
           });
       }
 
@@ -198,12 +222,26 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
+        var data1 = tableCheck.getData();
+       
+      
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
+            for(var i = 0 ; i < data1.length ; i++){
+              var data = {
+                id:data1[i],
+                table:'med_information',
+                key:'inform_ID'
+              }
+              ajax('deteleF',data,function(){
+                // $(obj).parents("tr").remove();
+                // layer.msg('已删除!',{icon:1,time:2000});
+           
+                // location.reload();
+              })
+            }
             layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+              $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
     </script>

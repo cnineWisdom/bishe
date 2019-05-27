@@ -100,12 +100,13 @@
           form.on('submit(add)', function(obj){
             console.log(obj.field);
             var data = {
-              data:obj.field,
+              username:obj.field.username,
+              pwd:obj.field.pwd,
               table:'usermsg'
             };
       
             console.log(data);
-            ajax('insertF',data,function(){
+            ajax('register1',data,function(){
               
               // 发异步，把数据提交给php
               

@@ -30,7 +30,7 @@
                   <span class="x-red">*</span>试卷名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="testName" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -39,10 +39,10 @@
                   <span class="x-red">*</span>所属学科
               </label>
               <div class="layui-input-inline">
-                    <select name="city" lay-verify="required">
-                            <option value=""></option>
+                    <select name="subjectID" id='subjectID' lay-verify="required">
+                            <!-- <option value=""></option>
                             <option value=1>外科学</option>
-                            <option value=2>内科学</option>
+                            <option value=2>内科学</option> -->
                           </select>
               </div>
           </div>
@@ -51,7 +51,7 @@
                   <span class="x-red">*</span>用时
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="time" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -60,7 +60,7 @@
                   <span class="x-red">*</span>存储位置
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="url" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>  
@@ -73,14 +73,14 @@
                   autocomplete="off" class="layui-input">
               </div>
           </div>
-          <div class="layui-form-item layui-form-text">
+          <!-- <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   描述
               </label>
               <div class="layui-input-block">
                   <textarea placeholder="请输入内容" id="desc" name="desc" class="layui-textarea"></textarea>
               </div>
-          </div>
+          </div> -->
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
@@ -91,11 +91,31 @@
       </form>
     </div>
     <script>
+
+var data = {
+              table:'subject'
+          };
+          ajax('selectF1',data,function(res){
+            $('#subjectID').html("<option value=''></option>");
+              for(var i = 0 ; i < res.res.length ; i++){
+                $('#subjectID').append("<option value="+res.res[i].subjectID+">"+res.res[i].subjectName+"</option>")
+              }
+              
+          })
+
+        layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#createtime' //指定元素
+  });
+});
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
           ,layer = layui.layer;
-        
+          
           //自定义验证规则
           form.verify({
             nikename: function(value){
@@ -113,16 +133,24 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            var data = {
+              data:data.field,
+              table:'test'
+            }
+            ajax('insertF',data,function(){
+                
+            })
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });
+      
           
           
         });

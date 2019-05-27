@@ -24,13 +24,13 @@
   
   <body>
     <div class="x-body">
-        <form class="">
+        <form class="layui-form">
           <div class="layui-form-item">
               <label for="testname" class="layui-form-label">
                   <span class="x-red">*</span>学科名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="testname" name="subjectName" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -64,7 +64,21 @@
       </form>
     </div>
     <script>
-     
+          var data = {
+        table:'major'
+      }
+     ajax('selectF1',data,function(res){
+          var str = "";
+            // $('#key').html("<option value=''></option>");
+            for(var i = 0 ; i < res.res.length ; i++){
+              str = str + "<option value="+res.res[i].majorID+">"+res.res[i].majorName+"</option>"
+              
+            }
+            $('#key1').html(str);
+            // $("#key1").selectmenu('refresh', true);
+            console.log($('#key1').html());
+           
+        })//高版本建议把括号去掉，有的低版本，需要加() form.render(); 
      //重新渲染表单 
     //  function renderForm(){ layui.use('form', function(){ 
     //    var form = layui.form;
@@ -95,23 +109,10 @@
             $ = layui.jquery;
           var form = layui.form
           ,layer = layui.layer;
-          var data = {
-        table:'major'
-      }
-        ajax('selectF1',data,function(res){
-          var str = "";
-            // $('#key').html("<option value=''></option>");
-            for(var i = 0 ; i < res.res.length ; i++){
-              str = str + "<option value="+res.res[i].majorID+">"+res.res[i].majorName+"</option>"
-              
-            }
-            $('#key1').html(str);
-            // $("#key1").selectmenu('refresh', true);
-            console.log($('#key1').html());
-           
-        })//高版本建议把括号去掉，有的低版本，需要加() form.render(); 
+      
+        
     // }); 
-          form.render();
+          
           //自定义验证规则
           form.verify({
             nikename: function(value){
@@ -129,13 +130,21 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            console.log(data.field);
+            var data1 = {
+              'table':'subject',
+              'data':data.field
+            }
+            ajax('insertF',data1,function(){
+
+            })
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });

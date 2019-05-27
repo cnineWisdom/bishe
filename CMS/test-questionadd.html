@@ -14,6 +14,7 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -29,7 +30,7 @@
                   <span class="x-red">*</span>题干
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
+                  <input type="text" id="question" name="question" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -38,8 +39,9 @@
                   <span class="x-red">*</span>所属试卷名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="testname" name="testname" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
+                    <select id='key1' name="testID" lay-verify="required"></select>
+                  <!-- <input type="text" id="testID" name="testID" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input"> -->
               </div>
           </div> 
           <div class="layui-form-item">
@@ -83,7 +85,7 @@
                   <span class="x-red">*</span>选项E
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="choiceE" name="choiceE" required="" lay-verify="required"
+                  <input type="text" id="choiceE" name="choiceE" 
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -92,7 +94,7 @@
                   <span class="x-red">*</span>选项F
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="choiceF" name="choiceF" required="" lay-verify="required"
+                  <input type="text" id="choiceF" name="choiceF" 
                   autocomplete="off" class="layui-input">
               </div>
           </div>
@@ -101,7 +103,7 @@
                   <span class="x-red">*</span>正确答案
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="answer" name="answer" required="" lay-verify="required"
+                  <input type="text" id="right_answer" name="right_answer" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div> 
@@ -123,14 +125,16 @@
                   autocomplete="off" class="layui-input">
               </div>
           </div>  
-          <div class="layui-form-item">
-              <label for="createtime" class="layui-form-label">
+          <div class="layui-form-item layui-form-text">
+              <label for="type" class="layui-form-label">
                   <span class="x-red">*</span>类型
               </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="createtime" name="createtime" required="" lay-verify="required"
-                  autocomplete="off" class="layui-input">
-              </div>
+              <div class="layui-input-block">
+                    <select name="type" lay-verify="required">
+                        <option value='radio'>单选</option>
+                        <option value='checkbox'>多选</option>
+                      </select>
+                </div>
           </div>
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
@@ -142,6 +146,22 @@
       </form>
     </div>
     <script>
+        var data = {
+            'table':'test'
+        }
+        ajax('selectF1',data,function(res){
+            var str = "";
+            // $('#key').html("<option value=''></option>");
+            for(var i = 0 ; i < res.res.length ; i++){
+              str = str + "<option value="+res.res[i].testID+">"+res.res[i].testName+"</option>"
+              
+            }
+            $('#key1').html(str);
+            // $("#key1").selectmenu('refresh', true);
+            console.log($('#key1').html());
+           
+        })//高版本建议把括号去掉，有的低版本，需要加() form.render(); 
+        
         layui.use(['form','layer'], function(){
             $ = layui.jquery;
           var form = layui.form
@@ -164,16 +184,24 @@
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
+            var data = {
+              data:data.field,
+              table:'question'
+            }
+            ajax('insertF',data,function(){
+                
+            })
             //发异步，把数据提交给php
             layer.alert("增加成功", {icon: 6},function () {
                 // 获得frame索引
                 var index = parent.layer.getFrameIndex(window.name);
                 //关闭当前frame
                 parent.layer.close(index);
+                parent.location.reload();
             });
             return false;
           });
+    
           
           
         });

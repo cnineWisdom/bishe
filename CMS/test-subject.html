@@ -91,22 +91,22 @@
         var data = {
         'table':table,
         'page':page,
-        'pagenum':pagenum,
+        'pagenum':pagenum
       }
       $('.layui-table tbody').html("");
       ajax('select3',data,function(res){
         for(var i = 0 ; i < res.res.length ; i++){
           $('.layui-table tbody').append("<tr><td>"
-              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div>"
+              +"<div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='"+res.res[i].subjectID+"'><i class='layui-icon'>&#xe605;</i></div>"
            +" </td>"
-            +"<td>1</td>"
+           +"<td>"+(i+1)+"</td>"
             +"<td>"+res.res[i].subjectName+"</td>"
             +"<td>"+res.res[i].majorName+"</td>"
             +"<td class='td-manage'>"
-              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"terminology-edit.html\")' href='javascript:;'>"
+              +"<a title='修改'  onclick='x_admin_show(\"编辑\",\"test-subjectedit.html?data="+res.res[i].subjectID+"\")' href='javascript:;'>"
                +" <i class='layui-icon'><!-- &#xe63c; -->&#xe642;</i>"
             + " </a>"
-              +"<a title='删' onclick='member_del(this,\"要删除的id\")' href='javascript:;'>"
+              +"<a title='删' onclick='member_del(this,\""+res.res[i].subjectID+"\")' href='javascript:;'>"
               + " <i class='layui-icon'>&#xe640;</i>"
              +" </a>"
            +" </td>"
@@ -180,8 +180,17 @@
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              
+              
+              var data = {
+                id:id
+              }
+              ajax('deteleF3',data,function(){
+                $(obj).parents("tr").remove();
+                layer.msg('已删除!',{icon:1,time:2000});
+                
+                // location.reload();
+              })
           });
       }
 
@@ -189,12 +198,24 @@
 
       function delAll (argument) {
 
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
+        var data1 = tableCheck.getData();
+       
+      
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
+            for(var i = 0 ; i < data1.length ; i++){
+              var data = {
+                id:data1[i]
+              }
+              ajax('deteleF3',data,function(){
+                // $(obj).parents("tr").remove();
+                // layer.msg('已删除!',{icon:1,time:2000});
+           
+                // location.reload();
+              })
+            }
             layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+              $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
     </script>

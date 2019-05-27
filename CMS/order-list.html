@@ -14,20 +14,27 @@
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script src="./js/echart.js"></script>
+    <script type="text/javascript" src="./js/common.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
+  <style>
+    .div div{
+      box-sizing: border-box;
+      padding: 0px 19px
+    }
+  </style>
   <body>
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
         <a href="">个人中心管理</a>
         <a>
-          <cite>答题记录</cite></a>
+          <cite>统计图表</cite></a>
       </span>
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
@@ -68,58 +75,235 @@
         </form>
       </div>
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加记录','./order-add.html')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：88 条</span> -->
       </xblock>
-      <table class="layui-table">
-        <thead>
-          <tr>
-            <th>
-              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-            </th>
-            <th>记录编号</th>
-            <th>试卷名</th>
-            <th>用户名</th>
-            <th>分数</th>
-            <th>创建时间</th>
-            <th >操作</th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>1</td>
-            <td>外科</td>
-            <td>13537172996</td>
-            <td>100</td>
-            <td>2019-05-17 18:22</td>
-            <td class="td-manage">
-              <a title="修改"  onclick="x_admin_show('编辑','order-edit.html')" href="javascript:;">
-                <i class="layui-icon"><!-- &#xe63c; -->&#xe642;</i>
-              </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
+      <div class="layui-row div">
+          <div class="layui-col-md4" style='height:121px;background:rgb(228,130,108);width:280px;margin-left:19px;margin-top:19px;box-shadow: 4px 4px 13px black;border-radius:13px;color:white;font-size:29px;padding-top:37px;text-align: center'>
+              今日浏览&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id='amountnum' style='font-size:29px;'>0</span><p>浏览总数：<span id='amountnum1'></span></p>
+          </div>
+          <div class="layui-col-md4" style='height:121px;background:rgb(25,84,142);width:280px;margin-left:19px;margin-top:19px;box-shadow: 4px 4px 13px black;border-radius:13px;color:white;font-size:29px;padding-top:37px;text-align: center'>
+              资料阅读&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id='read' style='font-size:29px;'>0</span><p>阅读总数：<span id='read1'></span></p>
+          </div>
+          <div class="layui-col-md4" style='height:121px;background:rgb(228,75,78);width:280px;margin-left:19px;margin-top:19px;box-shadow: 4px 4px 13px black;border-radius:13px;color:white;font-size:29px;padding-top:37px;text-align: center'>
+              资料下载&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id='download' style='font-size:29px;'>0</span><p>下载总数：<span id='download1'></span></p>
+          </div>
+          <div class="layui-col-md4" style='height:121px;background:rgb(165,197,192);width:280px;margin-left:19px;margin-top:19px;box-shadow: 4px 4px 13px black;border-radius:13px;color:white;font-size:29px;padding-top:37px;text-align: center'>
+              答题人数&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id='test' style='font-size:29px;'>0</span><p>答题总数：<span id='test1'></span></p>
+          </div>
+          <div class="layui-col-md4" style='height:121px;background:rgb(2,130,201);width:280px;margin-left:19px;margin-top:19px;box-shadow: 4px 4px 13px black;border-radius:13px;color:white;font-size:29px;padding-top:37px;text-align: center'>
+              资料打印&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span id='print' style='font-size:29px;'>0</span><p>打印总数：<span id='print1'></span></p>
+          </div>
         </div>
       </div>
+      <div id="_top" style="width:80%;height: 400px;margin-top:49px;margin-left: 99px;">
+        </div>
 
     </div>
     <script>
+       
+       ajax('selectF18',{},function(res){
+        $('#read').text(res.amountnum);
+        $('#read1').text(res.total);
+      })
+      ajax('selectF9',{},function(res){
+        $('#test').text(res.arr1.test);
+        $('#download').text(res.arr2.download);
+       
+        $('#print').text(res.arr3.print);
+       
+        $('#test1').text(res.arr4.testtotal);
+
+        $('#download1').text(res.arr5.downloadtotal);
+        $('#print1').text(res.arr6.printtotal);
+
+     
+      })
+      ajax('selectF8',{},function(res){
+        $('#amountnum').text(res.res[0].amountnum);
+       
+
+
+
+      })
+      var datearr = [];
+        var data9 = [];
+        var readarr = [];
+        var downloadarr = [];
+        var testarr = [];
+        var printarr = [];
+
+
+
+      ajax('selectFdata',{},function(res){
+ 
+        datearr = res.datearr;
+        data9 = res.data9;
+        readarr = res.readarr;
+        downloadarr = res.downloadarr;
+        testarr = res.testarr;
+        printarr = res.printarr;
+      })
+       var option = {
+    title : {
+        text: '统计图表',
+        subtext: '7天之内动态'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['浏览量','阅读量','下载量','答题量','资料打印数']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : datearr
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'浏览量',
+            type:'bar',
+            data:data9,
+            itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: '#E6836C'
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        
+                    }
+                },
+            // markPoint : {
+            //     data : [
+            //         {type : 'max', name: '最大值'},
+            //         {type : 'min', name: '最小值'}
+            //     ]
+            // },
+            // markLine : {
+            //     data : [
+            //         {type : 'average', name: '平均值'}
+            //     ]
+            // }
+        },
+        {
+            name:'阅读量',
+            type:'bar',
+            data:readarr,
+            itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: '#18538D'
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        
+                    }
+                },
+            data:readarr,
+            // markPoint : {
+            //     data : [
+            //         {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+            //         {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+            //     ]
+            // },
+            // markLine : {
+            //     data : [
+            //         {type : 'average', name : '平均值'}
+            //     ]
+            // }
+        },
+        {
+            name:'下载量',
+            type:'bar',
+            data:downloadarr,
+            itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: '#E14B4D'
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        
+                    }
+                },
+            // markPoint : {
+            //     data : [
+            //         {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+            //         {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+            //     ]
+            // },
+            // markLine : {
+            //     data : [
+            //         {type : 'average', name : '平均值'}
+            //     ]
+            // }
+        },
+        {
+            name:'答题量',
+            type:'bar',
+            data:testarr,
+            itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: '#A4C2BF'
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        
+                    }
+                },
+            // markPoint : {
+            //     data : [
+            //         {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+            //         {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+            //     ]
+            // },
+            // markLine : {
+            //     data : [
+            //         {type : 'average', name : '平均值'}
+            //     ]
+            // }
+        },
+        {
+            name:'资料打印数',
+            type:'bar',
+            data:printarr,
+            itemStyle: {
+                    normal: {
+　　　　　　　　　　　　　　//好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                        color: '#D6742B'
+　　　　　　　　　　　　　　//以下为是否显示，显示位置和显示格式的设置了
+                        
+                    }
+                },
+            // markPoint : {
+            //     data : [
+            //         {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183, symbolSize:18},
+            //         {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
+            //     ]
+            // },
+            // markLine : {
+            //     data : [
+            //         {type : 'average', name : '平均值'}
+            //     ]
+            // }
+        }
+    ]
+};
+      var myChart = echarts.init(document.getElementById('_top'));
+      myChart.setOption(option);
       layui.use('laydate', function(){
         var laydate = layui.laydate;
         
@@ -179,6 +363,11 @@
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
+
+   
+                    
+
+
     </script>
     <script>var _hmt = _hmt || []; (function() {
         var hm = document.createElement("script");
